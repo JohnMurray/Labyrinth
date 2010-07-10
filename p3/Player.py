@@ -10,3 +10,17 @@ class Player:
     def __init__(self, hit_points):
         #code here
         self.hp = hit_points
+
+
+
+
+class Creature(Player):
+    def __init__(self, hp):
+        Player.__init__(self, hp)
+
+
+
+
+class Adventurer(Player):
+    def __init__(self, hp):
+        Player.__init__(self, hp)
