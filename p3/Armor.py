@@ -5,5 +5,6 @@
 
 class Armor:
 
-    def __init__(self):
+    def __init__(self, chance_of_miss):
         #code here
+        self.chance_of_miss = chance_of_miss

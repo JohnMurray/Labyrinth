@@ -4,16 +4,19 @@
 #File: Adventurer.py
 
 #import declarations
-import Armor.py
-import Weapons.py
+import Armor
+import Weapon
+import Player
 
-class Adventurer:
+from Player import Player
+
+class Adventurer(Player):
     
-    def __init__(self):
+    def __init__(self, hp):
         #create the character here
         #self is required to assign data, but is not actually given as a para-
         #meter when calling the constructor.
         #local members can be assignd by using self.var = value
 
-        #just some ideas
-        self.hit_points = 100;
+        #initialize parent
+        Player.__init__(self, hp)

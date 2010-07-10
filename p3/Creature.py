@@ -3,7 +3,11 @@
 #Due: July 19th, 2010
 #File: Creature.py
 
-class Creature:
+import Player
+from Player import Player
+
+class Creature(Player):
     
-    def __self__(init):
-        #code here
+    def __init__(self, hp):
+       Player.__init__(self, hp)
+       self.hp = hp
