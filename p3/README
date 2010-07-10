@@ -1,0 +1,22 @@
+Adventurer Class
+    - the class for the main character
+
+Creature Class
+    - people to fight
+
+Treasure Class
+    - self explanatory
+
+Weapons Class
+    - also self explantory at this point
+
+Armor Class
+    -self explanatory
+
+Room Class
+    - contains a monster, and a weapon or armor or treasure
+
+Level Class
+    - contains all the rooms
+    - has commands for "move east", "move north", etc.
+    - made up of a multi-dimensional array of rooms
