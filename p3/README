@@ -20,3 +20,8 @@ Level Class
     - contains all the rooms
     - has commands for "move east", "move north", etc.
     - made up of a multi-dimensional array of rooms
+
+
+SOME NOTES
+    - since python uses white-space for indenting code-blocks, I've been
+      using 4-spaces to denote indention
