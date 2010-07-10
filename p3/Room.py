@@ -5,8 +5,7 @@
 
 import Player
 
-
-from Player import Player
+from Player import Player, Creature
 
 class Room:
 
