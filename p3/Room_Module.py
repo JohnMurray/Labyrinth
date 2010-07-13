@@ -7,10 +7,10 @@ import random
 
 class Room:
 
-    def __init__(self, description, monster=None, item=None, weapon=None, gold=0):
+    def __init__(self, description, creature=None, item=None, weapon=None, gold=0):
         #code here
         self.description = description
-        self.monter = monster
+        self.creature = creature
         self.item = item
         self.weapon = weapon
         self.gold = gold
