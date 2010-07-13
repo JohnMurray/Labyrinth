@@ -7,4 +7,11 @@ class Weapon:
     
     def __init__(self):
         #code here
-        self
+        return
+
+
+
+def WeaponFactory(category, stats):
+    
+    #create and instance of the weapon with it's stats
+    return

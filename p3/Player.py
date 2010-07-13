@@ -7,9 +7,14 @@ import Armor
 
 #Note - Superclass of Creature and Adventurer
 class Player:
-    def __init__(self, hit_points):
+    def __init__(self, hp, armor):
         #code here
-        self.hp = hit_points
+        self.hp = hp
+        self.armor = armor
+
+    def fight(self, player):
+        #do something
+        return
 
 
 
@@ -24,3 +29,7 @@ class Creature(Player):
 class Adventurer(Player):
     def __init__(self, hp):
         Player.__init__(self, hp)
+
+
+
+#def PlayerFactory(player_type, 
