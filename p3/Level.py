@@ -9,6 +9,15 @@
 import Room
 from Room import Room
 
+
+#Level
+#   __init__ : constructor
+#   move_(north, east, south, west): move to a new room
+#   (get, set)_current_room: getter and setter for current/active room
+#   defeated_all_creatures: (bool) are all creatures defeated
+#   number_of_creatures_left: the num. of creatures in level still
+#   __iter__ : exposes and iterator for the Level class
+
 class Level:
 
     def __init__(self, dimension):
@@ -68,3 +77,23 @@ class Level:
 
     def set_current_room(self, room):
         self.rooms[self.current[0]][self.current[1]] = room
+
+    def defeated_all_creatures(self):
+        flag = True
+        for i in self.rooms:
+            for j in i:
+                if j.creature != None:
+                    flag = False
+        return flag
+
+    def number_of_creatures_left(self):
+        count = 0
+        for i in self.rooms:
+            for j in i:
+                if j.creature != None:
+                    count+=1
+
+    def __iter__(self):
+        for i in self.rooms:
+            for j in i:
+                yield i
