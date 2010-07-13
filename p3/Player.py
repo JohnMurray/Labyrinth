@@ -7,10 +7,12 @@ import Armor
 
 #Note - Superclass of Creature and Adventurer
 class Player:
-    def __init__(self, hp, armor):
+    def __init__(self, hp, armor, max_hp = 100, turns = 1):
         #code here
         self.hp = hp
         self.armor = armor
+        self.max_hp = 100
+        self.turns = turns #used for fighting
 
     def fight(self, player):
         #do something
@@ -32,4 +34,3 @@ class Adventurer(Player):
 
 
 
-#def PlayerFactory(player_type, 
