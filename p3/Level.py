@@ -6,7 +6,7 @@
 #      a matrix of Rooms. This makes moving directionally (north, south, etc.)
 #      more natural programatically
 
-import Room
+import Room_Module
 from Room import Room
 
 
