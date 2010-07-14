@@ -7,30 +7,38 @@ import Armor
 
 #Note - Superclass of Creature and Adventurer
 class Player:
-    def __init__(self, hp, armor, max_hp = 100, turns = 1):
+    def __init__(self, name, hp, armor, weapon):
         #code here
+        self.name = name
         self.hp = hp
         self.armor = armor
-        self.max_hp = 100
-        self.turns = turns #used for fighting
+        self.max_hp = hp
+        self.weapon = list()
+
+        self.weapon.append(weapon)
 
     def fight(self, player):
         #do something
         return
 
+    def to_string(self):
+        return ''
+
 
 
 
 class Creature(Player):
-    def __init__(self, hp):
-        Player.__init__(self, hp)
+    def __init__(self, name, hp):
+        Player.__init__(self, name, hp)
 
 
 
 
 class Adventurer(Player):
-    def __init__(self, hp):
-        Player.__init__(self, hp)
+    def __init__(self, name, hp):
+        Player.__init__(self, name, hp)
 
 
-
+class Creature_Factory:
+    def generate(self):
+        return Creature()
