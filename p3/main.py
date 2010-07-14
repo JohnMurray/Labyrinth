@@ -3,28 +3,37 @@
 #Due: July 19th, 2010
 #File: main.py
 
-
 #not sure if we need to really have a class, or just a procedural
 #launching of the game, class here may just be overkill
 
+#import statements
+import Level
+from Level import Level
+
+
+#define main's global variables
+level = None
+
 game_name = "adventure game"
-game_instructions = "\n\tThe point of " + game_name + " is to defeat all the"
-game_instructions += "\n\tcreatures in the level and collect as much gold as"
-game_instructions += "\n\tpossible. You can move from room to room to defeat"
-game_instructions += "\n\tcreatures and collect gold, items, weapons, and new"
-game_instructions += "\n\tarmor. If you die (loose all of your hp) you must"
-game_instructions += "\n\tstart over from the beginning. You may type 'help'"
-game_instructions += "\n\tat any point in the game to get a list of game "
-game_instructions += "\n\tcommands. Type 'options' to get a list of commands"
-game_instructions += "\n\tthat pertain to your current move's options."
 
 
 def print_initial_instructions():
+    
     global game_name
+    
+    game_instructions = "\n\tThe point of " + game_name + " is to defeat all the"
+    game_instructions += "\n\tcreatures in the level and collect as much gold as"
+    game_instructions += "\n\tpossible. You can move from room to room to defeat"
+    game_instructions += "\n\tcreatures and collect gold, items, weapons, and new"
+    game_instructions += "\n\tarmor. If you die (loose all of your hp) you must"
+    game_instructions += "\n\tstart over from the beginning. You may type 'help'"
+    game_instructions += "\n\tat any point in the game to get a list of game "
+    game_instructions += "\n\tcommands. Type 'options' to get a list of commands"
+    game_instructions += "\n\tthat pertain to your current move's options."
+    
     print "Welcome to", game_name, "!"
     print "Instructions"
     print game_instructions
-    return
 
 def print_help_instructions():
     print "Game commands"
