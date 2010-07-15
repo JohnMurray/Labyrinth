@@ -28,8 +28,9 @@ class Player:
 
 
 class Creature(Player):
-    def __init__(self, name, hp):
-        Player.__init__(self, name, hp)
+    def __init__(self, name, hp, armor, weapon, element):
+        Player.__init__(self, name, hp, armor, weapon)
+        self.element = element
 
 
 
