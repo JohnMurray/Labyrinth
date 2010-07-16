@@ -8,10 +8,10 @@
 #         input and validation of input, the execution of non-turn based
 #         commands, and returns the values of turn-based commands.
 class CLI:
-    def __init__(self, player, room):
+    def __init__(self, player, level):
         
         self.player = player
-        self.room = room
+        self.level = level
         
         #lists commands with a tuple that defines
         #(turn-based, options(name), description(for help), param_type)
@@ -128,7 +128,12 @@ class CLI:
     def execute(self):
         if( self.command == "help"):
             self.execute_help()
+        if( self.command == "lookaround"):
+            self.execute_lookaround()
     
+
+    def execute_lookaround(self):
+        
     
     
     def execute_help(self):
