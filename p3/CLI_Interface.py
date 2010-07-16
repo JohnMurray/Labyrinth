@@ -130,10 +130,21 @@ class CLI:
             self.execute_help()
         if( self.command == "lookaround"):
             self.execute_lookaround()
+        if( self.command == "study"):
+            self.execute_study(self.params)
+
+
+    def execute_study(self, param):
+        print Level.get_current_room().get_items()[param]
     
 
     def execute_lookaround(self):
-        
+        room = Level.get_current_room()
+        items = room.get_items()
+        i = 0
+        for item in items:
+            print "[%(id)i] - %(descrip)s" % {'id':i, 'descrip':item.short_name()}
+       
     
     
     def execute_help(self):
