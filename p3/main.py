@@ -7,8 +7,12 @@
 #launching of the game, class here may just be overkill
 
 #import statements
-import Level
-from Level import Level
+from Level import *
+from Player import *
+from CLI_Interface import *
+from Weapon_Module import *
+from Item_Module import *
+from Armor import *
 
 
 #define main's global variables
@@ -91,13 +95,45 @@ def get_user_settings():
 
 
 
+def victorious(level):
+    for room in level:
+        if room.creature != None:
+            return False
+    return True
 
 
 
 
 
 
-#start the game!! WOO HOO!!
+
+
+
+##---------------------------------------------------------
+## start the game!! WOO HOO!!
+##---------------------------------------------------------
+
+#print instructions
 print_initial_instructions()
+#get user-settings
 settings = get_user_settings()
 
+#intialize the Level and Player
+dimension = {
+    1: 100,
+    2: 64,
+    3: 36,
+    4: 25,
+    5: 16,
+    6: 9,
+    7: 4,
+}[settings['level_size']]
+level = Level(dimension)
+
+player = None
+
+
+
+#start teh game loop
+while( not victorious(level) ):
+    #do stuff
