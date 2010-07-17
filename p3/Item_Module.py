@@ -17,8 +17,18 @@ class Item(Item_Interface):
         print "hits you with an abstract base class for %s damage, ouch" % result
 
 class Potion(Item):
-    def __init__(self, name, description):
+    def __init__(self, name, description, value):
         Item.__init__(self, name, description)
+        self.value = value
+
+    def output_result_first(self, result, damage):
+        print "You drink a %s" % self.name
+
+    def output_result_third(self, result, damage):
+        print "drinks a %s" % self.name
+
+    def attack_post(self, attacker, defender):
+        attacker.hp += self.value
 
 class Spell(Item):
     def __init__(self, name, description, difficulty, min_damage, max_damage):

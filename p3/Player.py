@@ -25,6 +25,7 @@ class Player:
 
         self.max_hp = hp
         self.spells = list()
+        self.potion = list()
         self.effects = list()
         self.OS = 0
         self.DS = 0
@@ -44,6 +45,10 @@ class Player:
     def add_weapon(self, weapon):
         #adds a new weapon to the weapon inventory
         self.weapon.append(weapon)
+
+    def add_potion(self, potion):
+        #adds a new potion to the potion inventory
+        self.potion.append(potion)
 
     def primary_weapon(self):
         if self.weapon == None or len(self.weapon) == 0:

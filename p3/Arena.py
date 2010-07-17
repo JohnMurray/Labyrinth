@@ -5,6 +5,7 @@
 
 import Player
 import random
+from Weapon_Module import Weapon
 
 #Note - this class does all the cool stuff
 class Arena:
@@ -23,7 +24,11 @@ class Arena:
             victim.primary_armor().defense_pre(attacker, victim)
 
         result = self.fight(attacker, victim)
-        damage = self.calc_damage(attacker, victim)
+        if isinstance(attacker.current_attack(), Weapon):
+            damage = self.calc_damage(attacker, victim)
+            victim.hp -= damage
+        else:
+            damage = 0
 
         #Items control their own output based on the result and the context (first/third person)
         #Outcome of the attack has not been realized
@@ -48,23 +53,16 @@ class Arena:
     def calc_damage(self, attacker, victim):
         #calculates damage for an attack
         #does not currently account for elemental or effects
-        return random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+        damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+        return damage - victim.primary_armor().damage_reduction
 
     def magic_attack(self, id):
         self.player.primary = self.player.spells[id]
         #Hard coded for now, will add stats or something that effect magic strength
         self.player.OS = 0
-        
-        if self.player.primary_armor() != None:
-            self.player.DS = self.player.primary_armor().defense
-        else:
-            self.player.DS = 0
-        
-        if self.creature.primary_weapon() != None: 
-            self.creature.OS = self.creature.primary_weapon().chance
-        else:
-            self.creature.OS = 0
+        self.player.DS = self.player.primary_armor().defense
 
+        self.creature.OS = self.creature.primary_weapon().chance
         self.creature.DS = 0
         
         self.turn()
@@ -73,25 +71,25 @@ class Arena:
         self.player.primary = self.player.primary_weapon()
         
         self.player.OS = self.player.current_attack().chance
-        
-        if self.player.primary_armor() != None:
-            self.player.DS = self.player.primary_armor().defense
-        else:
-            self.player.DS = 0
+        self.player.DS = self.player.primary_armor().defense
 
         #currently hard coded attack action for opponent
-        if self.creature.primary_weapon() != None:
-            self.creature.OS = self.creature.primary_weapon().chance
-        else:
-            self.creature.OS = 0
-
-        if self.creature.primary_armor() != None:
-            self.creature.DS = self.creature.primary_armor().defense
-        else:
-            self.creature.DS = 0
+        self.creature.OS = self.creature.primary_weapon().chance
+        self.creature.DS = self.creature.primary_armor().defense
         
         self.turn()
 
+    def potion(self, id):
+        self.player.primary = self.player.potion[id]
+        self.player.OS = 0
+        self.player.DS = self.player.primary_armor().defense
+
+        #replace with creature method for selecting attack and calculating OS/DS
+        self.creature.OS = self.creature.primary_weapon().chance
+        self.creature.DS = self.creature.primary_armor().defense
+
+        self.turn()
+        
     def turn(self):
         #self.creature.select_attack()
         #player attacks first
