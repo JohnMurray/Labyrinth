@@ -23,7 +23,7 @@ class Room:
     def add_weapon(self, weapon):
         self.weapon.append(weapon)
 
-class Room_Factory:
+class RoomFactory:
 
     #static definition to generate random descriptions
     def get_room_description():
@@ -45,7 +45,7 @@ class Room_Factory:
         return descrip[random.randrange(0, len(descrip))]
 
     def generate():
-        description = Room_Factory.get_room_description()
+        description = RoomFactory.get_room_description()
         gold = random.randrange(101)
         creature = CreatureFactory.generate()
         item_choice = random.randrange(2) + 1
