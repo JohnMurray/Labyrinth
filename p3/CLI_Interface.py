@@ -33,14 +33,19 @@ class CLI:
             "look-around": (True, '', 'Look at all the items currently in the room. Shows item name and id.', None),
             "study": (True, 'id', 'View an item in the room in great detail. A.K.A - View the item\'s stats and/or description, etc. Must give item id. (use look-around to get item id)', int),
             "pickup": (True, '', 'Pick up and item in the room. Must give item id. (use look-around to get item id)', None),
+            "switch-weapon": (True, 'id', 'Change your primary weapon. Must give id. (use weapon-inventory to get id)', int),
             "inventory-weapon": (True, '', 'List your current weapon inventory. View each weapon\'s name and id.', None),
             "inventory-armor": (True, '', 'List your current armor inventory. View each armor\'s name and id.', None),
             "inventory-potion": (True, '', 'List your current potion inventory. View each potion\'s name and id.', None),
             "inventory-spell": (True, '', 'List your current spell inventory. View each spell\'s name and id.', None),
-            "inspect-weapon": (True, 'id', 'View an weapon in the inventory in great detail. A.K.A - View the weapon\'s stats and/or description, etc. Must give id. (use inventory-weapon to get item id)', int),
-            "inspect-armor": (True, 'id', 'View an armor in the inventory in great detail. A.K.A - View the armor\'s stats and/or description, etc. Must give id. (use inventory-armor to get item id)', int),
-            "inspect-potion": (True, 'id', 'View an potion in the inventory in great detail. A.K.A - View the potion\'s stats and/or description, etc. Must give id. (use inventory-potion to get item id)', int),
-            "inspect-spell": (True, 'id', 'View an spell in the inventory in great detail. A.K.A - View the spell\'s stats and/or description, etc. Must give id. (use inventory-spell to get item id)', int),
+            "inspect-weapon": (True, 'id', 
+                    'View an weapon in the inventory in great detail. A.K.A - View the weapon\'s stats and/or description, etc. Must give id. (use inventory-weapon to get item id)', int),
+            "inspect-armor": (True, 'id', 
+                    'View an armor in the inventory in great detail. A.K.A - View the armor\'s stats and/or description, etc. Must give id. (use inventory-armor to get item id)', int),
+            "inspect-potion": (True, 'id', 
+                    'View an potion in the inventory in great detail. A.K.A - View the potion\'s stats and/or description, etc. Must give id. (use inventory-potion to get item id)', int),
+            "inspect-spell": (True, 'id', 
+                    'View an spell in the inventory in great detail. A.K.A - View the spell\'s stats and/or description, etc. Must give id. (use inventory-spell to get item id)', int),
             "drop-weapon": (True, 'id', 'Drop a weapon in the inventory. Must give weapon id. (use inventory-weapon to get weapon id)', int),
             "drop-armor": (True, 'id', 'Drop an armor in the inventory. Must give armor id. (use inventory-armor to get armor id)', int),
             "drop-potion": (True, 'id', 'Drop a potion in the inventory. Must give potion id. (use inventory-potion to get potion id)', int),
@@ -147,6 +152,8 @@ class CLI:
             self.execute_inventory()
         elif( self.command[0:7] == "inspect" ):
             self.execute_inspect()
+        elif( self.command == "switch-weapon" )
+            self.execute_switch_weapon()
         #if there are NO creatures in the room, then allow these
         #command    
         if( self.level.get_current_room().creature == None ):
@@ -176,6 +183,19 @@ class CLI:
     
 
     
+    def execute_switch_weapon(self):
+        if( self.params > len(self.player.weapon) - 1 or self.params < 0 ):
+            print "Weapon does not exist, try again"
+        elif( self.params == 0 ):
+            print "Already equipped"
+        else:
+            temp = self.player.weapon[self.params]
+            self.player.weapon[self.params] = self.player.weapon[0]
+            self.player.weapon[0] = temp
+            print "Weapon equipped"
+
+
+
     
     def execute_use_potion(self):
         arena = Arena(self.player, self.level.get_current_room().creature)
