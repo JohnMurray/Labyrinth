@@ -11,11 +11,20 @@ class Player:
         #code here
         self.name = name
         self.hp = hp
-        self.armor = armor
-        self.max_hp = hp
-        self.weapon = list()
+        
+        if armor == None:
+            self.armor = list()
+        else:
+            self.armor = armor
 
-        self.weapon.append(weapon)
+        if weapon == None:
+            self.weapon = list()
+        else:
+            self.weapon = weapon
+
+        self.max_hp = hp
+        self.spell = list()
+
 
     def fight(self, player):
         #do something
@@ -24,8 +33,29 @@ class Player:
     def to_string(self):
         return ''
 
+    def add_spell(self, spell):
+        #adds a new spell to the spell inventory
+        self.spell.append(spell)
 
+    def add_weapon(self, weapon):
+        #adds a new weapon to the weapon inventory
+        self.weapon.append(weapon)
 
+    def primary_weapon(self):
+        if self.weapon == None or len(self.weapon) == 0:
+            return None
+        else:
+            return self.weapon[0]
+           
+    def primary_armor(self):
+        if self.armor == None or len(self.armor) == 0:
+            return None
+        else:
+            return self.weapon[0]
+
+    def add_armor(self, armor):
+        #adds a new armor to the armor inventory
+        self.armor.append(armor)
 
 class Creature(Player):
     def __init__(self, name, hp, armor, weapon, element):
@@ -37,7 +67,7 @@ class Creature(Player):
 
 class Adventurer(Player):
     def __init__(self, name, hp):
-        Player.__init__(self, name, hp)
+        Player.__init__(self, name, hp,None,None)
 
 
 class Creature_Factory:

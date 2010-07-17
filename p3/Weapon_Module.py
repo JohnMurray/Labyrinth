@@ -3,12 +3,16 @@
 #Due: July 19th, 2010
 #File: Weapon.py
 
+from Item_Interface import Item_Interface
+
 class Weapon(Item_Interface):
     
     def __init__(self, damage, chance):
         #code here
         self.damage = damage
-        self.chance = chance % 21 #chance can be no grater than 20
+        #Not sure how I feel about this, overflow results in low chance
+        #and chance can be zero
+        self.chance = chance % 21 #chance can be no greater than 20
         return
 
 
@@ -41,5 +45,5 @@ class Hammar_Weapon(Weapon):
 
 def WeaponFactory(category, stats):
     
-    #create and instance of the weapon with it's stats
+    #create an instance of the weapon with it's stats
     return

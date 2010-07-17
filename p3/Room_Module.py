@@ -15,6 +15,8 @@ class Room:
         self.weapon = weapon
         self.gold = gold
 
+    def add_weapon(self, weapon):
+        self.weapon.append(weapon)
 
 class Room_Factory:
 
