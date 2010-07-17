@@ -26,10 +26,9 @@ class Player:
         self.max_hp = hp
         self.spells = list()
         self.potion = list()
-        self.effects = list()
+        self.effect = list()
         self.OS = 0
         self.DS = 0
-        self.primary = None
 
     def fight(self, player):
         #do something
@@ -68,29 +67,40 @@ class Player:
 
     def add_effect(self, effect):
         #adds a new effect to the player
-        self.effects.append(effect)
+        self.effect.append(effect)
 
     def remove_effect(self, effect):
         #removes an effect from the player
-        self.effects.remove(effect)
+        self.effect.remove(effect)
 
-    def current_attack(self):
-        #returns the currently readied attack (can be any Item_Interface)
-        if self.primary == None:
-               self.primary = self.primary_weapon() 
-
-        return self.primary
+    def is_stunned(self):
+        #returns True if Player is stunned, False if not
+        #check all effects for stun type, else return False
+        for e in self.effect:
+            if e.type == 0:
+                return True
+        return False
 
 class Creature(Player):
     def __init__(self, name, hp, armor=list(), weapon=list(), element=None):
         Player.__init__(self, name, hp, armor, weapon)
         self.element = element
 
+    def current_attack(self):
+        #returns the attack selected by the creature
+        #todo: add some kind of biased selection system that we can generate "attack scripts" from
+        return self.primary_weapon()
 
 class Adventurer(Player):
     def __init__(self, name, hp):
         Player.__init__(self, name, hp,None,None)
+        self.primary = None
 
+    def current_attack(self):
+        #returns the primary action selected by the player
+        if self.primary == None:
+            self.primary = self.primary_weapon()
+        return self.primary
 
 class Creature_Factory:
     def generate(self):
