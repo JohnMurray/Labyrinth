@@ -35,10 +35,10 @@ class CLI:
             "inspect-armor": (False, 'id', 'View an armor in the inventory in great detail. A.K.A - View the armor\'s stats and/or description, etc. Must give id. (use inventory-armor to get item id)', int),
             "inspect-potion": (False, 'id', 'View an potion in the inventory in great detail. A.K.A - View the potion\'s stats and/or description, etc. Must give id. (use inventory-potion to get item id)', int),
             "inspect-spell": (False, 'id', 'View an spell in the inventory in great detail. A.K.A - View the spell\'s stats and/or description, etc. Must give id. (use inventory-spell to get item id)', int),
-            "drop-weapon": (False, 'id', 'Drop a weapon in the inventory. Must give weapon id. (use inventory-weapon to get weapon id)', int)
-            "drop-armor": (False, 'id', 'Drop an armor in the inventory. Must give armor id. (use inventory-armor to get armor id)', int)
-            "drop-potion": (False, 'id', 'Drop a potion in the inventory. Must give potion id. (use inventory-potion to get potion id)', int)
-            "drop-spell": (False, 'id', 'Drop an spell in the inventory. Must give spell id. (use inventory-spell to get spell id)', int)
+            "drop-weapon": (False, 'id', 'Drop a weapon in the inventory. Must give weapon id. (use inventory-weapon to get weapon id)', int),
+            "drop-armor": (False, 'id', 'Drop an armor in the inventory. Must give armor id. (use inventory-armor to get armor id)', int),
+            "drop-potion": (False, 'id', 'Drop a potion in the inventory. Must give potion id. (use inventory-potion to get potion id)', int),
+            "drop-spell": (False, 'id', 'Drop an spell in the inventory. Must give spell id. (use inventory-spell to get spell id)', int),
         }
         
         self.command = ''
@@ -131,32 +131,60 @@ class CLI:
     def execute(self):
         if( self.command == "help"):
             self.execute_help()
-        if( self.command == "lookaround"):
+        elif( self.command == "lookaround"):
             self.execute_lookaround()
-        if( self.command == "study"):
+        elif( self.command == "study"):
             self.execute_study()
-        if( self.command[0:9] == "inventory" ):
+        elif( self.command[0:9] == "inventory" ):
             self.execute_inventory()
+        elif( self.command[0:7] == "inspect" ):
+            self.execute_inspect()
 
         #from here on down, we cannot perform these actions if we
         # are in a fight (creature in the room)
-        if( self.level.get_current_room().creature != None ):
+        elif( self.level.get_current_room().creature != None ):
             return
 
-        if( self.command == "pickup" ):
+        elif( self.command == "pickup" ):
             self.execute_pickup()
-        if( self.command[0:4] == "drop" ):
+        elif( self.command[0:4] == "drop" ):
             self.execute_drop()
     
 
+
+    def execute_inspect(self):
+        try:
+            if( self.command[8:] == "weapon" ):
+                print self.player.weapon[self.params]
+            if( self.command[8:] == "armor" ):
+                print self.player.armor[self.params]
+            if( self.command[8:] == "potion" ):
+                print self.player.potion[self.params]
+            if( self.command[8:] == "spell" ):
+                print self.player.spell[self.params]
+        except:
+            print "Can't inspect " + self.command[8:] + " that does not exist"
+
+
+
     def execute_inventory(self):
         i = 0
-        if( self.commands[11:] == "weapon" ):
+        if( self.commands[10:] == "weapon" ):
             for w in self.player.weapon:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': w.short_name()}
-        if( self.commands[11:] == "armor" ):
-        if( self.commands[11:] == "potion" ):
-        if( self.commands[11:] == "spell" ):
+                i += 1
+        if( self.commands[10:] == "armor" ):
+            for a in self.player.armor:
+                print "[%(id)i] %(d)s" % {'id': i, 'd': a.short_name()}
+                i += 1
+        if( self.commands[10:] == "potion" ):
+            for p in self.player.potion:
+                print "[%(id)i] %(d)s" % {'id': i, 'd': p.short_name()}
+                i += 1
+        if( self.commands[10:] == "spell" ):
+            for s in self.player.armor:
+                print "[%(id)i] %(d)s" % {'id': i, 'd': s.short_name()}
+                i += 1
 
 
 
