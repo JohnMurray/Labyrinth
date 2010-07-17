@@ -12,16 +12,12 @@ from Player import *
 
 class Room:
 
-    def __init__(self, description, creature=None, item=list(), armor=list(), weapon=list(), gold=0):
+    def __init__(self, description, creature=None, item=list(), gold=0):
         #code here
         self.description = description
         self.creature = creature
         self.item = item
-        self.weapon = weapon
         self.gold = gold
-
-    def add_weapon(self, weapon):
-        self.weapon.append(weapon)
 
 class RoomFactory:
 
