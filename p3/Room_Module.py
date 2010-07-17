@@ -4,6 +4,11 @@
 #File: Room.py
 
 import random
+import Player
+import Static
+
+from Static import Static
+from Player import *
 
 class Room:
 
@@ -22,22 +27,37 @@ class Room_Factory:
 
     #static definition to generate random descriptions
     def get_room_description():
-        descrip = list(self)
-        descrip.append('room 1')
-        descrip.append('room 2')
-        descrip.append('room 3')
-        descrip.append('room 4')
-        descrip.append('room 5')
-        descrip.append('room 6')
-        descrip.append('room 7')
-        descrip.append('room 8')
-        descrip.append('room 9')
-        descrip.append('room 10')
-        descrip.append('room 11')
-        descrip.append('room 12')
+        descrip [
+            'room 1',
+            'room 2',
+            'room 3',
+            'room 4',
+            'room 5',
+            'room 6',
+            'room 7',
+            'room 8',
+            'room 9',
+            'room 10',
+            'room 11',
+            'room 12',
+        ]
         
         return descrip[random.randrange(0, len(descrip))]
 
-    def generate(self):
-        description = self.get_room_description()
-
+    def generate():
+        description = Room_Factory.get_room_description()
+        gold = random.randrange(101)
+        creature = CreatureFactory.generate()
+        item_choice = random.randrange(2) + 1
+        items = list()
+        if( item_choice == 1 ):
+            items.append( PotionFactory.generate() )
+        if( item_choice == 2 ):
+            items.append( SpellFactory.generate() )
+        items.append( WeaponFactory.generate() )
+        items.append( AromorFactory.append() )
+        return Room( description, creature, items, gold)
+            
+    
+    generate = Static(generate)
+    descrip = Static(descrip)
