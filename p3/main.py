@@ -13,7 +13,6 @@ from Level import Level
 
 #define main's global variables
 level = None
-
 game_name = "adventure game"
 
 
@@ -35,56 +34,70 @@ def print_initial_instructions():
     print "Instructions"
     print game_instructions
 
-def print_help_instructions():
-    print "Game commands"
-    print "\thelp"
-    print "\t\t - Display the command help screen (this)"
-    print "\tattack"
-    print "\t\t - When in a room with creature, fight attempts and attack (uses a turn)"
-    print "\tmove-[north,east,south,west]"
-    print "\t\t - move to a new room (cannot be used while in battle)"
-    print "\tflee"
-    print "\t\t - Flee to a random, adjacent room and drop all gold in previous room. (can be used while in battle)"
-    print "\tlook-around"
-    print "\t\t - Look at all the items currently in the room. (shows item id)"
-    print "\tpickup {id}"
-    print "\t\t - Pickup an item. Requires item ID. Use `look-around` to get the item id."
-    print "\tinventory"
-    print "\t\t - List your current inventory and each inventory items id."
-    print "\tinspect {id}"
-    print "\t\t - Give more detail on a particular item. Requires item ID. Use inventory to get ID."
-    print "\tdrop {id}"
-    print "\t\t - Drop a carried item. Requries item ID. Use inventory to get ID."
-
-
-def print_option_instructions(situation):
-    if situation == 'fight':
-        return ''
-    elif situation == 'room':
-        return ''
 
 def get_user_settings():
-    print "What level size would you like to play on?"
-    print "[1] Extra-Large (100 rooms)"
-    print "[2] Large (64 rooms)"
-    print "[3] Medium (36 rooms)"
-    print "[4] Medium-Small (25 rooms)"
-    print "[5] Small (16 rooms)"
-    print "[6] Extra-Small (9 rooms)"
-    print "[7] Tiny (4 rooms)"
-    level_size = input(": ")
-    print ""
-    print "What would you like your character name to be?"
-    character_name = raw_input(": ")
-    print ""
-    print "What difficulty would you like to play at?"
-    print "[1] Extreme (25% hp)"
-    print "[2] Hard (50% hp)"
-    print "[3] Medium (75% hp)"
-    print "[4] Easy (100% hp)"
-    difficulty = input(": ")
+    valid_input = False
+    while( not valid_input ):
+        print "What level size would you like to play on?"
+        print "[1] Extra-Large (100 rooms)"
+        print "[2] Large (64 rooms)"
+        print "[3] Medium (36 rooms)"
+        print "[4] Medium-Small (25 rooms)"
+        print "[5] Small (16 rooms)"
+        print "[6] Extra-Small (9 rooms)"
+        print "[7] Tiny (4 rooms)"
+        level_size = raw_input(": ")
+        try:
+            level_size = int(level_size)
+            if( type(level_size) == int and level_size > 0 and level_size < 8):
+                valid_input = True
+            else:
+                print "Not valid input. Try again."
+        except:
+            print "Not a number, try again"
+    valid_input = False
+    while( not valid_input ):
+        print ""
+        print "What would you like your character name to be?"
+        character_name = raw_input(": ")
+        if( len(character_name) > 0 ):
+            valid_input = True
+        else:
+            print "Not valid input. Try again."
+    valid_input = False
+    while( not valid_input ):
+        print ""
+        print "What difficulty would you like to play at?"
+        print "[1] Extreme (25% hp)"
+        print "[2] Hard (50% hp)"
+        print "[3] Medium (75% hp)"
+        print "[4] Easy (100% hp)"
+        difficulty = raw_input(": ")
+        try:
+            difficulty = int(difficulty)
+            if( type(difficulty) == int and difficulty > 0 and difficulty < 5):
+                valid_input = True
+            else:
+                print "Not valid input. Try again."
+        except:
+            print "Not a number, try again"
+
     return {
         "level_size":level_size,
         "character_name":character_name,
         "difficulty":difficulty
     }
+
+
+
+
+
+
+
+
+
+
+#start the game!! WOO HOO!!
+print_initial_instructions()
+settings = get_user_settings()
+
