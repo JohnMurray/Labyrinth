@@ -135,6 +135,8 @@ class CLI:
             self.execute_lookaround()
         if( self.command == "study"):
             self.execute_study()
+        if( self.command[0:9] == "inventory" ):
+            self.execute_inventory()
 
         #from here on down, we cannot perform these actions if we
         # are in a fight (creature in the room)
@@ -146,6 +148,16 @@ class CLI:
         if( self.command[0:4] == "drop" ):
             self.execute_drop()
     
+
+    def execute_inventory(self):
+        i = 0
+        if( self.commands[11:] == "weapon" ):
+            for w in self.player.weapon:
+                print "[%(id)i] %(d)s" % {'id': i, 'd': w.short_name()}
+        if( self.commands[11:] == "armor" ):
+        if( self.commands[11:] == "potion" ):
+        if( self.commands[11:] == "spell" ):
+
 
 
     def execute_drop(self):
