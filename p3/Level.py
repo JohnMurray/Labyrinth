@@ -7,7 +7,7 @@
 #      more natural programatically
 
 import Room_Module
-from Room import Room
+from Room_Module import *
 
 
 #Level
@@ -28,7 +28,7 @@ class Level:
             self.rooms.append(list())
             for j in range(0, dimension):
                 #create a room
-                room = None
+                room = RoomFactory.generate()
                 self.rooms[i].append(room)
         self.current = (0, 0)
 

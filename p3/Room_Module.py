@@ -27,7 +27,7 @@ class RoomFactory:
 
     #static definition to generate random descriptions
     def get_room_description():
-        descrip [
+        descrip = [
             'room 1',
             'room 2',
             'room 3',
@@ -60,4 +60,4 @@ class RoomFactory:
             
     
     generate = Static(generate)
-    descrip = Static(descrip)
+    get_room_description = Static(get_room_description)
