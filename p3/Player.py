@@ -3,7 +3,7 @@
 #Due: July 19th, 2010
 #File: Player.py
 
-import Armor
+from Armor import Armor
 from Weapon_Module import Weapon
 
 #Note - Superclass of Creature and Adventurer
@@ -47,13 +47,13 @@ class Player:
 
     def primary_weapon(self):
         if self.weapon == None or len(self.weapon) == 0:
-            return None
+            return Weapon(1,1,1) 
         else:
             return self.weapon[0]
            
     def primary_armor(self):
         if self.armor == None or len(self.armor) == 0:
-            return None
+            return Armor(0,0) 
         else:
             return self.weapon[0]
 
@@ -72,10 +72,7 @@ class Player:
     def current_attack(self):
         #returns the currently readied attack (can be any Item_Interface)
         if self.primary == None:
-            if self.primary_weapon() != None:
                self.primary = self.primary_weapon() 
-            else:
-               self.primary = Weapon(1, 1)
 
         return self.primary
 

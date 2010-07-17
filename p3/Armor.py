@@ -5,6 +5,7 @@
 
 class Armor:
 
-    def __init__(self, chance_of_miss):
+    def __init__(self, defense, damage_reduction):
         #code here
-        self.chance_of_miss = chance_of_miss
+        self.defense = defense
+        self.damage_reduction = damage_reduction

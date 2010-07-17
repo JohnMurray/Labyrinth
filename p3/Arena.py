@@ -4,7 +4,6 @@
 #File Arena.py
 
 import Player
-import CLI_Interface
 import random
 
 #Note - this class does all the cool stuff
@@ -23,13 +22,16 @@ class Arena:
         if victim.armor != None and len(victim.armor) != 0:
             victim.primary_armor().defense_pre(attacker, victim)
 
+        result = self.fight(attacker, victim)
+        damage = self.calc_damage(attacker, victim)
+
         #Items control their own output based on the result and the context (first/third person)
         #Outcome of the attack has not been realized
         if attacker == self.player:
-            attacker.current_attack().output_result_first(self.fight(attacker, victim))
+            attacker.current_attack().output_result_first(result, damage)
         else:
             print "%s" % attacker.name,
-            attacker.current_attack().output_result_third(self.fight(attacker, victim))
+            attacker.current_attack().output_result_third(result, damage)
 
         #Post hooks
         if attacker.current_attack() != None:
@@ -43,13 +45,18 @@ class Arena:
        #kickin' it old school with THAC0
        return attacker.OS - victim.DS + random.randint(1, 20)
 
+    def calc_damage(self, attacker, victim):
+        #calculates damage for an attack
+        #does not currently account for elemental or effects
+        return random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+
     def magic_attack(self, id):
         self.player.primary = self.player.spells[id]
         #Hard coded for now, will add stats or something that effect magic strength
         self.player.OS = 0
         
         if self.player.primary_armor() != None:
-            self.player.DS = self.player.primary_armor().chance
+            self.player.DS = self.player.primary_armor().defense
         else:
             self.player.DS = 0
         
@@ -65,10 +72,10 @@ class Arena:
     def attack(self):
         self.player.primary = self.player.primary_weapon()
         
-        self.player.OS = self.player.primary.chance
+        self.player.OS = self.player.current_attack().chance
         
         if self.player.primary_armor() != None:
-            self.player.DS = self.player.primary_armor().chance
+            self.player.DS = self.player.primary_armor().defense
         else:
             self.player.DS = 0
 
@@ -79,7 +86,7 @@ class Arena:
             self.creature.OS = 0
 
         if self.creature.primary_armor() != None:
-            self.creature.DS = self.creature.primary_armor().chance
+            self.creature.DS = self.creature.primary_armor().defense
         else:
             self.creature.DS = 0
         
