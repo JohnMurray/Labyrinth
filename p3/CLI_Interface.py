@@ -181,6 +181,7 @@ class CLI:
         arena = Arena(self.player, self.level.get_current_room().creature)
         if( len(self.player.potion) - 1 >= self.params and self.params >= 0 ):
             arena.potion(self.params)
+            self.player.potion.pop(self.params)
 
 
 
@@ -188,6 +189,7 @@ class CLI:
         arena = Arena(self.player, self.level.get_current_room().creature)
         if( len(self.player.spells) - 1 >= self.params and self.params >= 0 ):
             arena.magic_attack(self.params)
+            self.player.spells.pop(self.params)
 
 
 
