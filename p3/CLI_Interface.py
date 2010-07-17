@@ -13,7 +13,7 @@ class CLI:
         self.player = player
         self.level = level
         
-        #lists commands with a tuple that defines
+        #lists commands with a dict and tuple that defines
         #(turn-based, options(name), description(for help), param_type)
         self.commands = {
             "help" : (False, '', 'Shows the help dialog all available commands (not much un-similar to this page)turn/move.', None),
@@ -35,7 +35,10 @@ class CLI:
             "inspect-armor": (False, 'id', 'View an armor in the inventory in great detail. A.K.A - View the armor\'s stats and/or description, etc. Must give id. (use inventory-armor to get item id)', int),
             "inspect-potion": (False, 'id', 'View an potion in the inventory in great detail. A.K.A - View the potion\'s stats and/or description, etc. Must give id. (use inventory-potion to get item id)', int),
             "inspect-spell": (False, 'id', 'View an spell in the inventory in great detail. A.K.A - View the spell\'s stats and/or description, etc. Must give id. (use inventory-spell to get item id)', int),
-            "drop": (False, 'id', 'Drop an item in the inventory. Must give item id. (use inventory to get item id)', int)
+            "drop-weapon": (False, 'id', 'Drop a weapon in the inventory. Must give weapon id. (use inventory-weapon to get weapon id)', int)
+            "drop-armor": (False, 'id', 'Drop an armor in the inventory. Must give armor id. (use inventory-armor to get armor id)', int)
+            "drop-potion": (False, 'id', 'Drop a potion in the inventory. Must give potion id. (use inventory-potion to get potion id)', int)
+            "drop-spell": (False, 'id', 'Drop an spell in the inventory. Must give spell id. (use inventory-spell to get spell id)', int)
         }
         
         self.command = ''
@@ -131,16 +134,68 @@ class CLI:
         if( self.command == "lookaround"):
             self.execute_lookaround()
         if( self.command == "study"):
-            self.execute_study(self.params)
+            self.execute_study()
+
+        #from here on down, we cannot perform these actions if we
+        # are in a fight (creature in the room)
+        if( self.level.get_current_room().creature != None ):
+            return
+
+        if( self.command == "pickup" ):
+            self.execute_pickup()
+        if( self.command[0:4] == "drop" ):
+            self.execute_drop()
+    
 
 
-    def execute_study(self, param):
-        print Level.get_current_room().get_items()[param]
+    def execute_drop(self):
+        try:
+            if( self.commands[5:] == 'weapon' ):
+                item = self.player.weapon.pop(self.params)
+            if( self.commands[5:] == 'armor' ):
+                item = self.player.armor.pop(self.params)
+            if( self.commands[5:] == 'potion' ):
+                item = self.player.potion.pop(self.params)
+            if( self.commands[5:] == 'spell' ):
+                item = self.player.spell.pop(self.params)
+
+            self.level.get_current_room().item.append(item)
+
+        except:
+            print "Unable to drop item that is not in inventory"
+
+
+
+    def execute_pickup(self):
+        room = self.level.get_current_room()
+        try:
+            item = room.item[self.params]
+            #get item type
+            if( isinstance(item, Potion) ):
+                self.player.potion.append(item)
+                print "Potion added to inventory"
+            if( isinstance(item, Spell) ):
+                self.player.spell.append(item)
+                print "Spell added to inventory"
+            if( isinstance(item, Armor) ):
+                self.player.armor.append(item)
+                print "Armor added to inventory"
+            if( isinstance(item, Weapon) ):
+                self.player.weapon.append(item)
+            room.item.pop(self.params)
+        except:
+            print 'Item with id of ' + self.params + 'does not exist in the room'
+
+    def execute_study(self):
+        try:
+            print self.level.get_current_room().item[self.params]
+        except:
+            print ''
     
 
     def execute_lookaround(self):
-        room = Level.get_current_room()
-        items = room.get_items()
+        room = self.level.get_current_room()
+        items = room.item
         i = 0
         for item in items:
             print "[%(id)i] - %(descrip)s" % {'id':i, 'descrip':item.short_name()}
