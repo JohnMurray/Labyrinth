@@ -3,6 +3,9 @@
 #Due: July 19th, 2010
 #File: Player.py
 
+import Static
+
+from Static import Static
 from Armor import Armor
 from Weapon_Module import Weapon
 
@@ -102,6 +105,7 @@ class Adventurer(Player):
             self.primary = self.primary_weapon()
         return self.primary
 
-class Creature_Factory:
-    def generate(self):
+class CreatureFactory:
+    def generate():
         return Creature()
+    generate = Static(generate)
