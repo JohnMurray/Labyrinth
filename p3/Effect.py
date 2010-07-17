@@ -6,8 +6,9 @@
 import Player
 
 class Effect:
-    def __init__(self, duration, value):
+    def __init__(self, type, duration, value):
         self.duration = duration
         self.value = value
+        self.type = type
 
 

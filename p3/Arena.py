@@ -6,6 +6,7 @@
 import Player
 import random
 from Weapon_Module import Weapon
+from Item_Module import Potion
 
 #Note - this class does all the cool stuff
 class Arena:
@@ -17,21 +18,14 @@ class Arena:
     def round(self, attacker, victim):
         #Represents one round of a turn, an atomic action either potion, spell, weapon attack
         #Hooks in place for items
-        if attacker.current_attack() != None:
-            attacker.current_attack().attack_pre(attacker, victim)
-
-        if victim.armor != None and len(victim.armor) != 0:
-            victim.primary_armor().defense_pre(attacker, victim)
+        attacker.current_attack().attack_pre(attacker, victim)
+        victim.primary_armor().defense_pre(attacker, victim)
 
         result = self.fight(attacker, victim)
-        if isinstance(attacker.current_attack(), Weapon):
-            damage = self.calc_damage(attacker, victim)
-            victim.hp -= damage
-        else:
-            damage = 0
+        damage = self.calc_damage(attacker, victim)
+        victim.hp -= damage
 
         #Items control their own output based on the result and the context (first/third person)
-        #Outcome of the attack has not been realized
         if attacker == self.player:
             attacker.current_attack().output_result_first(result, damage)
         else:
@@ -39,11 +33,8 @@ class Arena:
             attacker.current_attack().output_result_third(result, damage)
 
         #Post hooks
-        if attacker.current_attack() != None:
-            attacker.current_attack().attack_post(attacker, victim)
-        
-        if victim.armor != None and len(victim.armor) != 0:
-            victim.primary_armor().defense_post(attacker, victim)
+        attacker.current_attack().attack_post(attacker, victim)
+        victim.primary_armor().defense_post(attacker, victim)
 
     def fight(self, attacker, victim):        
        #one attack, ambivalent to player/creature
@@ -53,8 +44,15 @@ class Arena:
     def calc_damage(self, attacker, victim):
         #calculates damage for an attack
         #does not currently account for elemental or effects
-        damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
-        return damage - victim.primary_armor().damage_reduction
+        if isinstance(attacker.current_attack(), Potion):
+            return 0
+        elif isinstance(attacker.current_attack(), Weapon): 
+            damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+            return damage - victim.primary_armor().damage_reduction
+        else:
+            damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+            #Possible location for elemental resistances
+            return damage
 
     def magic_attack(self, id):
         self.player.primary = self.player.spells[id]
@@ -92,9 +90,38 @@ class Arena:
         
     def turn(self):
         #self.creature.select_attack()
-        #player attacks first
-        self.round(self.player, self.creature)
-        if self.creature.hp > 0:
-            #it lives! Counter attack!
-            self.round(self.creature, self.player)
+        #check for player stun
+        if self.player.is_stunned():
+           #creature gets a freebie
+           self.round(self.creature, self.player)
+           self.update_effects()
+           self.turn()
+        else:
+            #player attacks first
+            self.round(self.player, self.creature)
+            if self.creature.hp > 0 and not self.creature.is_stunned():
+                #it lives! Counter attack!
+                self.round(self.creature, self.player)
+            self.update_effects()
+
+    def update_effects(self):
+        #reduce the duration of all effects by one turn for creature and player 
+        player_pending = list()
+        creature_pending = list()
+        
+        for e in self.player.effect:
+            e.duration -= 1
+            if(e.duration == 0):
+                player_pending.append(e)
+
+        for e in self.creature.effect:
+            e.duration -= 1
+            if(e.duration == 0):
+                creature_pending.append(e)
+
+        for p in player_pending:
+            self.player.effect.remove(p)
+        for p in creature_pending:
+            self.creature.effect.remove(p)
+        
 

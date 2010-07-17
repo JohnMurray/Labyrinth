@@ -3,7 +3,8 @@
 #Due: July 19th, 2010
 #File: Armor.py
 
-class Armor:
+from Item_Interface import Item_Interface
+class Armor(Item_Interface):
 
     def __init__(self, defense, damage_reduction):
         #code here
