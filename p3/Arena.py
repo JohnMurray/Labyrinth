@@ -7,6 +7,7 @@ import Player
 import random
 from Weapon_Module import Weapon
 from Item_Module import Potion
+from Item_Module import Attack_Spell
 
 #Note - this class does all the cool stuff
 class Arena:
@@ -25,12 +26,17 @@ class Arena:
         damage = self.calc_damage(attacker, victim)
         victim.hp -= damage
 
-        #Items control their own output based on the result and the context (first/third person)
         if attacker == self.player:
-            attacker.current_attack().output_result_first(result, damage)
+            if damage > 0:
+                attacker.current_attack().output_result_first(result, damage)
+            else:
+                attacker.current_attack().output_result_first(result)
         else:
-            print "%s" % attacker.name,
-            attacker.current_attack().output_result_third(result, damage)
+            if damage > 0:
+                attacker.current_attack().output_result_third(result, damage)
+            else:
+                print "%s" % attacker.name,
+                attacker.current_attack().output_result_third(result)
 
         #Post hooks
         attacker.current_attack().attack_post(attacker, victim)
@@ -49,10 +55,13 @@ class Arena:
         elif isinstance(attacker.current_attack(), Weapon): 
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
             return damage - victim.primary_armor().damage_reduction
-        else:
+        elif isinstance(attacker.current_attack(), Attack_Spell):
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+            print "Attack spell--?"
             #Possible location for elemental resistances
             return damage
+        else:
+            return 0
 
     def magic_attack(self, id):
         self.player.primary = self.player.spells[id]
