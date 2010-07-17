@@ -16,13 +16,13 @@ class Weapon(Item):
         self.chance = chance % 21 #chance can be no greater than 20
         return
 
-    def output_result_first(self, result, damage):
+    def output_result_first(self, result, damage=0):
         if result >= 0:
             print "You attack for %s damage" % damage
         else:
             print "You attack, but miss"
 
-    def output_result_third(self,  result, damage):
+    def output_result_third(self,  result, damage=0):
         if result >= 0:
             print "attacks you for %s damage" % damage
         else:

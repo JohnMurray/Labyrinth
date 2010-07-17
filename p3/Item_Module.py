@@ -5,6 +5,7 @@
 
 from Item_Interface import Item_Interface
 from Effect import Effect
+from Effect import Stun_Effect
 
 class Item(Item_Interface):
     def __init__(self, name, description):
@@ -22,21 +23,19 @@ class Potion(Item):
         Item.__init__(self, name, description)
         self.value = value
 
-    def output_result_first(self, result, damage):
+    def output_result_first(self, result):
         print "You drink a %s" % self.name
 
-    def output_result_third(self, result, damage):
+    def output_result_third(self, result):
         print "drinks a %s" % self.name
 
     def attack_post(self, attacker, defender):
         attacker.hp += self.value
 
 class Spell(Item):
-    def __init__(self, name, description, difficulty, min_damage, max_damage):
+    def __init__(self, name, description, difficulty):
         Item.__init__(self, name, description)
         self.difficulty = difficulty
-        self.min_damage = min_damage
-        self.max_damage = max_damage
 
     def print_fail_first(self):
         print "You attempt to cast %s... but fail" % self.name
@@ -44,31 +43,75 @@ class Spell(Item):
     def print_fail_third(self):
         print "mutters a chant, nothing happens"
 
-    def output_result_first(self, result, damage):
+    def output_result_first(self, result):
         if result >= self.difficulty:
-            print "You cast %s" % self.name, "for %s damage" % damage
+            print "You cast %s" % self.name
         else:
             self.print_fail_first()
 
-    def output_result_third(self, result, damage):
+    def output_result_third(self, result):
         if result >= self.difficulty:
-            print "casts %s" % self.name, "on you for %s damage" % damage
+            print "casts %s" % self.name
         else:
             self.print_fail_third()
 
-class Stun_Spell(Spell):
-    def __init__(self, name, description, difficulty, duration):
-        Spell.__init__(self, name, description, difficulty, 0, 0)
+class Attack_Spell(Spell):
+    def __init__(self, name, description, difficulty, min_damage, max_damage):
+        Spell.__init__(self, name, description, difficulty)
+        self.min_damage = min_damage
+        self.max_damage = max_damage
+
+    def output_result_first(self, result, damage=0):
+        self.result = result
+        if result >= self.difficulty:
+            print "You cast %s" % self.name, "hitting for %s damage" % damage
+        else:
+            self.print_fail_first()
+
+    def output_result_third(self, result, damage=0):
+        self.result = result
+        if result >= self.difficulty:
+            print "casts %s on you," % result, "hitting for %s damage." % damage
+        else:
+            self.print_fail_third()
+
+class Defense_Spell(Spell):
+    def __init__(self, name, description, difficulty, bonus, duration=3):
+        Spell.__init__(self, name, description, difficulty)
+        self.bonus = bonus
         self.duration = duration
 
-    def output_result_first(self, result, damage):
+    def output_result_first(self, result):
+        self.result = result
+        if result >= self.difficulty:
+            print "A glowing aura surrounds you, protecting you from harm"
+        else:
+            self.print_fail_first()
+
+    def output_result_third(self, result):
+        self.result = result
+        if result >= self.difficulty:
+            print "is suddenly wrapped in a protective aura"
+        else:
+            self.print_fail_third()
+
+    def attack_post(self, attacker, defender):
+        if result >= 0:
+            attacker.effect.append(Defense_Effect(self.duration, self.bonus))
+
+class Stun_Spell(Spell):
+    def __init__(self, name, description, difficulty, duration):
+        Spell.__init__(self, name, description, difficulty)
+        self.duration = duration
+
+    def output_result_first(self, result):
         self.result = result
         if result >= self.difficulty:
             print "You cast %s" % self.name, "stunning your opponent for %s rounds!" % self.duration
         else:
             self.print_fail_first()
 
-    def output_result_third(self, result, damage):
+    def output_result_third(self, result):
         self.result = result
         if result >= self.difficulty:
             print "casts %s" % self.name, "stunning you for %s rounds!" % self.duration
@@ -77,4 +120,4 @@ class Stun_Spell(Spell):
     
     def attack_post(self, attacker, defender):
         if self.result >= self.difficulty:
-            defender.add_effect(Effect(0, self.duration, 0))
+            defender.add_effect(Stun_Effect(self.duration))

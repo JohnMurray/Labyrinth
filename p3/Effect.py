@@ -6,9 +6,15 @@
 import Player
 
 class Effect:
-    def __init__(self, type, duration, value):
+    def __init__(self, duration):
         self.duration = duration
-        self.value = value
-        self.type = type
 
+class Stun_Effect(Effect):
+    def __init__(self, duration):
+        Effect.__init__(self, duration)
+
+class Defense_Effect(Effect):
+    def __init__(self, duration, bonus):
+        Effect.__init__(self, duration)
+        self.bonus = bonus
 
