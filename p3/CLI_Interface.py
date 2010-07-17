@@ -8,10 +8,10 @@
 #         input and validation of input, the execution of non-turn based
 #         commands, and returns the values of turn-based commands.
 class CLI:
-    def __init__(self, player, room):
+    def __init__(self, player, level):
         
         self.player = player
-        self.room = room
+        self.level = level
         
         #lists commands with a tuple that defines
         #(turn-based, options(name), description(for help), param_type)
@@ -128,7 +128,23 @@ class CLI:
     def execute(self):
         if( self.command == "help"):
             self.execute_help()
+        if( self.command == "lookaround"):
+            self.execute_lookaround()
+        if( self.command == "study"):
+            self.execute_study(self.params)
+
+
+    def execute_study(self, param):
+        print Level.get_current_room().get_items()[param]
     
+
+    def execute_lookaround(self):
+        room = Level.get_current_room()
+        items = room.get_items()
+        i = 0
+        for item in items:
+            print "[%(id)i] - %(descrip)s" % {'id':i, 'descrip':item.short_name()}
+       
     
     
     def execute_help(self):
