@@ -4,6 +4,7 @@
 #File: Player.py
 
 import Armor
+from Weapon_Module import Weapon
 
 #Note - Superclass of Creature and Adventurer
 class Player:
@@ -23,8 +24,11 @@ class Player:
             self.weapon = weapon
 
         self.max_hp = hp
-        self.spell = list()
-
+        self.spells = list()
+        self.effects = list()
+        self.OS = 0
+        self.DS = 0
+        self.primary = None
 
     def fight(self, player):
         #do something
@@ -35,7 +39,7 @@ class Player:
 
     def add_spell(self, spell):
         #adds a new spell to the spell inventory
-        self.spell.append(spell)
+        self.spells.append(spell)
 
     def add_weapon(self, weapon):
         #adds a new weapon to the weapon inventory
@@ -57,12 +61,28 @@ class Player:
         #adds a new armor to the armor inventory
         self.armor.append(armor)
 
+    def add_effect(self, effect):
+        #adds a new effect to the player
+        self.effects.append(effect)
+
+    def remove_effect(self, effect):
+        #removes an effect from the player
+        self.effects.remove(effect)
+
+    def current_attack(self):
+        #returns the currently readied attack (can be any Item_Interface)
+        if self.primary == None:
+            if self.primary_weapon() != None:
+               self.primary = self.primary_weapon() 
+            else:
+               self.primary = Weapon(1, 1)
+
+        return self.primary
+
 class Creature(Player):
-    def __init__(self, name, hp, armor, weapon, element):
+    def __init__(self, name, hp, armor=list(), weapon=list(), element=None):
         Player.__init__(self, name, hp, armor, weapon)
         self.element = element
-
-
 
 
 class Adventurer(Player):

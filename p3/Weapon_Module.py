@@ -3,9 +3,9 @@
 #Due: July 19th, 2010
 #File: Weapon.py
 
-from Item_Interface import Item_Interface
+from Item_Module import Item
 
-class Weapon(Item_Interface):
+class Weapon(Item):
     
     def __init__(self, damage, chance):
         #code here
@@ -15,6 +15,17 @@ class Weapon(Item_Interface):
         self.chance = chance % 21 #chance can be no greater than 20
         return
 
+    def output_result_first(self, result):
+        if result >= 0:
+            print "You attack for 1 damage"
+        else:
+            print "You attack, but miss"
+
+    def output_result_third(self,  result):
+        if result >= 0:
+            print "attacks you for 1 damage"
+        else:
+            print "attacks you, but misses"
 
 class Magical_Weapon(Weapon):
     def __init__(self, damage, chance):

@@ -7,11 +7,11 @@
 #interface that relates to "items" in the game. Such as armor, potions,
 #spells, weapons, etc.
 class Item_Interface:
-    def attack_pre(attacker, defender):
+    def attack_pre(self, attacker, defender):
         return
-    def attack_post(attacker, defender):
+    def attack_post(self, attacker, defender):
         return
-    def defense_pre(attacker, defender):
+    def defense_pre(self, attacker, defender):
         return
-    def defense_post(attacker, defender):
+    def defense_post(self, attacker, defender):
         return
