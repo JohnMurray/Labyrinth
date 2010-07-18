@@ -172,4 +172,4 @@ class Creature_Factory:
 
     def generate(self):
         #some dummy values for testing
-        return Creature('dummy name', 100))
+        return Creature('dummy name', 100)
