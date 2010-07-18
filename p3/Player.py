@@ -171,4 +171,5 @@ class Creature_Factory:
         return genesis
 
     def generate(self):
-        return Creature()
+        #some dummy values for testing
+        return Creature('dummy name', 100))
