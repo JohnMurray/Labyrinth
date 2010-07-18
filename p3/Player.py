@@ -5,7 +5,6 @@
 
 import Static
 
-from Static import Static
 from Weapon_Module import Weapon_Factory
 from Weapon_Module import Weapon
 from Armor import Armor_Factory
@@ -151,6 +150,9 @@ class Creature_Factory:
     def __init__(self):
         self
 
+    def generate(self):
+        return self.generate_difficulty(random.randint(0,10))
+
     def generate_difficulty(self, diff):
         #generate random name based on difficulty
         #generate hp based on difficulty
@@ -169,6 +171,3 @@ class Creature_Factory:
             genesis.add_weapon(wf.generate_high_quality())
         
         return genesis
-
-    def generate(self):
-        return Creature()

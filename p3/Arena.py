@@ -55,9 +55,7 @@ class Arena:
     def calc_damage(self, attacker, victim):
         #calculates damage for an attack
         #does not currently account for elemental or effects
-        if isinstance(attacker.current_attack(), Potion):
-            return 0
-        elif isinstance(attacker.current_attack(), Weapon): 
+        if isinstance(attacker.current_attack(), Weapon): 
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
             return damage - victim.primary_armor().damage_reduction
         elif isinstance(attacker.current_attack(), Attack_Spell):
