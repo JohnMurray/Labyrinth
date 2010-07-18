@@ -54,16 +54,21 @@ class Weapon_Factory:
     def __init__(self):
         self
     
+    #Returns a subclass of Weapon 
     def generate(self):
-    #create an instance of the weapon with it's stats
+        #create an instance of the weapon with it's stats
+        #gen is a dictionary mapping integers to functions
         gen = {
                 0: self.generate_sword(),
                 1: self.generate_arrow(),
                 2: self.generate_spear(),
                 3: self.generate_hammer(),
               }
+        #randomly generate a type and call the correct method, return the result
         return gen[self.select_weapon_type()]        
 
+    #Generates a low quality item of random type
+    #Returns a subclass of Weapon
     def generate_low_quality(self):
         gen = {
                 0: self.generate_sword(0),
@@ -72,7 +77,9 @@ class Weapon_Factory:
                 3: self.generate_hammer(0),
               }
         return gen[self.select_weapon_type()]
-    
+   
+    #Generates a high quality item of random type
+    #Returns a subclass of Weapon
     def generate_high_quality(self):
         gen = {
                 0: self.generate_sword(2),
@@ -82,13 +89,16 @@ class Weapon_Factory:
               }
         return gen[self.select_weapon_type()]
 
+    #Quick way of quantifying a weapon statistically
+    #Not a very accurate indicator of weapon's actual quality
     def score_weapon(self, weapon):
         score = weapon.min_damage
         score += weapon.max_damage
         score += 3 * weapon.chance
         score += 5 * weapon.speed
         return score
-  
+ 
+    #Returns 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer
     def select_weapon_type(self):
         #Would like to make this configurable
         #currently 40% sword, 20% arrow, 20% spear, 20% hammer
@@ -102,6 +112,7 @@ class Weapon_Factory:
         else:
             return 3
 
+    #Hard coded material look up, production product would use external data storage
     def get_material(self, quality = 1):
         materials = [ "Stone", "Copper", "Bronze", "Brass", "Silver", "Iron", "Gold", "Steel", "Platinum", "Mithril", "Adamantium" ]
         if quality == 0:
@@ -111,6 +122,9 @@ class Weapon_Factory:
         else:
             return materials[random.randint(7,9)]
 
+    #Generates a hammer's name based on quality
+    #0 for low, 1 for medium, 2 for high
+    #Returns a string
     def generate_hammer_name(self, quality = 1):
         mat = self.get_material(quality)
         names = [ "Club", "Cudgel", "Mace", "Hammer", "Morning Star", "Flail", "Maul", "War Hammer", "Tetsubo", "Great Maul" ]
@@ -123,7 +137,10 @@ class Weapon_Factory:
             selected = names[random.randint(7,8)]
 
         return mat + ' ' + selected
-            
+           
+    #Generates a hammer of variable quality
+    #Returns Hammer
+    #Quality parameter follows same format throughout
     def generate_hammer(self, quality = 1):
         dist = Distributed_Random()
         abs_range = 40
@@ -132,7 +149,8 @@ class Weapon_Factory:
         chance_min = 0
         abs_min = 5
         min_min = 12
-        
+        #Vary stats for high/low quality
+        #Hard coding for simplicity
         if quality == 0:
             abs_range = 30
             min_range = 21
@@ -150,7 +168,8 @@ class Weapon_Factory:
         name = self.generate_hammer_name(quality)
         return Hammer_Weapon(min_dam, max_dam, chance, speed, name, 'desc')
 
-    def generate_arrow_name(self, quality):
+    #Same as the others, Generates Arrow names
+    def generate_arrow_name(self, quality=1):
         mat = self.get_material(quality)
         names = [ "Dart", "Throwing Knife", "Short Bow", "Long Bow", "Compound Bow", "Recurve Bow", "Light Crossbow", "Heavy Crossbow", "Matchlock Pistol", "Matchlock Rifle" ]
         if quality == 0:
@@ -162,6 +181,7 @@ class Weapon_Factory:
         
         return mat + ' embossed ' + name
 
+    #Generates an Arrow object of variable quality
     def generate_arrow(self, quality = 1):
         dist = Distributed_Random()
         abs_range = 35
@@ -187,6 +207,7 @@ class Weapon_Factory:
         chance = dist.randint(0,6)
         return Arrow_Weapon(min_dam, max_dam, chance, speed, self.generate_arrow_name(quality), 'desc')
 
+    #Generates a name for a spear of variable quality
     def generate_spear_name(self, quality):
         names = [ "Crude Spear", "Short Spear", "Long Spear", "Halberd", "Pike", "Yari", "Naginata", "Lance" ]
         mat = self.get_material(quality)
@@ -198,6 +219,7 @@ class Weapon_Factory:
             name = names[random.randint(5,6)]
         return mat + '-tipped ' + name
 
+    #Generates a Spear object of variable quality
     def generate_spear(self, quality = 1):
         dist = Distributed_Random()
         abs_range = 36
@@ -223,6 +245,7 @@ class Weapon_Factory:
         chance = dist.randint(chance_min, chance_range+1)
         return Spear_Weapon(min_dam, max_dam, chance, speed, self.generate_spear_name(quality), 'desc')
 
+    #Generates a name for a sword of variable quality
     def generate_sword_name(self, quality):
         names = [ "Shiv", "Knife", "Dagger", "Cleaver", "Short Sword", "Longsword", "Broadsword", "Rapier", "Epee", "Claymore", "Basterd Sword", "Greatsword" ]
         mat = self.get_material(quality)

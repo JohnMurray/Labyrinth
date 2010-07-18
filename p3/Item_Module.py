@@ -6,14 +6,19 @@
 from Item_Interface import Item_Interface
 from Effect import *
 
+#Base class from which all items descend
+#Siblings include Potion, Spell, Weapon
 class Item(Item_Interface):
     def __init__(self, name, description):
         self.name = name
         self.description = description
 
+    #This method is the common interface that all items use to output the result of their use
+    #the "first" refers to first person, as in the player used the item
     def output_result_first(self, result):
         print "You used a Base class for %s damage... stupid" % result 
 
+    #"third" here refers to third person, a creature used the item
     def output_result_third(self, result):
         print "hits you with an abstract base class for %s damage, ouch" % result
 
@@ -22,12 +27,15 @@ class Potion(Item):
         Item.__init__(self, name, description)
         self.value = value
 
+    #output first for the use of a potion
     def output_result_first(self, result):
         print "You drink a %s" % self.name
 
+    #output third for the use of a potion
     def output_result_third(self, result):
         print "drinks a %s" % self.name
 
+    #special effects like healing the player are accomplished via these hooks
     def attack_post(self, attacker, defender):
         attacker.hp += self.value
 
@@ -36,30 +44,37 @@ class Spell(Item):
         Item.__init__(self, name, description)
         self.difficulty = difficulty
 
+    #output a failed spell message first person
     def print_fail_first(self):
         print "You attempt to cast %s... but fail" % self.name
 
+    #output a failed spell message third person
     def print_fail_third(self):
         print "mutters a chant, nothing happens"
 
+    #output message for use a spell, first person
     def output_result_first(self, result):
         if result >= self.difficulty:
             print "You cast %s" % self.name
         else:
             self.print_fail_first()
 
+    #output message for use of a spell, third person
     def output_result_third(self, result):
         if result >= self.difficulty:
             print "casts %s" % self.name
         else:
             self.print_fail_third()
 
+#Attack spells represent damaging spells
+#Subclass of Spell
 class Attack_Spell(Spell):
     def __init__(self, name, description, difficulty, min_damage, max_damage):
         Spell.__init__(self, name, description, difficulty)
         self.min_damage = min_damage
         self.max_damage = max_damage
 
+    #Output the result of an attack spell, first person
     def output_result_first(self, result, damage=0):
         self.result = result
         if result >= self.difficulty:
@@ -67,6 +82,7 @@ class Attack_Spell(Spell):
         else:
             self.print_fail_first()
 
+    #Output the result of an attack spell, first person
     def output_result_third(self, result, damage=0):
         self.result = result
         if result >= self.difficulty:
@@ -74,6 +90,8 @@ class Attack_Spell(Spell):
         else:
             self.print_fail_third()
 
+#Defense Spells grant defensive bonuses vs Physical attacks
+#Duration is how long the effect lasts and bonus is how big the effect is
 class Defense_Spell(Spell):
     def __init__(self, name, description, difficulty, bonus, duration=3):
         Spell.__init__(self, name, description, difficulty)
@@ -94,10 +112,14 @@ class Defense_Spell(Spell):
         else:
             self.print_fail_third()
 
+    #this hook creates the effect that grants the user the bonus
+    #Not this appends the effect to the attacker (person using the spell)
+    #Generally spells could be targeted, but this game is really simple
     def attack_post(self, attacker, defender):
         if self.result >= self.difficulty:
             attacker.effect.append(Defense_Effect(self.duration, self.bonus))
 
+#Stun Spells stun the victim, rendering them unable to act
 class Stun_Spell(Spell):
     def __init__(self, name, description, difficulty, duration):
         Spell.__init__(self, name, description, difficulty)
@@ -116,7 +138,8 @@ class Stun_Spell(Spell):
             print "casts %s" % self.name, "stunning you for %s rounds!" % self.duration
         else:
             self.print_fail_third()
-    
+   
+    #This is where the stun effect is applied, again applied to the defender all the time
     def attack_post(self, attacker, defender):
         if self.result >= self.difficulty:
             defender.add_effect(Stun_Effect(self.duration))

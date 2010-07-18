@@ -124,6 +124,17 @@ class Player:
                 bonus += e.bonus
         return bonus
                 
+    def calc_DS_Physical(self):
+        return self.primary_armor().defense + self.defense_bonus()
+
+    def calc_DS_Magic(self):
+        return self.defense_bonus_magic()
+
+    def calc_OS_Physical(self):
+        return self.primary_weapon().chance + self.offense_bonus()
+
+    def calc_OS_Magic(self):
+        return self.offense_bonus_magic()
 
 class Creature(Player):
     def __init__(self, name, hp, armor=list(), weapon=list(), element=None):
