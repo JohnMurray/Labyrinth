@@ -53,7 +53,7 @@ class Room_Factory:
         wf = Weapon_Factory()
         items.append( wf.generate() )
         af = Armor_Factory()
-        items.append( af.append() )
+        items.append( af.generate() )
         return Room( description, creature, items, gold )
             
     
