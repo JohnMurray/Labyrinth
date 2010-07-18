@@ -130,10 +130,35 @@ dimension = {
 }[settings['level_size']]
 level = Level(dimension)
 
+
+#BRAD - do what you want here to build the plaer object, I'm just going to 
+#       assume that from here on out, he/she exists.
 player = None
 
 
+#initialize the CLI object
+cli = CLI(player, level)
 
-#start teh game loop
+
+#start the game loop
 while( not victorious(level) ):
-    #do stuff
+    #get the command
+    cur_cmd = cli.get_command()
+    #check if there is a creature in the room
+    if( level.get_current_room().creature != None ):
+        print "You cannot move when a creature is in the room"
+    else:
+        {
+            'north': level.move_north,
+            'east': level.move_east,
+            'south': level.move_south,
+            'west': level.move_west
+        }[cur_cmd[5:]]()
+else:
+    print "You've won the game!"
+    print ""
+    print "Your final stats:"
+    print "\tHP:   " + str(player.hp)
+    print "\tGold: " + str(player.gold)
+
+
