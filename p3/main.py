@@ -133,6 +133,10 @@ level = Level(dimension)
 
 #BRAD - do what you want here to build the plaer object, I'm just going to 
 #       assume that from here on out, he/she exists.
+#Note:  you might want to edit the `get_user_settings` def above to get any
+#       input from the user (just so it's all in one place) and there's some
+#       examples (crappy ones, but working) of user-input validation in that 
+#       def.
 player = None
 
 
