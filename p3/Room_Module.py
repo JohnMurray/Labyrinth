@@ -45,8 +45,8 @@ class Room_Factory:
         description = Room_Factory.get_room_description()
         gold = random.randrange(101)
         #generate creature
-        chance = random.randrange(2)
-        if( chance == 0 ):
+        chance = random.randrange(1000)
+        if( chance > 300 ):
             cf = Creature_Factory()
             creature = cf.generate()
         else:
