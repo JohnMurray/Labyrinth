@@ -34,6 +34,7 @@ class CLI:
             "study": (True, 'id', 'View an item in the room in great detail. A.K.A - View the item\'s stats and/or description, etc. Must give item id. (use look-around to get item id)', int),
             "pickup": (True, '', 'Pick up and item in the room. Must give item id. (use look-around to get item id)', None),
             "switch-weapon": (True, 'id', 'Change your primary weapon. Must give id. (use weapon-inventory to get id)', int),
+            "switch-armor":(True, 'id', 'Change your primary armor. Must give id. (use inventory-armor to get id)', int),
             "inventory-weapon": (True, '', 'List your current weapon inventory. View each weapon\'s name and id.', None),
             "inventory-armor": (True, '', 'List your current armor inventory. View each armor\'s name and id.', None),
             "inventory-potion": (True, '', 'List your current potion inventory. View each potion\'s name and id.', None),
@@ -152,8 +153,10 @@ class CLI:
             self.execute_inventory()
         elif( self.command[0:7] == "inspect" ):
             self.execute_inspect()
-        elif( self.command == "switch-weapon" )
+        elif( self.command == "switch-weapon" ):
             self.execute_switch_weapon()
+        elif( self.command == "switch-armor" ):
+            self.execute_switch_armor()
         #if there are NO creatures in the room, then allow these
         #command    
         if( self.level.get_current_room().creature == None ):
@@ -181,6 +184,20 @@ class CLI:
             print "Game Over! You died sucka!"
             sys.exit()
     
+
+    
+    def execute_switch_armor(self):
+        if( self.params > len(self.player.armor) - 1 or self.params < 0 ):
+            print "Armor does not exist, try again"
+        elif( self.params == 0 ):
+            print "Already eqquiped"
+        else:
+            temp = self.player.armor[self.params]
+            self.player.armor[self.params] = self.player.armor[0]
+            self.player.armor[0] = temp
+            print "Armor equipped"
+
+
 
     
     def execute_switch_weapon(self):
@@ -264,7 +281,7 @@ class CLI:
             2: self.level.move_east,
             3: self.level.move_south,
             4: self.level.move_west,
-        }.[direction]()
+        }[direction]()
         #drop something random
         if( drop_id != -1 ):
             {
