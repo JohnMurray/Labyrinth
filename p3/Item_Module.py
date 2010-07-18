@@ -5,6 +5,7 @@
 
 from Item_Interface import Item_Interface
 from Effect import *
+import random
 
 #Base class from which all items descend
 #Siblings include Potion, Spell, Weapon
@@ -23,9 +24,8 @@ class Item(Item_Interface):
         print "hits you with an abstract base class for %s damage, ouch" % result
 
 class Potion(Item):
-    def __init__(self, name, description, value):
+    def __init__(self, name, description):
         Item.__init__(self, name, description)
-        self.value = value
 
     #output first for the use of a potion
     def output_result_first(self, result):
@@ -35,9 +35,55 @@ class Potion(Item):
     def output_result_third(self, result):
         print "drinks a %s" % self.name
 
-    #special effects like healing the player are accomplished via these hooks
+class Healing_Potion(Potion):
+    def __init__(self, name, description, min_heal, max_heal):
+        Potion.__init__(self, name, description)
+        self.min_heal = min_heal
+        self.max_heal = max_heal
+
+    #Special effects like healing the player are accomplished via these hooks
     def attack_post(self, attacker, defender):
-        attacker.hp += self.value
+        attacker.hp += random.randint(self.min_heal, self.max_heal)
+
+class Defense_Potion(Potion):
+    def __init__(self, name, description, duration, bonus):
+        Potion.__init__(self, name, description)
+        self.duration = duration
+        self.bonus = bonus
+
+    #Give the user a Defense_Effect
+    def attack_post(self, attacker, defender):
+        attacker.add_effect(Defense_Effect(self.duration, self.bonus))
+
+class Offense_Potion(Potion):
+    def __init__(self, name, description, duration, bonus):
+        Potion.__init__(self, name, description)
+        self.duration = duration
+        self.bonus = bonus
+
+    #Give the user an Offense_Effect
+    def attack_post(self, attacker, defender):
+        attacker.add_effect(Offense_Effect(self.duration, self.bonus))
+
+class Magic_Defense_Potion(Potion):
+    def __init__(self, name, description, duration, bonus):
+        Potion.__init__(self, name, description)
+        self.duration = duration
+        self.bonus = bonus
+
+    #Give the user a Defense_Effect
+    def attack_post(self, attacker, defender):
+        attacker.add_effect(Magic_Defense_Effect(self.duration, self.bonus))
+
+class Magic_Offense_Potion(Potion):
+    def __init__(self, name, description, duration, bonus):
+        Potion.__init__(self, name, description)
+        self.duration = duration
+        self.bonus = bonus
+
+    #Give the user an Offense_Effect
+    def attack_post(self, attacker, defender):
+        attacker.add_effect(Magic_Offense_Effect(self.duration, self.bonus))
 
 class Spell(Item):
     def __init__(self, name, description, difficulty):
@@ -113,7 +159,7 @@ class Defense_Spell(Spell):
             self.print_fail_third()
 
     #this hook creates the effect that grants the user the bonus
-    #Not this appends the effect to the attacker (person using the spell)
+    #Note this appends the effect to the attacker (person using the spell)
     #Generally spells could be targeted, but this game is really simple
     def attack_post(self, attacker, defender):
         if self.result >= self.difficulty:

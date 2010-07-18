@@ -17,6 +17,7 @@ class Weapon(Item):
         #and chance can be zero
         self.chance = chance % 21 #chance can be no greater than 20
         self.speed = speed
+        self.score = self.score()
         return
 
     def output_result_first(self, result, damage=0):
@@ -30,6 +31,15 @@ class Weapon(Item):
             print "attacks you for %s damage" % damage
         else:
             print "attacks you, but misses"
+    
+    #Quick way of quantifying a weapon's statistics 
+    #not a very accurate estimate of actual quality
+    def score(self):
+        score = self.min_damage
+        score += self.max_damage
+        score += 3 * self.chance
+        score += 5 * self.speed
+        return score
 
 class Sword_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, speed, name, description):
@@ -89,15 +99,6 @@ class Weapon_Factory:
               }
         return gen[self.select_weapon_type()]
 
-    #Quick way of quantifying a weapon statistically
-    #Not a very accurate indicator of weapon's actual quality
-    def score_weapon(self, weapon):
-        score = weapon.min_damage
-        score += weapon.max_damage
-        score += 3 * weapon.chance
-        score += 5 * weapon.speed
-        return score
- 
     #Returns 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer
     def select_weapon_type(self):
         #Would like to make this configurable

@@ -36,6 +36,7 @@ class Player:
         self.effect = list()
         self.OS = 0
         self.DS = 0
+        self.primary = None
 
     def fight(self, player):
         #do something
@@ -136,26 +137,25 @@ class Player:
     def calc_OS_Magic(self):
         return self.offense_bonus_magic()
 
+    def current_attack(self):
+        if self.primary == None:
+            self.primary = self.primary_weapon()
+        return self.primary
+
 class Creature(Player):
     def __init__(self, name, hp, armor=list(), weapon=list(), element=None):
         Player.__init__(self, name, hp, armor, weapon)
         self.element = element
 
-    def current_attack(self):
+    def select_attack(self):
         #returns the attack selected by the creature
         #todo: add some kind of biased selection system that we can generate "attack scripts" from
-        return self.primary_weapon()
+        self.primary = self.primary_weapon()
+        return self.primary
 
 class Adventurer(Player):
     def __init__(self, name, hp):
         Player.__init__(self, name, hp,None,None)
-        self.primary = None
-
-    def current_attack(self):
-        #returns the primary action selected by the player
-        if self.primary == None:
-            self.primary = self.primary_weapon()
-        return self.primary
 
 class Creature_Factory:
     def __init__(self):

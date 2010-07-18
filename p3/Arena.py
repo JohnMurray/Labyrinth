@@ -6,8 +6,7 @@
 import Player
 import random
 from Weapon_Module import Weapon
-from Item_Module import Potion
-from Item_Module import Attack_Spell
+from Item_Module import * 
 
 #Note - this class does all the cool stuff
 class Arena:
@@ -67,46 +66,40 @@ class Arena:
 
     def magic_attack(self, id):
         self.player.primary = self.player.spells[id]
-        #Hard coded for now, will add stats or something that effect magic strength
-        self.player.OS = 0
-        self.player.OS += self.player.offense_bonus_magic()
-        self.player.DS = self.player.primary_armor().defense
-        self.player.DS += self.player.defense_bonus()
+        self.player.OS = self.player.calc_OS_Magic()
+        self.creature.DS = self.creature.calc_DS_Magic()
 
-        self.creature.OS = self.creature.primary_weapon().chance
-        self.creature.OS += self.creature.offense_bonus()
-        self.creature.DS = 0
-        self.creature.DS += self.creature.defense_bonus_magic() 
-        
+        #Select creature attack
+        self.select_creature_attack()
         self.turn()
     
     def attack(self):
         self.player.primary = self.player.primary_weapon()
-        
-        self.player.OS = self.player.current_attack().chance
-        self.player.OS += self.player.offense_bonus()
-        self.player.DS = self.player.primary_armor().defense
-        self.player.DS += self.player.defense_bonus()
+        self.player.OS = self.player.calc_OS_Physical() 
+        self.creature.DS = self.creature.calc_DS_Physical()
 
-        #currently hard coded attack action for opponent
-        self.creature.OS = self.creature.primary_weapon().chance
-        self.creature.OS += self.creature.offense_bonus()
-        self.creature.DS = self.creature.primary_armor().defense
-        self.creature.DS += self.creature.defense_bonus()
-        
+        self.select_creature_attack() 
         self.turn()
 
     def potion(self, id):
         self.player.primary = self.player.potion[id]
         self.player.OS = 0
-        self.player.DS = self.player.primary_armor().defense
+        self.creature.DS = self.creature.calc_DS_Physical()
 
-        #replace with creature method for selecting attack and calculating OS/DS
-        self.creature.OS = self.creature.primary_weapon().chance
-        self.creature.DS = self.creature.primary_armor().defense
-
+        self.select_creature_attack()
         self.turn()
-        
+    
+    def select_creature_attack(self):
+        self.creature.select_attack()
+        #Determine if creature selected a spell or something else
+        #Calculate OS/DS accordingly
+        if isinstance(self.creature.primary, Spell):
+            self.creature.OS = self.creature.calc_OS_Magic()
+            self.player.DS = self.player.calc_DS_Magic()
+        else:
+            self.creature.OS = self.creature.calc_OS_Physical()
+            self.player.DS = self.player.calc_DS_Physical()
+
     def turn(self):
         #self.creature.select_attack()
         #check for player stun
