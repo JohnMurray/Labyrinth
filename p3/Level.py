@@ -96,4 +96,4 @@ class Level:
     def __iter__(self):
         for i in self.rooms:
             for j in i:
-                yield i
+                yield j

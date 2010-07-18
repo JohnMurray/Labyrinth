@@ -117,13 +117,13 @@ settings = get_user_settings()
 
 #intialize the Level and Player
 dimension = {
-    1: 100,
-    2: 64,
-    3: 36,
-    4: 25,
-    5: 16,
-    6: 9,
-    7: 4,
+    1: 10,
+    2: 8,
+    3: 6,
+    4: 5,
+    5: 4,
+    6: 3,
+    7: 2,
 }[settings['level_size']]
 level = Level(dimension)
 
