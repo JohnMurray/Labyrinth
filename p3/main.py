@@ -96,10 +96,7 @@ def get_user_settings():
 
 
 def victorious(level):
-    for room in level:
-        if room.creature != None:
-            return False
-    return True
+    return level.defeated_all_creatures()
 
 
 
@@ -120,19 +117,23 @@ settings = get_user_settings()
 
 #intialize the Level and Player
 dimension = {
-    1: 100,
-    2: 64,
-    3: 36,
-    4: 25,
-    5: 16,
-    6: 9,
-    7: 4,
+    1: 10,
+    2: 8,
+    3: 6,
+    4: 5,
+    5: 4,
+    6: 3,
+    7: 2,
 }[settings['level_size']]
 level = Level(dimension)
 
 
 #BRAD - do what you want here to build the plaer object, I'm just going to 
 #       assume that from here on out, he/she exists.
+#Note:  you might want to edit the `get_user_settings` def above to get any
+#       input from the user (just so it's all in one place) and there's some
+#       examples (crappy ones, but working) of user-input validation in that 
+#       def.
 player = None
 
 
