@@ -96,10 +96,7 @@ def get_user_settings():
 
 
 def victorious(level):
-    for room in level:
-        if room.creature != None:
-            return False
-    return True
+    return level.defeated_all_creatures()
 
 
 
