@@ -96,7 +96,7 @@ class CLI:
      
      
     def cli_handled(self):
-        return self.commands.get(command)[0]   
+        return self.commands.get(self.command)[0]   
      
      
     #def: valid_command
