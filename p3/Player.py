@@ -8,6 +8,7 @@ import Static
 from Static import Static
 from Armor import Armor
 from Weapon_Module import Weapon
+from Effect import Stun_Effect
 
 #Note - Superclass of Creature and Adventurer
 class Player:
@@ -54,13 +55,13 @@ class Player:
 
     def primary_weapon(self):
         if self.weapon == None or len(self.weapon) == 0:
-            return Weapon(1,1,1) 
+            return Weapon(1,1,0) 
         else:
             return self.weapon[0]
            
     def primary_armor(self):
         if self.armor == None or len(self.armor) == 0:
-            return Armor(0,0) 
+            return Armor(10,0) 
         else:
             return self.weapon[0]
 
@@ -80,7 +81,7 @@ class Player:
         #returns True if Player is stunned, False if not
         #check all effects for stun type, else return False
         for e in self.effect:
-            if e.type == 0:
+            if isinstance(e, Stun_Effect):
                 return True
         return False
 

@@ -4,18 +4,16 @@
 #File: Item_Module.py
 
 from Item_Interface import Item_Interface
-from Effect import Effect
-from Effect import Stun_Effect
 
 class Item(Item_Interface):
     def __init__(self, name, description):
         self.name = name
         self.description = description
 
-    def output_result_first(self, result, damage):
+    def output_result_first(self, result):
         print "You used a Base class for %s damage... stupid" % result 
 
-    def output_result_third(self, result, damage):
+    def output_result_third(self, result):
         print "hits you with an abstract base class for %s damage, ouch" % result
 
 class Potion(Item):
