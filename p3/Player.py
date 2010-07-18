@@ -6,9 +6,10 @@
 import Static
 
 from Static import Static
-from Armor import Armor
-from Weapon_Module import Weapon
-from Effect import Stun_Effect
+from Weapon_Module import Weapon_Factory
+from Armor import Armor_Factory
+from Item_Module import *
+from Effect import *
 
 #Note - Superclass of Creature and Adventurer
 class Player:
@@ -63,7 +64,7 @@ class Player:
         if self.armor == None or len(self.armor) == 0:
             return Armor(10,0) 
         else:
-            return self.weapon[0]
+            return self.armor[0]
 
     def add_armor(self, armor):
         #adds a new armor to the armor inventory
@@ -106,7 +107,28 @@ class Adventurer(Player):
             self.primary = self.primary_weapon()
         return self.primary
 
-class CreatureFactory:
-    def generate():
+class Creature_Factory:
+    def __init__(self):
+        self
+
+    def generate_difficulty(self, diff):
+        #generate random name based on difficulty
+        #generate hp based on difficulty
+        hp = 50 * diff
+        genesis = Creature('Gen',hp)
+        wf = Weapon_Factory()
+        af = Armor_Factory()
+        if diff <= 3:
+            genesis.add_armor(af.generate_low_quality())
+            genesis.add_weapon(wf.generate_low_quality())
+        elif diff <= 8:
+            genesis.add_armor(af.generate_medium_quality())
+            genesis.add_weapon(wf.generate())
+        else:
+            genesis.add_armor(af.generate_high_quality())
+            genesis.add_weapon(wf.generate_high_quality())
+        
+        return genesis
+
+    def generate(self):
         return Creature()
-    generate = Static(generate)

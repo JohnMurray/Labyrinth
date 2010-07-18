@@ -94,7 +94,7 @@ class Defense_Spell(Spell):
             self.print_fail_third()
 
     def attack_post(self, attacker, defender):
-        if result >= 0:
+        if result >= self.difficulty:
             attacker.effect.append(Defense_Effect(self.duration, self.bonus))
 
 class Stun_Spell(Spell):
@@ -119,3 +119,11 @@ class Stun_Spell(Spell):
     def attack_post(self, attacker, defender):
         if self.result >= self.difficulty:
             defender.add_effect(Stun_Effect(self.duration))
+
+class Item_Factory:
+    def __init__(self):
+        self
+
+    def generate(self):
+        #generates a random item either spell or potion
+        return
