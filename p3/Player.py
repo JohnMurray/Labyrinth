@@ -7,9 +7,12 @@ import Static
 
 from Static import Static
 from Weapon_Module import Weapon_Factory
+from Weapon_Module import Weapon
 from Armor import Armor_Factory
+from Armor import Armor
 from Item_Module import *
 from Effect import *
+import random
 
 #Note - Superclass of Creature and Adventurer
 class Player:
@@ -56,13 +59,13 @@ class Player:
 
     def primary_weapon(self):
         if self.weapon == None or len(self.weapon) == 0:
-            return Weapon(1,1,0) 
+            return Weapon(1, 1, 0, 1, 'None', 'Nothing') 
         else:
             return self.weapon[0]
            
     def primary_armor(self):
         if self.armor == None or len(self.armor) == 0:
-            return Armor(10,0) 
+            return Armor(10, 0, 'None', 'Nothing') 
         else:
             return self.armor[0]
 
@@ -85,6 +88,43 @@ class Player:
             if isinstance(e, Stun_Effect):
                 return True
         return False
+
+    def offense_bonus(self):
+        #returns the amount of offensive bonus to physical attacks
+        #from effects
+        bonus = 0
+        for e in self.effect:
+            if isinstance(e, Offense_Effect):
+                bonus += e.bonus
+        return bonus
+
+    def offense_bonus_magic(self):
+        #returns the amount of offensive bonus to magic attacks
+        #from effects
+        bonus = 0
+        for e in self.effect:
+            if isinstance(e, Magic_Offense_Effect):
+                bonus += e.bonus
+        return bonus
+
+    def defense_bonus(self):
+        #returns the amount of defensive bonus to physical attacks
+        #from effects
+        bonus = 0
+        for e in self.effect:
+            if isinstance(e, Defense_Effect):
+                bonus += e.bonus
+        return bonus
+
+    def defense_bonus_magic(self):
+        #returns the amount of defensive bonus to magic attacks
+        #from effects
+        bonus = 0
+        for e in self.effect:
+            if isinstance(e, Magic_Defense_Effect):
+                bonus += e.bonus
+        return bonus
+                
 
 class Creature(Player):
     def __init__(self, name, hp, armor=list(), weapon=list(), element=None):
@@ -114,7 +154,7 @@ class Creature_Factory:
     def generate_difficulty(self, diff):
         #generate random name based on difficulty
         #generate hp based on difficulty
-        hp = 50 * diff
+        hp = random.randint(30,50) * diff
         genesis = Creature('Gen',hp)
         wf = Weapon_Factory()
         af = Armor_Factory()

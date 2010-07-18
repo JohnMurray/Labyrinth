@@ -3,13 +3,14 @@
 #Due: July 19th, 2010
 #File: Armor.py
 
-from Item_Interface import Item_Interface
+from Item_Module import Item
 from Distributed_Random import Distributed_Random
 import random
 
-class Armor(Item_Interface):
+class Armor(Item):
 
-    def __init__(self, defense, damage_reduction):
+    def __init__(self, defense, damage_reduction, name, desc):
+        Item.__init__(self, name, desc)
         #code here
         self.defense = defense
         self.damage_reduction = damage_reduction
@@ -29,12 +30,33 @@ class Armor_Factory:
         #how awesome are function objects? very. 
         return gen[self.select_armor_type()]
 
+    def generate_light_material(self):
+        names = [ "Cloth", "Bone", "Hide", "Leather" ]
+        return names[random.randint(0,3)]
+
+    def generate_medium_material(self):
+        names = [ "Chain", "Scale", "Banded" ]
+        return names[random.randint(0,2)]
+
+    def generate_heavy_material(self):
+        names = [ "Steel", "Mithril", "Adamantium" ]
+        return names[random.randint(0,2)]
+
     def generate_high_quality(self):
         #generate a random high quality piece of armor
         dist = Distributed_Random()
         defense = dist.randint(12,17)
         dr = dist.randint(5,9)
-        return Armor(defense, dr)
+        return Armor(defense, dr, self.generate_heavy_name(), 'desc')
+
+    def generate_heavy_name(self):
+        return self.generate_heavy_material() + ' Plate Mail'
+
+    def generate_medium_name(self):
+        return self.generate_medium_material() + ' Mail'
+
+    def generate_light_name(self):
+        return self.generate_light_material() + ' Armor'
 
     def generate_medium_quality(self):
         #generate random medium quality 
@@ -45,7 +67,7 @@ class Armor_Factory:
         dist = Distributed_Random()
         defense = dist.randint(10,17)
         dr = dist.randint(0,1)
-        return Armor(defense, dr)
+        return Armor(defense, dr, self.generate_light_name(), 'desc')
 
     def select_armor_type(self):
         rand = random.randint(1,100)
@@ -61,17 +83,18 @@ class Armor_Factory:
         dist = Distributed_Random()
         defense = dist.randint(10,21)
         dr = dist.randint(0,3)
-        return Armor(defense, dr)
+
+        return Armor(defense, dr, self.generate_light_name(), 'desc')
 
     def generate_medium_armor(self):
         dist = Distributed_Random()
         defense = dist.randint(8,19)
         dr = dist.randint(2,5)
-        return Armor(defense, dr)
+        return Armor(defense, dr, self.generate_medium_name(), 'desc')
 
     def generate_heavy_armor(self):
         dist = Distributed_Random()
         defense = dist.randint(6,17)
         dr = dist.randint(4,9)
-        return Armor(defense, dr)
+        return Armor(defense, dr, self.generate_heavy_name(), 'desc')
         

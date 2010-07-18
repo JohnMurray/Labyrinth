@@ -4,6 +4,7 @@
 #File: Item_Module.py
 
 from Item_Interface import Item_Interface
+from Effect import *
 
 class Item(Item_Interface):
     def __init__(self, name, description):
@@ -94,7 +95,7 @@ class Defense_Spell(Spell):
             self.print_fail_third()
 
     def attack_post(self, attacker, defender):
-        if result >= self.difficulty:
+        if self.result >= self.difficulty:
             attacker.effect.append(Defense_Effect(self.duration, self.bonus))
 
 class Stun_Spell(Spell):

@@ -24,6 +24,10 @@ class Arena:
 
         result = self.fight(attacker, victim)
         damage = self.calc_damage(attacker, victim)
+        
+        if damage < 0:
+            damage = 0
+
         victim.hp -= damage
 
         if attacker == self.player:
@@ -33,9 +37,10 @@ class Arena:
                 attacker.current_attack().output_result_first(result)
         else:
             if damage > 0:
+                print attacker.name,
                 attacker.current_attack().output_result_third(result, damage)
             else:
-                print "%s" % attacker.name,
+                print attacker.name,
                 attacker.current_attack().output_result_third(result)
 
         #Post hooks
@@ -57,7 +62,6 @@ class Arena:
             return damage - victim.primary_armor().damage_reduction
         elif isinstance(attacker.current_attack(), Attack_Spell):
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
-            print "Attack spell--?"
             #Possible location for elemental resistances
             return damage
         else:
@@ -67,10 +71,14 @@ class Arena:
         self.player.primary = self.player.spells[id]
         #Hard coded for now, will add stats or something that effect magic strength
         self.player.OS = 0
+        self.player.OS += self.player.offense_bonus_magic()
         self.player.DS = self.player.primary_armor().defense
+        self.player.DS += self.player.defense_bonus()
 
         self.creature.OS = self.creature.primary_weapon().chance
+        self.creature.OS += self.creature.offense_bonus()
         self.creature.DS = 0
+        self.creature.DS += self.creature.defense_bonus_magic() 
         
         self.turn()
     
@@ -78,11 +86,15 @@ class Arena:
         self.player.primary = self.player.primary_weapon()
         
         self.player.OS = self.player.current_attack().chance
+        self.player.OS += self.player.offense_bonus()
         self.player.DS = self.player.primary_armor().defense
+        self.player.DS += self.player.defense_bonus()
 
         #currently hard coded attack action for opponent
         self.creature.OS = self.creature.primary_weapon().chance
+        self.creature.OS += self.creature.offense_bonus()
         self.creature.DS = self.creature.primary_armor().defense
+        self.creature.DS += self.creature.defense_bonus()
         
         self.turn()
 
