@@ -44,8 +44,13 @@ class Room_Factory:
         #description item and gold
         description = Room_Factory.get_room_description()
         gold = random.randrange(101)
-        cf = Creature_Factory()
-        creature = cf.generate()
+        #generate creature
+        chance = random.randrange(2)
+        if( chance == 0 ):
+            cf = Creature_Factory()
+            creature = cf.generate()
+        else:
+            creature = None
         #generate items
         items = list()
         itf = Item_Factory()
