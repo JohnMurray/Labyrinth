@@ -23,6 +23,7 @@ class CLI:
         #(cli-controlled/handled, options(name), description(for help), param_type)
         self.commands = {
             "help" : (True, '', 'Shows the help dialog all available commands (not much un-similar to this page)turn/move.', None),
+            "map" : (True, '', 'Shows the map of the Level and where all the creatures on on the map', None),
             "move-north": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
             "move-east": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
             "move-south": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
@@ -143,11 +144,13 @@ class CLI:
     #purpose: execute a command that is non-turn based.
     def execute(self):
         #allow these commands regardless
-        if( self.command == "help"):
+        if( self.command == "help" ):
             self.execute_help()
-        elif( self.command == "lookaround"):
+        elif( self.command == "map" ):
+            self.execute_map()
+        elif( self.command == "lookaround" ):
             self.execute_lookaround()
-        elif( self.command == "study"):
+        elif( self.command == "study" ):
             self.execute_study()
         elif( self.command[0:9] == "inventory" ):
             self.execute_inventory()
@@ -186,6 +189,47 @@ class CLI:
     
 
     
+    
+    def execute_map(self):
+        #print header
+        print "Level Map"
+        #get level and width
+        l = self.level
+        width = len(l.rooms[0])
+        #print tops of rooms
+        top = " "
+        for i in range(0, width):
+            top += "_ "
+        print top
+        #print all the rows
+        for i in l.rooms:
+            row = "|"
+            for j in i:
+                if( l.get_current_room() == j ):
+                    row += "i"
+                elif( j.creature == None ):
+                    row += " "
+                else:
+                    row += "x"
+                row += "|"
+            print row
+            sep = " "
+            for k in range(0, width):
+                sep += "- "
+            print sep
+        #print the bottom of the last row
+        bottom = " "
+        for i in range(0, width):
+            bottom += "- "
+        #print legend
+        print "Legend:"
+        print "x => creature"
+        print "i => you"
+
+
+
+
+
     def execute_switch_armor(self):
         if( self.params > len(self.player.armor) - 1 or self.params < 0 ):
             print "Armor does not exist, try again"
