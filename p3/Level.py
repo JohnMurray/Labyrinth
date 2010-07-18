@@ -28,7 +28,7 @@ class Level:
             self.rooms.append(list())
             for j in range(0, dimension):
                 #create a room
-                room = RoomFactory.generate()
+                room = Room_Factory.generate()
                 self.rooms[i].append(room)
         self.current = (0, 0)
 

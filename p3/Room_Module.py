@@ -19,7 +19,7 @@ class Room:
         self.item = item
         self.gold = gold
 
-class RoomFactory:
+class Room_Factory:
 
     #static definition to generate random descriptions
     def get_room_description():
@@ -41,18 +41,20 @@ class RoomFactory:
         return descrip[random.randrange(0, len(descrip))]
 
     def generate():
-        description = RoomFactory.get_room_description()
+        #description item and gold
+        description = Room_Factory.get_room_description()
         gold = random.randrange(101)
-        creature = CreatureFactory.generate()
-        item_choice = random.randrange(2) + 1
+        cf = Creature_Factory()
+        creature = cf.generate()
+        #generate items
         items = list()
-        if( item_choice == 1 ):
-            items.append( PotionFactory.generate() )
-        if( item_choice == 2 ):
-            items.append( SpellFactory.generate() )
-        items.append( WeaponFactory.generate() )
-        items.append( AromorFactory.append() )
-        return Room( description, creature, items, gold)
+        itf = Item_Factory()
+        items.append( itf.generate() )
+        wf = Weapon_Factory()
+        items.append( wf.generate() )
+        af = Armor_Factory()
+        items.append( af.append() )
+        return Room( description, creature, items, gold )
             
     
     generate = Static(generate)
