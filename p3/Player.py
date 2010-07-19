@@ -169,16 +169,18 @@ class Creature_Factory:
         #generate hp based on difficulty
         hp = random.randint(30,50) * diff
         genesis = Creature('Gen',hp)
+        genesis.weapon = list()
+        genesis.armor = list()
         wf = Weapon_Factory()
         af = Armor_Factory()
         if diff <= 3:
             genesis.add_armor(af.generate_low_quality())
-            genesis.add_weapon(wf.generate_low_quality())
+            genesis.add_weapon(wf.generate_by_quality(0))
         elif diff <= 8:
             genesis.add_armor(af.generate_medium_quality())
-            genesis.add_weapon(wf.generate())
+            genesis.add_weapon(wf.generate_by_quality(1))
         else:
             genesis.add_armor(af.generate_high_quality())
-            genesis.add_weapon(wf.generate_high_quality())
+            genesis.add_weapon(wf.generate_by_quality(2))
         
         return genesis

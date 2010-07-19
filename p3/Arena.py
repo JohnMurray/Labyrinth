@@ -26,8 +26,9 @@ class Arena:
         
         if damage < 0:
             damage = 0
-
-        victim.hp -= damage
+        
+        if result > 0:
+            victim.hp -= damage
 
         if attacker == self.player:
             if damage > 0:

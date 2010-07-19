@@ -38,27 +38,97 @@ class Weapon(Item):
         score = self.min_damage
         score += self.max_damage
         score += 3 * self.chance
-        score += 5 * self.speed
+        #score += 5 * self.speed
         return score
 
 class Sword_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, speed, name, description):
         Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
 
+    #In production could would have a database of attack descriptions
+    #choosing them at random based on result and damage (critical hits)
+    def output_result_first(self, result, damage=0):
+        if result >= 0:
+            print "You swing your %s," % self.name,
+            print "hitting for %s damage." % damage
+        else:
+            print "You swing your %s, but miss" % self.name
+
+    def output_result_third(self, result, damage=0):
+        if result >= 0:
+            print "swings a %s at you," % self.name,
+            print "hitting you for %s damage." % damage
+        else:
+            print "swings a %s at you, but misses." % self.name
 
 class Arrow_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, speed, name, description):
         Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
 
+    def output_result_first(self, result, damage=0):
+        aim = "You aim and fire your " + self.name + ","
+        if result>= 0:
+            print aim,
+            print "it hits the target for %s damage." % damage
+        else:
+            print aim,
+            print "but miss the target."
+
+    def output_result_third(self, result, damage=0):
+        aim = "aims and fires a " + self.name + " at you,"
+        if result >= 0:
+            print aim,
+            print "it hits you for %s damage." % damage
+        else:
+            print aim,
+            print "it flies wide."
 
 class Spear_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, speed, name, description):
         Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
 
+    def output_result_first(self, result, damage=0):
+        tmp = "You thrust your " + self.name + " at your foe,"
+        if result >= 0:
+            print tmp,
+            print "you hit your target for %s damage." % damage
+        else:
+            print tmp,
+            print "but miss."
+
+    def output_result_third(self, result, damage=0):
+        tmp = "thrusts a " + self.name + " at you,"
+        if result >= 0:
+            print tmp,
+            print "it hits you for %s damage" % damage
+        else:
+            print tmp,
+            print "but misses you."    
+        
+
 
 class Hammer_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, speed, name, description):
         Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
+
+
+    def output_result_first(self, result, damage=0):
+        tmp = "You swing your " + self.name + " at the enemy,"
+        if result >= 0:
+            print tmp,
+            print "bashing it for %s damage." % damage
+        else:
+            print tmp,
+            print "WHIFF!"
+
+    def output_result_third(self, result, damage=0):
+        tmp = "swings a " + self.name + " at you,"
+        if result >= 0:
+            print tmp,
+            print "slamming you for %s damage." % damage
+        else:
+            print tmp,
+            print "you dodge."
 
 class Weapon_Factory:
     def __init__(self):
@@ -67,37 +137,32 @@ class Weapon_Factory:
     #Returns a subclass of Weapon 
     def generate(self):
         #create an instance of the weapon with it's stats
-        #gen is a dictionary mapping integers to functions
-        gen = {
-                0: self.generate_sword(),
-                1: self.generate_arrow(),
-                2: self.generate_spear(),
-                3: self.generate_hammer(),
-              }
-        #randomly generate a type and call the correct method, return the result
-        return gen[self.select_weapon_type()]        
+        return self.generate_by_quality(random.randint(0,2))
 
-    #Generates a low quality item of random type
+    #Generates an item of random type of the quality level requested
+    #0 = Low Quality, 1 = Medium Quality, 2 = High Quality
     #Returns a subclass of Weapon
-    def generate_low_quality(self):
-        gen = {
-                0: self.generate_sword(0),
-                1: self.generate_arrow(0),
-                2: self.generate_spear(0),
-                3: self.generate_hammer(0),
+    def generate_by_quality(self, quality):
+        gen = { 
+                0: self.generate_sword(quality),
+                1: self.generate_arrow(quality),
+                2: self.generate_spear(quality),
+                3: self.generate_hammer(quality),
               }
         return gen[self.select_weapon_type()]
-   
-    #Generates a high quality item of random type
-    #Returns a subclass of Weapon
-    def generate_high_quality(self):
+
+    #Generates a weapon of the requested type and quality
+    #Type is 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer
+    #Quality is optional 0 = Low Quality, 1 = Medium Quality, 2 = High Quality
+    #Default is Medium Quality
+    def generate_by_type(self, type, quality=1):
         gen = {
-                0: self.generate_sword(2),
-                1: self.generate_arrow(2),
-                2: self.generate_spear(2),
-                3: self.generate_hammer(2),
+                0: self.generate_sword(quality),
+                1: self.generate_arrow(quality),
+                2: self.generate_spear(quality),
+                3: self.generate_hammer(quality),
               }
-        return gen[self.select_weapon_type()]
+        return gen[type]
 
     #Returns 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer
     def select_weapon_type(self):
@@ -144,28 +209,28 @@ class Weapon_Factory:
     #Quality parameter follows same format throughout
     def generate_hammer(self, quality = 1):
         dist = Distributed_Random()
-        abs_range = 40
-        min_range = 29
-        chance_range = 5
+        abs_range = 41
+        min_range = 30 
+        chance_range = 6
         chance_min = 0
         abs_min = 5
         min_min = 12
         #Vary stats for high/low quality
         #Hard coding for simplicity
         if quality == 0:
-            abs_range = 30
-            min_range = 21
-            chance_range = 3
+            abs_range = 31
+            min_range = 22
+            chance_range = 4
         elif quality == 2:
             abs_min = 10
             min_min = 20
             chance_min = 1
 
-        min_dam = dist.randint(12,40)
-        abs_dam = dist.randint(5,29)
+        min_dam = dist.randint(min_min,min_range)
+        abs_dam = dist.randint(abs_min,abs_range)
         max_dam = min_dam + abs_dam
-        speed = max_dam // 15
-        chance = dist.randint(0,6)
+        speed = (min_dam + max_dam) // 10
+        chance = dist.randint(chance_min,chance_range)
         name = self.generate_hammer_name(quality)
         return Hammer_Weapon(min_dam, max_dam, chance, speed, name, 'desc')
 
@@ -185,27 +250,27 @@ class Weapon_Factory:
     #Generates an Arrow object of variable quality
     def generate_arrow(self, quality = 1):
         dist = Distributed_Random()
-        abs_range = 35
-        min_range = 36
-        chance_range = 5
+        abs_range = 36
+        min_range = 37
+        chance_range = 6
         chance_min = 0
         abs_min = 5
         min_min = 10
         
         if quality == 0:
-            abs_range = 25
-            min_range = 24
-            chance_range = 3
+            abs_range = 26
+            min_range = 25
+            chance_range = 4
         elif quality == 2:
             abs_min = 10
             min_min = 20
             chance_min = 1
 
-        min_dam = dist.randint(10,36)
-        abs_dam = dist.randint(5,35)
+        min_dam = dist.randint(min_min,min_range)
+        abs_dam = dist.randint(abs_min, abs_range)
         max_dam = min_dam + abs_dam
-        speed = max_dam // 13
-        chance = dist.randint(0,6)
+        speed = (max_dam + min_dam) // 10
+        chance = dist.randint(chance_min, chance_range)
         return Arrow_Weapon(min_dam, max_dam, chance, speed, self.generate_arrow_name(quality), 'desc')
 
     #Generates a name for a spear of variable quality
@@ -223,27 +288,27 @@ class Weapon_Factory:
     #Generates a Spear object of variable quality
     def generate_spear(self, quality = 1):
         dist = Distributed_Random()
-        abs_range = 36
-        min_range = 24
-        chance_range = 7 
+        abs_range = 37
+        min_range = 25
+        chance_range = 8 
         chance_min = 0
         abs_min = 3
         min_min = 5 
         
         if quality == 0:
-            abs_range = 24
-            min_range = 12
-            chance_range = 5
+            abs_range = 25
+            min_range = 16
+            chance_range = 6
         elif quality== 2:
             abs_min = 9
             min_min = 11
             chance_min = 2
 
-        min_dam = dist.randint(min_min, min_range+1)
-        abs_dam = dist.randint(abs_min, abs_range+1)
+        min_dam = dist.randint(min_min, min_range)
+        abs_dam = dist.randint(abs_min, abs_range)
         max_dam = min_dam + abs_dam
-        speed = max_dam // 9
-        chance = dist.randint(chance_min, chance_range+1)
+        speed = (max_dam + min_dam) // 10
+        chance = dist.randint(chance_min, chance_range)
         return Spear_Weapon(min_dam, max_dam, chance, speed, self.generate_spear_name(quality), 'desc')
 
     #Generates a name for a sword of variable quality
@@ -251,34 +316,34 @@ class Weapon_Factory:
         names = [ "Shiv", "Knife", "Dagger", "Cleaver", "Short Sword", "Longsword", "Broadsword", "Rapier", "Epee", "Claymore", "Basterd Sword", "Greatsword" ]
         mat = self.get_material(quality)
         if quality == 0:
-            name = names[random.randint(0,4)]
+            name = names[random.randint(0,3)]
         elif quality == 1:
-            name = names[random.randint(5,8)]
+            name = names[random.randint(4,7)]
         else:
-            name = names[random.randint(9,12)]
+            name = names[random.randint(8,11)]
         return mat + ' ' + name
 
     def generate_sword(self, quality = 1):
         #generate sword with random stats and magical properties
         dist = Distributed_Random()
-        abs_range = 32
-        min_range = 20
-        chance_range = 7
+        abs_range = 33
+        min_range = 21
+        chance_range = 8
         chance_min = 0
         abs_min = 1
         min_min = 1
         if quality == 0:
-            abs_range = 20
-            min_range = 10
-            chance_range = 5
+            abs_range = 21
+            min_range = 11
+            chance_range = 6
         elif quality == 2:
             abs_min = 7
             min_min = 7
             chance_min = 2
             
-        min_dam = dist.randint(min_min, min_range + 1)
-        abs_dam = dist.randint(abs_min, abs_range + 1)
+        min_dam = dist.randint(min_min, min_range)
+        abs_dam = dist.randint(abs_min, abs_range)
         max_dam = min_dam + abs_dam
-        speed = max_dam // 7
-        chance = dist.randint(chance_min, chance_range + 1)
+        speed = (max_dam + min_dam) // 10
+        chance = dist.randint(chance_min, chance_range)
         return Sword_Weapon(min_dam, max_dam, chance, speed, self.generate_sword_name(quality), 'desc')
