@@ -3,10 +3,9 @@
 #Due: July 19th, 2010
 #File Arena.py
 
-import Player
 import random
 from Weapon_Module import Weapon
-from Item_Module import * 
+from Armor import Armor
 
 #Note - this class does all the cool stuff
 class Arena:
