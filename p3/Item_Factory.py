@@ -19,21 +19,42 @@ class Item_Factory:
     ##---------------------------------------------------------
 
     def generate(self):
-        item_type = random.randrange(1, 101)
+        item_type = random.randrange(100)
         #generate a spell
-        if( item_type < 51 ):
-            #get a random sell type
-            spell_type = radom.randrange(1, 101)
-            if( 
+        if( item_type < 50 ):
+            self.generate_spell()
         #generate a potion
         else:
-            #create a potion
+            self.generate_potion()
 
 
     def generate_potion(self):
+        spell_type = random.randrange(100)
+        if( spell_type < 20 ):
+            #create healing potion
+            name_descrip = self.get_random_potion_healing_description()
+        elif( spell_type < 40 ):
+            #create defense potion
+        elif( spell_type < 60 ):
+            #create offense potion
+        elif( spell_type < 80 ):
+            #create magic deffense potion
+        else:
+            #create magic offense potion
         
 
     def generate_spell(self):
+        #get a random sell type 
+        spell_type = radom.randrange(100)
+        if( spell_type < 33 ):
+            #create a attack spell
+            
+        elif( spell_type < 66 ):
+            #create a defense spell
+            
+        else:
+            #create a stun spell
+            
         
 
 
@@ -42,12 +63,40 @@ class Item_Factory:
     ##---------------------------------------------------------
 
     def generate_rare(self):
+        item_type = random.randrange(100)
+        #generate a spell
+        if( item_type < 50 ):
+            self.generate_spell()
+        #generate a potion
+        else:
+            self.generate_potion()
         
 
     def generate_rare_potion(self):
+        spell_type = random.randrange(100)
+        if( spell_type < 20 ):
+            #create healing potion
+        elif( spell_type < 40 ):
+            #create defense potion
+        elif( spell_type < 60 ):
+            #create offense potion
+        elif( spell_type < 80 ):
+            #create magic deffense potion
+        else:
+            #create magic offense potion
         
 
-    def generat_rare_spell(self):
+    def generate_rare_spell(self):
+        #get a random sell type 
+        spell_type = radom.randrange(100)
+        if( spell_type < 33 ):
+            #create a attack spell
+            
+        elif( spell_type < 66 ):
+            #create a defense spell
+            
+        else:
+            #create a stun spell
         
 
     ##---------------------------------------------------------
