@@ -1,4 +1,7 @@
-from Player import *
+from Player import Adventurer
+from Creature_Factory import * 
+from Proc import *
+from Arena import Arena
 
 class Test:
     def __init__(self):
@@ -7,7 +10,7 @@ class Test:
         self.cf = Creature_Factory()
         self.af = Armor_Factory()
         self.player.add_weapon(self.wf.generate_by_quality(2))
-        self.player.primary_weapon().proc.append(Stun_Proc(50,3))
+        self.player.primary_weapon().proc.append(Leech_Proc(50,20))
         self.player.add_armor(self.af.generate_high_quality())
         self.gen = self.cf.generate_difficulty(10)
         self.arena = Arena(self.player, self.gen)
@@ -35,6 +38,7 @@ class Test:
         self.player.weapon = list()
         self.player.armor = list()
         self.player.add_weapon(self.wf.generate_by_quality(2))
+        self.player.primary_weapon().proc.append(Stun_Proc(50,3))
         self.player.add_armor(self.af.generate_high_quality())
         self.gen = self.cf.generate_difficulty(10)
         self.arena = Arena(self.player, self.gen)

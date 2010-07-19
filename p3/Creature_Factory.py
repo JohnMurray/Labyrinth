@@ -2,9 +2,10 @@
 #Project: CSC 407 - Program 3
 #File: Creature_Factory.py
 
-from Armor import Armor_Factory
-from Weapon_Module import Weapon_Factory
+from Armor_Factory import Armor_Factory
+from Weapon_Factory import Weapon_Factory
 from Player import Creature
+import random
 
 class Creature_Factory:
     def __init__(self):

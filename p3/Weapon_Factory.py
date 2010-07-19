@@ -5,6 +5,7 @@
 
 import random
 from Distributed_Random import Distributed_Random
+from Weapon_Module import *
 
 #Generates Weapons
 class Weapon_Factory:

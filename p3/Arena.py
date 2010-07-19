@@ -6,6 +6,7 @@
 import random
 from Weapon_Module import Weapon
 from Armor import Armor
+from Item_Module import *
 
 #Note - this class does all the cool stuff
 class Arena:
