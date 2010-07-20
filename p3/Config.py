@@ -34,3 +34,50 @@ arrow["abs_range"] = ( 26, 36, 36, )
 arrow["min_range"] = ( 25, 35, 35, ) 
 arrow["chance_range"] = ( 3, 6, 6, ) 
 weapon["arrow"] = arrow
+
+item = {
+    'spell': {
+        'attack': {
+            'common': (1, 3, 1, 3),
+            'normal': (2, 4, 2, 4),
+            'rare': (),
+        },
+        'defense': {
+            'common': (),
+            'normal': (),
+            'rare': (),
+        },
+        'stun': {
+            'common': (1, 3, 1, 3),
+            'normal': (2, 4, 2, 4),
+            'rare': (4, 6, 4, 6),
+        },
+    },
+    'potion': {
+        'healing': {
+            'common': (),
+            'normal': (),
+            'rare': (),
+        },
+        'defense': {
+            'common': (),
+            'normal': (),
+            'rare': (),
+        },
+        'offense': {
+            'common': (),
+            'normal': (),
+            'rare': (),
+        },
+        'magic_defense': {
+            'common': (),
+            'normal': (),
+            'rare': (),
+        },
+        'magic_offense': {
+            'common': (),
+            'normal': (),
+            'rare': (),
+        },
+    },
+}

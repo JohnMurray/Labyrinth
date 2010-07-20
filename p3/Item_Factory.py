@@ -6,6 +6,7 @@
 
 from Item_Module import *
 import random
+import Config
 
 class Item_Factory:
 
@@ -128,7 +129,8 @@ class Item_Factory:
     def generate_spell_stun(self, rarity):
         nd = self.get_random_spell_stun_description(rarity)
         return (
-            Stun_Spell(nd[0], nd[1], random.randrange(2) + 1, random.randrange(2) + 1),
+            Stun_Spell(nd[0], nd[1], random.randrange(Config.item['spell']['stun'][0], Config.item['spell']['stun'][1]), 
+                random.randrange(Config.item['spell']['stun'][2], Config.item['spell']['stun'][3])),
             Stun_Spell(nd[0], nd[1], random.randrange(2,4), random.randrange(2,4)),
             Stun_Spell(nd[0], nd[1], random.randrange(4,6), random.randrange(4,6)),
         )[rarity - 1]
