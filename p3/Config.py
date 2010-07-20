@@ -38,9 +38,9 @@ weapon["arrow"] = arrow
 item = {
     'spell': {
         'attack': {
-            'common': (1, 3, 1, 3),
-            'normal': (2, 4, 2, 4),
-            'rare': (),
+            'common': (1, 3, 1, 3, 1, 3),
+            'normal': (2, 4, 2, 4, 2, 4),
+            'rare': (4, 6, 4, 6, 4, 6),
         },
         'defense': {
             'common': (1, 3, 1, 3, 1, 3),
@@ -54,7 +54,7 @@ item = {
         },
     },
     'potion': {
-        'magic_ofense': {
+        'magic_offense': {
             'common': (1, 3, 1, 3),
             'normal': (1, 5, 3, 6),
             'rare': (3, 7, 4, 8),
@@ -65,7 +65,7 @@ item = {
             'rare': (4, 6, 3, 7),
         },
         'healing': {
-            'common': (, 20, 30),
+            'common': (20, 30),
             'normal': (80, 100),
             'rare': (160, 200),
         },
