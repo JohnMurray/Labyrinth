@@ -22,6 +22,9 @@ class Room:
 
 class Room_Factory:
 
+    def __init__(self):
+        self
+
     #static definition to generate random descriptions
     def get_room_description():
         descrip = [
@@ -43,7 +46,7 @@ class Room_Factory:
 
     def generate():
         #description item and gold
-        description = Room_Factory.get_room_description()
+        description = self.get_room_description()
         gold = random.randrange(101)
         #generate creature
         chance = random.randrange(1000)
@@ -62,6 +65,4 @@ class Room_Factory:
         items.append( af.generate() )
         return Room( description, creature, items, gold )
             
-    
-    generate = Static(generate)
-    get_room_description = Static(get_room_description)
+     
