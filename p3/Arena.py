@@ -117,7 +117,7 @@ class Arena:
         while (p_attacks > 0 or c_attacks > 0) and (self.player.hp > 0 and self.creature.hp >0):
             if self.player.is_stunned():
                 #creature gets a freebie
-                if c_attacks > 0 and c.hp > 0:
+                if c_attacks > 0 and self.creature.hp > 0:
                     self.round(self.creature, self.player)
                     self.update_effects()
             else:

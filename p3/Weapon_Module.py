@@ -69,6 +69,9 @@ class Weapon(Item):
         speed = 21 - (self.abs_damage // 10)
         return speed
 
+    def add_proc(self, proc):
+        self.proc.append(proc)
+
 class Sword_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, name, description):
         Weapon.__init__(self, min_damage, max_damage, chance, name, description)

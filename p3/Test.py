@@ -59,6 +59,6 @@ class Test:
         self.player.add_weapon(self.wf.generate_by_quality(2))
         self.player.add_armor(self.af.generate_by_quality(2))
         self.gen = self.cf.generate_difficulty(diff)
-        self.player.primary_weapon().proc.append(Stun_Proc(50,3))
+        #self.player.primary_weapon().proc.append(Poison_Proc(50,1,10))
         #self.gen.add_effect(DOT_Effect(3,200))
         self.arena = Arena(self.player, self.gen)

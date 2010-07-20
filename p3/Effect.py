@@ -38,7 +38,6 @@ class DOT_Effect(Effect):
         self.damage = damage
 
     def apply(self, owner):
-        print "DOT APPLIED"
         owner.hp -= self.damage
 
 #Defense effect of variable duration and strength (bonus)

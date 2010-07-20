@@ -13,7 +13,8 @@ import math
 #Procs are classified as Armor_Proc and Weapon_Proc
 class Proc:
     def __init__(self):
-        self
+        self.prefix = ""
+        self.suffix = ""
 
 #Armor_Proc's happen on defense_post and have various effects
 #Typically require a hit and a chance of firing
@@ -43,6 +44,8 @@ class Thorn_Proc(Armor_Proc):
         Armor_Proc.__init__(self)
         self.chance = chance
         self.damage = damage
+        self.prefix = "Thorny"
+        self.suffix = "of Thorns"
 
     #Remove thorn damage hp from attacker
     def defense_post(self, attacker, defender, result):
@@ -60,10 +63,12 @@ class Leech_Proc(Weapon_Proc):
         Weapon_Proc.__init__(self)
         self.chance = chance
         self.percent = percent
+        self.prefix = "Vampiric"
+        self.suffix = "of draining"
 
     def attack_post(self, attacker, defender, result, damage):
         if result >= 0 and random.randint(1,100) < self.chance:
-            attacker.heal(math.floor(self.percent * damage / 100))
+            attacker.heal(int(math.floor(self.percent * damage / 100)))
 
 #Poison_Proc poisons the defender 
 class Poison_Proc(Weapon_Proc):
@@ -72,10 +77,11 @@ class Poison_Proc(Weapon_Proc):
         self.chance = chance
         self.duration = duration
         self.damage = damage
+        self.prefix = "Putrid"
+        self.suffix = "of decay"
 
     def attack_post(self, attacker, defender, result, damage):
         if result >= 0 and random.randint(1,100) <= self.chance:
-            print defender
             defender.add_effect(DOT_Effect(self.duration,self.damage))    
             if isinstance(attacker, Adventurer):
                 print "Your %s oozes venom on" % attacker.current_attack().name,
@@ -91,6 +97,8 @@ class Stun_Proc(Weapon_Proc):
         Weapon_Proc.__init__(self)
         self.chance = chance
         self.duration = duration
+        self.prefix = "Dazzling"
+        self.suffix = "of victory"
 
     def attack_post(self, attacker, defender, result, damage):
         if defender.is_stunned():
