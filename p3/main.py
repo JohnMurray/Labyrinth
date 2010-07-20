@@ -13,12 +13,16 @@ from CLI_Interface import *
 from Weapon_Module import *
 from Item_Module import *
 from Armor import *
-
+from Armor_Factory import *
+from Weapon_Factory import *
+from Item_Factory import *
 
 #define main's global variables
 level = None
 game_name = "adventure game"
-
+character_name = ""
+items = Item_Factory()
+wf = Weapon_Factory()
 
 def print_initial_instructions():
     
@@ -98,12 +102,143 @@ def get_user_settings():
 def victorious(level):
     return level.defeated_all_creatures()
 
+def print_class_information():
+    print "Warrior:"
+    print "     Warriors excel at melee combat, if you don't know what",
+    print "excel means this is the class for you"
+    print "     Warriors receive a + 1 to Strength and Stamina"
+    print "     Warriors receive a - 1 to Intelligence and Agility"
+    print ""
+    print "Rogue:"
+    print "     Rogues rely on wit and fleetness of foot to survive",
+    print "the perils of the labyrinth"
+    print "     Rogues receive a + 1 to Agility and Dexterity"
+    print "     Rogues receive a - 1 to Strength and Stamina"
+    print ""
+    print "Mage:"
+    print "     Mages are ineffective fighters, but they have access",
+    print "to powerful arts of mystic origin."
+    print "     Should they live long enough to use them..."
+    print "     Mages receive a + 2 to Intelligence"
+    print "     Mages receive a - 1 to Strength and Dexterity"
 
+def calc_starting_hp(stamina):
+    return 15 + random.randint(stamina^2, stamina*10)   
 
+def equip_potion(player):
+    player.potion = list()
+    player.add_potion(items.generate_potion_healing(1))
+    player.add_potion(items.generate_potion_healing(1))
+    return player
 
+def equip_mage(player):
+    player.add_spell(items.generate_spell_attack(2))
+    player.add_spell(items.generate_spell_attack(2))
+    player.add_spell(items.generate_spell(2))
+    player.add_spell(items.generate_spell(2))
+    player.add_spell(items.generate_spell(1))
+    player.add_spell(items.generate_spell(1))
+    player.add_spell(items.generate_spell(1))
+    player.add_spell(items.generate_spell(1))
+    wpn = wf.generate_by_quality(0)
+    while wpn.required_strength > player.strength:
+        wpn = wf.generate_by_quality(0)
+    return player
 
+def equip_rogue(player):
+    return player
 
+def equip_warrior(player):
+    return player
 
+def clear_equipment(player):
+    player.weapon = list()
+    player.armor = list()
+    player.potion = list()
+    player.spell = list()
+
+def create_character():
+    valid_input = False
+    while( not valid_input ):
+        print "" 
+        print "Select a class:"
+        print "[1] Warrior"
+        print "[2] Rogue"
+        print "[3] Mage"
+        print "{i} More information"
+        #Shamelessly pasted code, the variable's name is stupid
+        isint = True
+        difficulty = raw_input(": ")
+        try:
+            int_input = int(difficulty)
+        except:
+            isint = False
+
+        if isint and int_input > 0 and int_input < 4:
+            valid_input = True
+        elif difficulty == "i" or difficulty == "I":
+            print_class_information()
+        else:
+            print "Not valid input. Try again."
+
+    char = int_input 
+    valid_input = False
+    cf = Creature_Factory()
+    player = Adventurer(character_name,0)
+    roll = True 
+    while not valid_input:
+        print "" 
+        print character_name
+        if roll:
+            player = cf.generate_player_stats(player)
+            if char == 1:
+                player.strength += 1
+                player.stamina += 1
+                if player.intel > 1:
+                    player.intel -= 1
+                if player.agility > 1:
+                    player.agility -= 1
+            elif char == 2:
+                player.agility += 1
+                player.dexterity += 1
+                if player.strength > 1:
+                    player.strength -= 1
+                if player.stamina > 1:
+                    player.stamina -= 1
+            else:
+                player.intel += 2
+                if player.strength > 1:
+                    player.strength -= 1
+                if player.dexterity > 1:
+                    player.dexterity -= 1
+
+        print "Strength: %s" % player.strength
+        print "Stamina: %s" % player.stamina
+        print "Agility: %s" % player.agility
+        print "Dexterity: %s" % player.dexterity
+        print "Intelligence: %s" % player.intel
+        player.max_hp = calc_starting_hp(player.stamina)
+        print "Starting HP: %s" % player.max_hp
+        print "Would you like to keep this character?"
+        print "[Y]es to keep, or [N]o to roll again"
+        response = raw_input(": ")
+        roll = False
+        try:
+            if response == "Y" or response == "y":
+                valid_input = True
+            elif response == "N" or response == "n":
+                print ""
+                print "Rolling again..."
+                roll = True
+        except:
+            print "Really? There's only two options."
+        
+        if char == 1:
+            player = equip_warrior(player)
+        elif char == 2:
+            player = equip_rogue(player)
+        else:
+            player = equip_mage(player)
 
 
 ##---------------------------------------------------------
@@ -127,7 +262,7 @@ dimension = {
 }[settings['level_size']]
 level = Level(dimension)
 
-
+create_character()
 #BRAD - do what you want here to build the plaer object, I'm just going to 
 #       assume that from here on out, he/she exists.
 #Note:  you might want to edit the `get_user_settings` def above to get any

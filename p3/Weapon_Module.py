@@ -13,6 +13,8 @@ class Weapon(Item):
         Item.__init__(self, name, description) 
         self.min_damage = min_damage
         self.max_damage = max_damage
+        self.abs_damage = min_damage + max_damage * 2
+
         if chance > 20:
             self.chance = 20
         else:
@@ -20,6 +22,7 @@ class Weapon(Item):
 
         self.speed = self.calc_speed() 
         self.required_strength = self.calc_required_strength()
+        self.required_agility = self.calc_required_agility()
         self.score = self.score()
         self.proc = list()
         return
@@ -54,17 +57,16 @@ class Weapon(Item):
         return score
 
     def calc_required_strength(self):
-        abs_damage = self.min_damage + self.max_damage * 2
-        return abs_damage // 15
+        return self.abs_damage // 18 
+
+    def calc_required_agility(self):
+        req = self.chance - 4
+        if req < 0:
+            req = 0
+        return req
 
     def calc_speed(self):
-        abs_damage = self.min_damage + self.max_damage * 2
-        speed = 21 - (abs_damage // 10)
-        if isinstance(self, Hammer_Weapon):
-            speed -= 7
-        if isinstance(self, Arrow_Weapon):
-            speed -= 3
-
+        speed = 21 - (self.abs_damage // 10)
         return speed
 
 class Sword_Weapon(Weapon):
@@ -116,6 +118,17 @@ class Arrow_Weapon(Weapon):
         else:
             print aim,
             print "it flies wide."
+
+    def calc_required_agility(self):
+        abs_damage = self.min_damage + self.max_damage * 2
+        return abs_damage // 18 
+
+    def calc_required_strength(self):
+        return self.calc_required_agility() // 2
+
+    def calc_speed(self):
+        speed = 18 - self.abs_damage // 10
+        return speed
 
 class Spear_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, name, description):
@@ -172,3 +185,11 @@ class Hammer_Weapon(Weapon):
             print tmp,
             print "you dodge."
 
+    def calc_speed(self):
+        speed = 14 - self.abs_damage // 10
+        return speed
+
+#Probably not how I would implement wands ideally. Quicky and dirty, right?
+class Wand_Weapon(Weapon):
+    def __init__(self, min_damage, max_damage, chance, name, description):
+        Weapon.__init__(self, min_damage, max_damage, chance, name, description)

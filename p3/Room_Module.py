@@ -26,7 +26,7 @@ class Room_Factory:
         self
 
     #static definition to generate random descriptions
-    def get_room_description():
+    def get_room_description(self):
         descrip = [
             'room 1',
             'room 2',
@@ -44,7 +44,7 @@ class Room_Factory:
         
         return descrip[random.randrange(0, len(descrip))]
 
-    def generate():
+    def generate(self):
         #description item and gold
         description = self.get_room_description()
         gold = random.randrange(101)

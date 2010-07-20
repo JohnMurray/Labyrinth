@@ -1,6 +1,7 @@
 from Player import Adventurer
 from Creature_Factory import * 
 from Proc import *
+from Item_Module import Healing_Potion
 from Arena import Arena
 from Distributed_Random import Distributed_Random
 
@@ -34,19 +35,21 @@ class Test:
 
     def temp(self):
         high = 0
-        cnt = 1000
-        #dist = Distributed_Random()
-        while cnt > 0:
-            dr = self.af.generate_low_quality().damage_reduction
-            #dr = dist.randint(0,3)
-            if dr > high:
-                high = dr
-            cnt -= 1
-        return high
+        cnt = 0
+        wpn = None
+        while cnt < 1000:
+            w = self.wf.generate_by_quality(2)
+            if w.required_strength > high:
+                high = w.required_strength
+                wpn = w
+            cnt += 1
+        print high
+        return wpn
 
     def reset(self, diff):
         #self.player.add_weapon(self.wf.generate_by_quality(2))
-        #self.player.primary_weapon().proc.append(Stun_Proc(50,3))
         self.player = self.cf.generate_difficulty(diff)
         self.gen = self.cf.generate_difficulty(diff)
+        self.player.primary_weapon().proc.append(Poison_Proc(100,5,200))
+        #self.gen.add_effect(DOT_Effect(3,200))
         self.arena = Arena(self.player, self.gen)

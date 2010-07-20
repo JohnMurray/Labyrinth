@@ -162,6 +162,9 @@ class Player:
         return self.primary_armor().required_strength
 
     def calc_num_attacks(self):
+        a = self.current_attack()
+        if isinstance(a, Spell) or isinstance(a, Potion):
+            return 1
         num = self.dexterity
         num += self.agility
         num -= self.encum()
@@ -190,4 +193,3 @@ class Creature(Player):
 class Adventurer(Player):
     def __init__(self, name, hp):
         Player.__init__(self, name, hp,None,None)
-
