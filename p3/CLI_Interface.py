@@ -439,7 +439,7 @@ class CLI:
     
     
     
-    def execut_help(self):
+    def execute_help(self):
         for tag, (turn_based, params, description, junk) in self.commands.items():
             print tag
         print ""

@@ -4,6 +4,7 @@ from Proc import *
 from Item_Module import Healing_Potion
 from Arena import Arena
 from Distributed_Random import Distributed_Random
+import random
 
 class Test:
     def __init__(self):
@@ -34,22 +35,30 @@ class Test:
             print "Player LOSS"
 
     def temp(self):
-        high = 0
+        wpn = self.wf.generate_by_type(random.randint(0,3),random.randint(0,2))
+        agi_high = 0
+        agi_low = 10
+        str_high = 0
+        str_low = 10
         cnt = 0
-        wpn = None
         while cnt < 1000:
-            w = self.wf.generate_by_quality(2)
-            if w.required_strength > high:
-                high = w.required_strength
-                wpn = w
+            if wpn.required_agility > agi_high:
+                agi_high = wpn.required_agility
+            if wpn.required_agility < agi_low:
+                agi_low = wpn.required_agility
+            if wpn.required_strength > str_high:
+                str_high = wpn.required_strength
+            if wpn.required_strength < str_low:
+                str_low = wpn.required_strength
+            wpn = self.wf.generate_by_type(random.randint(0,3), random.randint(0,2))
             cnt += 1
-        print high
-        return wpn
+        print agi_low, agi_high, str_low, str_high
 
     def reset(self, diff):
-        #self.player.add_weapon(self.wf.generate_by_quality(2))
-        self.player = self.cf.generate_difficulty(diff)
+        self.player = Adventurer("Valna",300)
+        self.player.add_weapon(self.wf.generate_by_quality(2))
+        self.player.add_armor(self.af.generate_by_quality(2))
         self.gen = self.cf.generate_difficulty(diff)
-        self.player.primary_weapon().proc.append(Poison_Proc(100,5,200))
+        self.player.primary_weapon().proc.append(Stun_Proc(50,3))
         #self.gen.add_effect(DOT_Effect(3,200))
         self.arena = Arena(self.player, self.gen)

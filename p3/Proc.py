@@ -93,6 +93,8 @@ class Stun_Proc(Weapon_Proc):
         self.duration = duration
 
     def attack_post(self, attacker, defender, result, damage):
+        if defender.is_stunned():
+            return
         if result >= 0 and random.randint(1,100) <= self.chance:
             defender.add_effect(Stun_Effect(self.duration))
             if isinstance(attacker, Adventurer):

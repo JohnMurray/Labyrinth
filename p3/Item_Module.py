@@ -23,6 +23,9 @@ class Item(Item_Interface):
     def output_result_third(self, result):
         print "hits you with an abstract base class for %s damage, ouch" % result
 
+    def __str__(self):
+        return self.description
+
 class Potion(Item):
     def __init__(self, name, description):
         Item.__init__(self, name, description)

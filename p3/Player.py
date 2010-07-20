@@ -5,6 +5,8 @@
 
 import Static
 from Weapon_Module import Weapon
+from Item_Module import Spell
+from Item_Module import Potion 
 from Armor import Armor
 from Effect import *
 import random
@@ -140,11 +142,20 @@ class Player:
         x += self.defense_bonus()
         if d > 0:
             x += d
+        if self.is_stunned():
+            x -= 3
+        if x < 0:
+            x = 0
         return x
 
 
     def calc_DS_Magic(self):
-        return self.intel + self.defense_bonus_magic()
+        x = self.intel + self.defense_bonus_magic()
+        if self.is_stunned():
+            x -= 3
+        if x < 0:
+            x = 0
+        return x
 
     def calc_OS_Physical(self):
         x = self.primary_weapon().chance

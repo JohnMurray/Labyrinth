@@ -57,5 +57,5 @@ class Creature_Factory:
         return gen
 
     def generate_player_stats(self, player):
-        return self.generate_stats(10, player)
+        return self.generate_stats(5, player)
 
