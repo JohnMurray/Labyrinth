@@ -11,7 +11,8 @@ import Config
 class Item_Factory:
 
     def __init__(self):
-        self
+        self.spell = Config.item['spell']
+        self.potion = Config.item['potion']
 
 
     ##---------------------------------------------------------
@@ -58,9 +59,12 @@ class Item_Factory:
     def generate_potion_magic_offense(self, rarity):
         nd = self.get_random_potion_magic_offense_description(rarity)
         return (
-            Magic_Offense_Potion(nd[0], nd[1], random.randrange(1,3), random.randrange(1,3) ),
-            Magic_Offense_Potion(nd[0], nd[1], random.randrange(1,5), random.randrange(3,6) ),
-            Magic_Offense_Potion(nd[0], nd[1], random.randrange(3,7), random.randrange(4,8) ),
+            Magic_Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_offense']['common'][0],self.potion['magic_offense']['common'][1]), 
+                random.randrange(self.potion['magic_offense']['common'][2],self.potion['magic_offense']['common'][3]) ),
+            Magic_Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_offense']['normal'][0],self.potion['magic_offense']['normal'][1]), 
+                random.randrange(self.potion['magic_offense']['normal'][2],self.potion['magic_offense']['normal'][3]) ),
+            Magic_Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_offense']['rare'][0],self.potion['magic_offense']['rare'][1]), 
+                random.randrange(self.potion['magic_offense']['rare'][2],self.potion['magic_offense']['rare'][3]) ),
         )[rarity - 1]
 
 
@@ -68,18 +72,24 @@ class Item_Factory:
     def generate_potion_magic_defense(self, rarity):
         nd = self.get_random_potion_magic_defense_description(rarity)
         return (
-            Magic_Offense_Potion(nd[0], nd[1], random.randrange(2)+1, random.randrange(2)+1 ),
-            Magic_Offense_Potion(nd[0], nd[1], random.randrange(3,5), random.randrange(2,5) ),
-            Magic_Offense_Potion(nd[0], nd[1], random.randrange(4,6), random.randrange(3,7) ),
+            Magic_Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_defense']['common'][0], self.potion['magic_defense']['common'][1]), 
+                random.randrange(self.potion['magic_defense']['common'][2], self.potion['magic_defense']['common'][3]) ),
+            Magic_Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_defense']['normal'][0],self.potion['magic_defense']['normal'][1]), 
+                random.randrange(self.potion['magic_defense']['normal'][2],self.potion['magic_defense']['normal'][3]) ),
+            Magic_Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_defense']['rare'][0],self.potion['magic_defense']['rare'][1]), 
+                random.randrange(self.potion['magic_defense']['rare'][2],self.potion['magic_defense']['rare'][3]) ),
         )[rarity - 1]
 
     
     def generate_potion_offense(self, rarity):
         nd = self.get_random_potion_offense_description(rarity)
         return (
-            Offense_Potion(nd[0], nd[1], random.randrange(2) + 1, random.randrange(2, 5) ),
-            Offense_Potion(nd[0], nd[1], random.randrange(4) + 1, random.randrange(3, 6) ),
-            Offense_Potion(nd[0], nd[1], random.randrange(3, 7), random.randrange(5, 11) ),
+            Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_offense']['common'][0], self.potion['magic_offense']['common'][1]), 
+                random.randrange(self.potion['magic_offense']['common'][2], self.potion['magic_offense']['common'][3]) ),
+            Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_offense']['rare'][0], self.potion['magic_offense']['rare'][1]), 
+                random.randrange(self.potion['magic_offense']['rare'][2], self.potion['magic_offense']['rare'][3]) ),
+            Offense_Potion(nd[0], nd[1], random.randrange(self.potion['magic_offense']['rare'][0], self.potion['magic_offense']['rare'][1]), 
+                random.randrange(self.potion['magic_offense']['rare'][2], self.potion['magic_offense']['rare'][3]) ),
         )[rarity - 1]
         
 
@@ -88,28 +98,31 @@ class Item_Factory:
         if( rarity == 1 ):
             #weak potion
             nd = self.get_random_potion_healing_description_light()
-            return Healing_Potion(nd[0], nd[1], 20, 30)
+            return Healing_Potion(nd[0], nd[1], self.potion['healing']['common'][0], self.potion['healing']['common'][1])
         elif( rarity == 2):
             #medium potion
             nd = self.get_random_potion_healing_description_medium()
-            return Healing_Potion(nd[0], nd[1], 80, 100)
+            return Healing_Potion(nd[0], nd[1], self.potion['healing']['normal'][0], self.potion['healing']['normal'][1])
         else:
             #rare potion
             nd = self.get_random_potion_healing_description_heavy()
-            return Healing_Potion(nd[0], nd[1], 160, 200)
+            return Healing_Potion(nd[0], nd[1], self.potion['healing']['rare'][0], self.potion['healing']['rare'][1])
 
 
     def generate_potion_defense(self, rarity):
         nd = self.get_random_potion_defense_description(rarity)
         if( rarity == 1 ):
             #weak potion
-            return Defense_Potion(nd[0], nd[1], random.randrange(2)+1, random.randrange(2)+1) 
+            return Defense_Potion(nd[0], nd[1], random.randrange(self.potion['defense']['common'][0], self.potion['defense']['common'][1]), 
+                random.randrange(self.potion['defense']['common'][2], self.potion['defense']['common'][3])) 
         if( rarity == 2 ):
             #medium potion
-            return Defense_Potion(nd[0], nd[1], random.randrange(4)+1, random.randrange(3,5))
+            return Defense_Potion(nd[0], nd[1], random.randrange(self.potion['defense']['nromal'][0], self.potion['defense']['normal'][1]), 
+                random.randrange(self.potion['defense']['normal'][2],self.potion['defense']['normal'][3]))
         else:
             #rare potion
-            return Defense_Potion(nd[0], nd[1], random.randrange(3,7), random.randrange(4,6))
+            return Defense_Potion(nd[0], nd[1], random.randrange(self.potion['defense']['rare'][0],self.potion['defense']['rare'][1]), 
+                random.randrange(self.potion['defense']['rare'][2],self.potion['defense']['rare'][3]))
         
 
     #rarity = {1: weak, 2: medium, 3: rare}
@@ -129,25 +142,39 @@ class Item_Factory:
     def generate_spell_stun(self, rarity):
         nd = self.get_random_spell_stun_description(rarity)
         return (
-            Stun_Spell(nd[0], nd[1], random.randrange(Config.item['spell']['stun'][0], Config.item['spell']['stun'][1]), 
-                random.randrange(Config.item['spell']['stun'][2], Config.item['spell']['stun'][3])),
-            Stun_Spell(nd[0], nd[1], random.randrange(2,4), random.randrange(2,4)),
-            Stun_Spell(nd[0], nd[1], random.randrange(4,6), random.randrange(4,6)),
+            Stun_Spell(nd[0], nd[1], random.randrange(self.spell['stun']['common'][0], self.spell['stun']['common'][1]), 
+                random.randrange(self.spell['stun']['common'][2], self.spell['stun']['common'][3])),
+            Stun_Spell(nd[0], nd[1], random.randrange(self.spell['stun']['normal'][0],self.spell['stun']['normal'][1]), 
+                random.randrange(self.spell['stun']['normal'][2],self.spell['stun']['normal'][3])),
+            Stun_Spell(nd[0], nd[1], random.randrange(self.spell['stun']['rare'][0],self.spell['stun']['rare'][1]), 
+                random.randrange(self.spell['stun']['rare'][2],self.spell['stun']['rare'][3])),
         )[rarity - 1]
     def generate_spell_defense(self, rarity):
         nd = self.get_random_spell_defense_description(rarity)
         return (
-            Defense_Spell(nd[0], nd[1], random.randrange(2) + 1, random.randrange(2) + 1, random.randrange(2) + 1),
-            Defense_Spell(nd[0], nd[1], random.randrange(2,4), random.randrange(2,4), random.randrange(2,4)),
-            Defense_Spell(nd[0], nd[1], random.randrange(4,6), random.randrange(4,6), random.randrange(4,6)),
+            Defense_Spell(nd[0], nd[1], random.randrange(self.spell['defense']['common'][0], self.spell['defense']['common'][1]), 
+                random.randrange(self.spell['defense']['common'][2], self.spell['defense']['common'][3]), 
+                random.randrange(self.spell['defense']['common'][4], self.spell['defense']['common'][5])),
+            Defense_Spell(nd[0], nd[1], random.randrange(self.spell['defense']['normal'][0],self.spell['defense']['normal'][1]), 
+                random.randrange(self.spell['defense']['normal'][2],self.spell['defense']['normal'][3]), 
+                random.randrange(self.spell['defense']['normal'][4],self.spell['defense']['normal'][5])),
+            Defense_Spell(nd[0], nd[1], random.randrange(self.spell['defense']['rare'][0],self.spell['defense']['rare'][1]), 
+                random.randrange(self.spell['defense']['rare'][2],self.spell['defense']['rare'][3]), 
+                random.randrange(self.spell['defense']['rare'][4],self.spell['defense']['rare'][5])),
         )[rarity - 1]
         
     def generate_spell_attack(self, rarity):
         nd = self.get_random_spell_attack_description(rarity)
         return (
-            Attack_Spell(nd[0], nd[1], random.randrange(2) + 1, random.randrange(2) + 1, random.randrange(2,4)),
-            Attack_Spell(nd[0], nd[1], random.randrange(2,4), random.randrange(2,4), random.randrange(3,5)),
-            Attack_Spell(nd[0], nd[1], random.randrange(4,6), random.randrange(4,6), random.randrange(5,7)),
+            Attack_Spell(nd[0], nd[1], random.randrange(self.spell['attack']['common'][0], self.spell['attack']['common'][1]), 
+                random.randrange(self.spell['attack']['common'][2], self.spell['attack']['common'][3]), 
+                random.randrange(self.spell['attack']['common'][4],self.spell['attack']['common'][5])),
+            Attack_Spell(nd[0], nd[1], random.randrange(self.spell['attack']['normal'][0],self.spell['attack']['normal'][1]), 
+                random.randrange(self.spell['attack']['normal'][2],self.spell['attack']['normal'][3]), 
+                random.randrange(self.spell['attack']['normal'][4],self.spell['attack']['normal'][5])),
+            Attack_Spell(nd[0], nd[1], random.randrange(self.spell['attack']['rare'][0],self.spell['attack']['rare'][1]), 
+                random.randrange(self.spell['attack']['rare'][2],self.spell['attack']['rare'][3]), 
+                random.randrange(self.spell['attack']['rare'][4],self.spell['attack']['rare'][5])),
         )[rarity - 1]
 
 
