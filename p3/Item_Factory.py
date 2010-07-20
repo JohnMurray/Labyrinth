@@ -117,7 +117,7 @@ class Item_Factory:
                 random.randrange(self.potion['defense']['common'][2], self.potion['defense']['common'][3])) 
         if( rarity == 2 ):
             #medium potion
-            return Defense_Potion(nd[0], nd[1], random.randrange(self.potion['defense']['nromal'][0], self.potion['defense']['normal'][1]), 
+            return Defense_Potion(nd[0], nd[1], random.randrange(self.potion['defense']['normal'][0], self.potion['defense']['normal'][1]), 
                 random.randrange(self.potion['defense']['normal'][2],self.potion['defense']['normal'][3]))
         else:
             #rare potion
