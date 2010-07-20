@@ -42,20 +42,20 @@ class Item_Factory:
             return self.generate_potion_healing(rarity)
         elif( spell_type < 40 ):
             #create defense potion
-            self.generate_potion_defense(rarity)
+            return self.generate_potion_defense(rarity)
         elif( spell_type < 60 ):
             #create offense potion
-            self.generate_potion_offense(rarity)
+            return self.generate_potion_offense(rarity)
         elif( spell_type < 80 ):
             #create magic deffense potion
-            self.generate_potion_magic_defense(rarity)
+            return self.generate_potion_magic_defense(rarity)
         else:
             #create magic offense potion
-            self.generate_potion_magic_offense(rarity)
+            return self.generate_potion_magic_offense(rarity)
 
 
     def generate_potion_magic_offense(self, rarity):
-        nd = self.get_random_potion_magic_offense(rarity)
+        nd = self.get_random_potion_magic_offense_description(rarity)
         return (
             Magic_Offense_Potion(nd[0], nd[1], random.randrange(1,3), random.randrange(1,3) ),
             Magic_Offense_Potion(nd[0], nd[1], random.randrange(1,5), random.randrange(3,6) ),
@@ -83,7 +83,7 @@ class Item_Factory:
         
 
 
-    def geneate_potion_healing(self, rarity):
+    def generate_potion_healing(self, rarity):
         if( rarity == 1 ):
             #weak potion
             nd = self.get_random_potion_healing_description_light()
@@ -117,13 +117,13 @@ class Item_Factory:
         spell_type = random.randrange(100)
         if( spell_type < 33 ):
             #create a attack spell
-            self.generate_spell_attack(rarity)
+            return self.generate_spell_attack(rarity)
         elif( spell_type < 66 ):
             #create a defense spell
-            self.generate_spell_defense(rarity)
+            return self.generate_spell_defense(rarity)
         else:
             #create a stun spell
-            self.generate_spell_stun(rarity)
+            return self.generate_spell_stun(rarity)
             
     def generate_spell_stun(self, rarity):
         nd = self.get_random_spell_stun_description(rarity)
@@ -154,13 +154,13 @@ class Item_Factory:
     ##---------------------------------------------------------
 
     def generate_rare(self):
-        self.generate(3)
+        return self.generate(3)
     
     def generate_normal(self):
-        self.generate(2)
+        return self.generate(2)
 
     def generate_common(self):
-        self.generate(1)
+        return self.generate(1)
         
 
     ##---------------------------------------------------------
@@ -193,21 +193,21 @@ class Item_Factory:
         return sd[rarity - 1]
 
     #potions
-    def get_random_potion_healing_desription_light(self):
+    def get_random_potion_healing_description_light(self):
         ph = (
             ('Light Health Potion', 'Light healing potion. (20 - 30 HP\'s)'),
             ('Light Elixer', 'Light healing potion. (20 - 30 HP\'s)'),
         )
         return ph[random.randrange(len(ph))]
     
-    def get_random_potion_healing_desription_medium(self):
+    def get_random_potion_healing_description_medium(self):
         ph = (
             ('Medium Health Potion', 'Medium healing potion. (80 - 100 HP\'s)'),
             ('Medium Elixer', 'Medium healing potion. (80 - 100 HP\'s)'),
         )
         return ph[random.randrange(len(ph))]
     
-    def get_random_potion_healing_desription_heavy(self):
+    def get_random_potion_healing_description_heavy(self):
         ph = (
             ('Heavy Health Potion', 'Heavy healing potion. (160 - 200 HP\'s)'),
             ('Heavy Elixer', 'Heavy healing potion. (160 - 200 HP\'s)'),
@@ -244,7 +244,7 @@ class Item_Factory:
             ('Medium Magic Offense Potion', 'A medium magical offense potion. Increases magical offense 3/5 for 1/4 turns.'),
             ('Heavy Magic Offense Potion', 'A heavy magical offense potion. Increases magical offense 4/7 for 3/6 turns.'),
         )
-        pmo[rarity - 1]
+        return pmo[rarity - 1]
 
 
 
