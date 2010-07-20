@@ -23,6 +23,7 @@ class CLI:
         #(cli-controlled/handled, options(name), description(for help), param_type)
         self.commands = {
             "help" : (True, '', 'Shows the help dialog all available commands (not much un-similar to this page)turn/move.', None),
+            "vhelp" : (True, 'command', 'Verbose help command. Show description for individual commands. (type `vhelp *` to see all commands)', str),
             "map" : (True, '', 'Shows the map of the Level and where all the creatures on on the map', None),
             "move-north": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
             "move-east": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
@@ -131,6 +132,12 @@ class CLI:
                     except:
                         return False
                     return True
+                elif( self.commands.get(self.command)[3] == str ):
+                    try:
+                        self.params = str( self.params )
+                    except:
+                        return False
+                    return True
             else:
                 return False
         #this should 'theoretically' NEVER be reached, but for safety...
@@ -146,6 +153,8 @@ class CLI:
         #allow these commands regardless
         if( self.command == "help" ):
             self.execute_help()
+        elif( self.command == "vhelp" ):
+            self.execute_vhelp()
         elif( self.command == "map" ):
             self.execute_map()
         elif( self.command == "lookaround" ):
@@ -429,11 +438,23 @@ class CLI:
        
     
     
-    def execute_help(self):
+    
+    def execut_help(self):
         for tag, (turn_based, params, description, junk) in self.commands.items():
-            print tag + "[" + params + "]"
-            print "\t" + description
-            print "\tUses Turn: " + str(turn_based)
+            print tag
+        print ""
+    
+    
+    def execute_vhelp(self):
+        for tag, (turn_based, params, description, junk) in self.commands.items():
+            if( self.params == '*' || self.params == tag ):
+                if( params == '' ):
+                    tag_param = ''
+                else:
+                    tag_param = '  [%s]' % params
+                print tag + tag_param
+                print "\t" + description
+                print ""
     
     
     

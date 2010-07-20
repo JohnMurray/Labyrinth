@@ -4,11 +4,12 @@
 #File: Room.py
 
 import random
-import Player
-import Static
-
-from Static import Static
+from Static import *
 from Player import *
+from Creature_Factory import *
+from Weapon_Factory import *
+from Armor_Factory import *
+from Item_Factory import *
 
 class Room:
 
