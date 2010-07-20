@@ -33,13 +33,17 @@ class Player:
         self.OS = 0
         self.DS = 0
         self.primary = None
-
-    def fight(self, player):
-        #do something
-        return
-
+        self.strength = 0
+        self.agility = 0
+        self.dexterity = 0
+        self.intel = 0
+        self.stamina = 0
+    
     def to_string(self):
         return ''
+
+    def __str__(self):
+        return self.name
 
     def add_spell(self, spell):
         #adds a new spell to the spell inventory
@@ -48,6 +52,12 @@ class Player:
     def add_weapon(self, weapon):
         #adds a new weapon to the weapon inventory
         self.weapon.append(weapon)
+
+    def heal(self, amt):
+        if self.hp + amt > self.max_hp:
+            self.hp = self.max_hp
+        else:
+            self.hp += amt
 
     def add_potion(self, potion):
         #adds a new potion to the potion inventory
@@ -122,16 +132,44 @@ class Player:
         return bonus
                 
     def calc_DS_Physical(self):
-        return self.primary_armor().defense + self.defense_bonus()
+        #simulate encumbrance
+        d = self.agility - self.encum() 
+        #Primary armor's defense value
+        x = self.primary_armor().defense
+        #Add bonus from effects
+        x += self.defense_bonus()
+        if d > 0:
+            x += d
+        return x
+
 
     def calc_DS_Magic(self):
-        return self.defense_bonus_magic()
+        return self.intel + self.defense_bonus_magic()
 
     def calc_OS_Physical(self):
-        return self.primary_weapon().chance + self.offense_bonus()
+        x = self.primary_weapon().chance
+        x += self.offense_bonus()
+        off = self.dexterity - self.encum() 
+        if off > 0:
+            x += off
+        
+        return x
 
     def calc_OS_Magic(self):
-        return self.offense_bonus_magic()
+        return self.intel + self.offense_bonus_magic()
+
+    def encum(self):
+        return self.primary_armor().required_strength
+
+    def calc_num_attacks(self):
+        num = self.dexterity
+        num += self.agility
+        num -= self.encum()
+        num += self.primary_weapon().speed
+        num = num // 7 
+        if num < 1:
+            num = 1
+        return num
 
     def current_attack(self):
         if self.primary == None:

@@ -63,8 +63,7 @@ class Leech_Proc(Weapon_Proc):
 
     def attack_post(self, attacker, defender, result, damage):
         if result >= 0 and random.randint(1,100) < self.chance:
-            print "Leeching yo shit fool"
-            attacker.hp += math.floor(self.percent * damage / 100)
+            attacker.heal(math.floor(self.percent * damage / 100))
 
 class Stun_Proc(Weapon_Proc):
     def __init__(self, chance, duration):

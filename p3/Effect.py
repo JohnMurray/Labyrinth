@@ -12,6 +12,12 @@ class Effect:
 class Stun_Effect(Effect):
     def __init__(self, duration):
         Effect.__init__(self, duration)
+        self.duration = duration
+
+class DOT_Effect(Effect):
+    def __init__(self, duration, damage):
+        Effect.__init__(self, duration)
+        self.damage = damage
 
 #Defense effect of variable duration and strength (bonus)
 #Defense effects give you a bonus to DS vs Physical Attacks

@@ -6,6 +6,7 @@
 import random
 from Distributed_Random import Distributed_Random
 from Weapon_Module import *
+import Config
 
 #Generates Weapons
 class Weapon_Factory:
@@ -87,30 +88,20 @@ class Weapon_Factory:
     #Quality parameter follows same format throughout
     def generate_hammer(self, quality = 1):
         dist = Distributed_Random()
-        abs_range = 41
-        min_range = 30 
-        chance_range = 6
-        chance_min = 0
-        abs_min = 5
-        min_min = 12
+        abs_range = Config.weapon["hammer"]["abs_range"][quality] 
+        min_range = Config.weapon["hammer"]["min_range"][quality]
+        chance_range = Config.weapon["hammer"]["chance_range"][quality] 
+        chance_min = Config.weapon["hammer"]["chance_min"][quality] 
+        abs_min = Config.weapon["hammer"]["abs_min"][quality] 
+        min_min = Config.weapon["hammer"]["chance_range"][quality] 
         #Vary stats for high/low quality
-        #Hard coding for simplicity
-        if quality == 0:
-            abs_range = 31
-            min_range = 22
-            chance_range = 4
-        elif quality == 2:
-            abs_min = 10
-            min_min = 20
-            chance_min = 1
 
         min_dam = dist.randint(min_min,min_range)
         abs_dam = dist.randint(abs_min,abs_range)
         max_dam = min_dam + abs_dam
-        speed = (min_dam + max_dam) // 10
         chance = dist.randint(chance_min,chance_range)
         name = self.generate_hammer_name(quality)
-        return Hammer_Weapon(min_dam, max_dam, chance, speed, name, 'desc')
+        return Hammer_Weapon(min_dam, max_dam, chance, name, 'desc')
 
     #Same as the others, Generates Arrow names
     def generate_arrow_name(self, quality=1):
@@ -128,28 +119,18 @@ class Weapon_Factory:
     #Generates an Arrow object of variable quality
     def generate_arrow(self, quality = 1):
         dist = Distributed_Random()
-        abs_range = 36
-        min_range = 37
-        chance_range = 6
-        chance_min = 0
-        abs_min = 5
-        min_min = 10
+        abs_range = Config.weapon["arrow"]["abs_range"][quality] 
+        min_range = Config.weapon["arrow"]["min_range"][quality] 
+        chance_range = Config.weapon["arrow"]["chance_range"][quality] 
+        chance_min = Config.weapon["arrow"]["chance_min"][quality] 
+        abs_min = Config.weapon["arrow"]["abs_min"][quality] 
+        min_min = Config.weapon["arrow"]["min_min"][quality] 
         
-        if quality == 0:
-            abs_range = 26
-            min_range = 25
-            chance_range = 4
-        elif quality == 2:
-            abs_min = 10
-            min_min = 20
-            chance_min = 1
-
         min_dam = dist.randint(min_min,min_range)
         abs_dam = dist.randint(abs_min, abs_range)
         max_dam = min_dam + abs_dam
-        speed = (max_dam + min_dam) // 10
         chance = dist.randint(chance_min, chance_range)
-        return Arrow_Weapon(min_dam, max_dam, chance, speed, self.generate_arrow_name(quality), 'desc')
+        return Arrow_Weapon(min_dam, max_dam, chance, self.generate_arrow_name(quality), 'desc')
 
     #Generates a name for a spear of variable quality
     def generate_spear_name(self, quality):
@@ -166,28 +147,18 @@ class Weapon_Factory:
     #Generates a Spear object of variable quality
     def generate_spear(self, quality = 1):
         dist = Distributed_Random()
-        abs_range = 37
-        min_range = 25
-        chance_range = 8 
-        chance_min = 0
-        abs_min = 3
-        min_min = 5 
+        abs_range = Config.weapon["spear"]["abs_range"][quality] 
+        min_range = Config.weapon["spear"]["min_range"][quality] 
+        chance_range = Config.weapon["spear"]["chance_range"][quality] 
+        chance_min = Config.weapon["spear"]["chance_min"][quality] 
+        abs_min = Config.weapon["spear"]["abs_min"][quality] 
+        min_min = Config.weapon["spear"]["min_min"][quality] 
         
-        if quality == 0:
-            abs_range = 25
-            min_range = 16
-            chance_range = 6
-        elif quality== 2:
-            abs_min = 9
-            min_min = 11
-            chance_min = 2
-
         min_dam = dist.randint(min_min, min_range)
         abs_dam = dist.randint(abs_min, abs_range)
         max_dam = min_dam + abs_dam
-        speed = (max_dam + min_dam) // 10
         chance = dist.randint(chance_min, chance_range)
-        return Spear_Weapon(min_dam, max_dam, chance, speed, self.generate_spear_name(quality), 'desc')
+        return Spear_Weapon(min_dam, max_dam, chance, self.generate_spear_name(quality), 'desc')
 
     #Generates a name for a sword of variable quality
     def generate_sword_name(self, quality):
@@ -204,24 +175,15 @@ class Weapon_Factory:
     def generate_sword(self, quality = 1):
         #generate sword with random stats and magical properties
         dist = Distributed_Random()
-        abs_range = 33
-        min_range = 21
-        chance_range = 8
-        chance_min = 0
-        abs_min = 1
-        min_min = 1
-        if quality == 0:
-            abs_range = 21
-            min_range = 11
-            chance_range = 6
-        elif quality == 2:
-            abs_min = 7
-            min_min = 7
-            chance_min = 2
+        abs_range = Config.weapon["sword"]["abs_range"][quality] 
+        min_range = Config.weapon["sword"]["min_range"][quality]
+        chance_range = Config.weapon["sword"]["chance_range"][quality] 
+        chance_min = Config.weapon["sword"]["chance_min"][quality] 
+        abs_min = Config.weapon["sword"]["abs_min"][quality] 
+        min_min = Config.weapon["sword"]["min_min"][quality]
             
         min_dam = dist.randint(min_min, min_range)
         abs_dam = dist.randint(abs_min, abs_range)
         max_dam = min_dam + abs_dam
-        speed = (max_dam + min_dam) // 10
         chance = dist.randint(chance_min, chance_range)
-        return Sword_Weapon(min_dam, max_dam, chance, speed, self.generate_sword_name(quality), 'desc')
+        return Sword_Weapon(min_dam, max_dam, chance, self.generate_sword_name(quality), 'desc')

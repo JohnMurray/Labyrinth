@@ -43,7 +43,7 @@ class Healing_Potion(Potion):
 
     #Special effects like healing the player are accomplished via these hooks
     def attack_post(self, attacker, defender):
-        attacker.hp += random.randint(self.min_heal, self.max_heal)
+        attacker.heal(random.randint(self.min_heal, self.max_heal))
 
 class Defense_Potion(Potion):
     def __init__(self, name, description, duration, bonus):

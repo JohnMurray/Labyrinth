@@ -4,7 +4,9 @@
 #File Arena.py
 
 import random
+import math
 from Weapon_Module import Weapon
+from Weapon_Module import Arrow_Weapon
 from Armor import Armor
 from Item_Module import *
 
@@ -57,9 +59,14 @@ class Arena:
         #does not currently account for elemental or effects
         if isinstance(attacker.current_attack(), Weapon): 
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
-            return damage - victim.primary_armor().damage_reduction
+            damage -= victim.primary_armor().damage_reduction 
+            damage -= victim.stamina // 2
+            if not isinstance(attacker.current_attack(), Arrow_Weapon):
+                damage += attacker.strength * 2 
+            return damage
         elif isinstance(attacker.current_attack(), Attack_Spell):
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
+            damage += attacker.intel
             #Possible location for elemental resistances
             return damage
         else:
@@ -104,18 +111,25 @@ class Arena:
     def turn(self):
         #self.creature.select_attack()
         #check for player stun
-        if self.player.is_stunned():
-           #creature gets a freebie
-           self.round(self.creature, self.player)
-           self.update_effects()
-           self.turn()
-        else:
-            #player attacks first
-            self.round(self.player, self.creature)
-            if self.creature.hp > 0 and not self.creature.is_stunned():
-                #it lives! Counter attack!
-                self.round(self.creature, self.player)
-            self.update_effects()
+        #possible iniative roll here, for now alternate attacks
+        p_attacks = self.player.calc_num_attacks()
+        c_attacks = self.creature.calc_num_attacks()
+        while (p_attacks > 0 or c_attacks > 0) and (self.player.hp > 0 and self.creature.hp >0):
+            if self.player.is_stunned():
+                #creature gets a freebie
+                if c_attacks > 0 and c.hp > 0:
+                    self.round(self.creature, self.player)
+                    self.update_effects()
+            else:
+                #player attacks first
+                if p_attacks > 0 and self.creature.hp > 0:
+                    self.round(self.player, self.creature)
+                if self.creature.hp > 0 and not self.creature.is_stunned() and c_attacks > 0:
+                    #it lives! Counter attack!
+                    self.round(self.creature, self.player)
+                self.update_effects()
+                c_attacks -= 1
+                p_attacks -= 1
 
     def update_effects(self):
         #reduce the duration of all effects by one turn for creature and player 

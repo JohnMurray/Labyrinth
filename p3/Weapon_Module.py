@@ -9,14 +9,17 @@ from Distributed_Random import Distributed_Random
 
 class Weapon(Item):
     
-    def __init__(self, min_damage, max_damage, chance, speed, name, description):
+    def __init__(self, min_damage, max_damage, chance, name, description):
         Item.__init__(self, name, description) 
         self.min_damage = min_damage
         self.max_damage = max_damage
-        #Not sure how I feel about this, overflow results in low chance
-        #and chance can be zero
-        self.chance = chance % 21 #chance can be no greater than 20
-        self.speed = speed
+        if chance > 20:
+            self.chance = 20
+        else:
+            self.chance = chance
+
+        self.speed = self.calc_speed() 
+        self.required_strength = self.calc_required_strength()
         self.score = self.score()
         self.proc = list()
         return
@@ -45,14 +48,28 @@ class Weapon(Item):
     #not a very accurate estimate of actual quality
     def score(self):
         score = self.min_damage
-        score += self.max_damage
-        score += 3 * self.chance
-        #score += 5 * self.speed
+        score += 2 * self.max_damage
+        score += 5 * self.chance
+        score += 3 * self.speed
         return score
 
+    def calc_required_strength(self):
+        abs_damage = self.min_damage + self.max_damage * 2
+        return abs_damage // 15
+
+    def calc_speed(self):
+        abs_damage = self.min_damage + self.max_damage * 2
+        speed = 21 - (abs_damage // 10)
+        if isinstance(self, Hammer_Weapon):
+            speed -= 7
+        if isinstance(self, Arrow_Weapon):
+            speed -= 3
+
+        return speed
+
 class Sword_Weapon(Weapon):
-    def __init__(self, min_damage, max_damage, chance, speed, name, description):
-        Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
+    def __init__(self, min_damage, max_damage, chance, name, description):
+        Weapon.__init__(self, min_damage, max_damage, chance, name, description)
 
     #In production could would have a database of attack descriptions
     #choosing them at random based on result and damage (critical hits)
@@ -75,8 +92,8 @@ class Sword_Weapon(Weapon):
             print "swings a %s at you, but misses." % self.name
 
 class Arrow_Weapon(Weapon):
-    def __init__(self, min_damage, max_damage, chance, speed, name, description):
-        Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
+    def __init__(self, min_damage, max_damage, chance, name, description):
+        Weapon.__init__(self, min_damage, max_damage, chance, name, description)
 
     def output_result_first(self, result, damage=0):
         self.result = result
@@ -101,8 +118,8 @@ class Arrow_Weapon(Weapon):
             print "it flies wide."
 
 class Spear_Weapon(Weapon):
-    def __init__(self, min_damage, max_damage, chance, speed, name, description):
-        Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
+    def __init__(self, min_damage, max_damage, chance, name, description):
+        Weapon.__init__(self, min_damage, max_damage, chance, name, description)
 
     def output_result_first(self, result, damage=0):
         self.result = result
@@ -129,8 +146,8 @@ class Spear_Weapon(Weapon):
 
 
 class Hammer_Weapon(Weapon):
-    def __init__(self, min_damage, max_damage, chance, speed, name, description):
-        Weapon.__init__(self, min_damage, max_damage, chance, speed, name, description)
+    def __init__(self, min_damage, max_damage, chance, name, description):
+        Weapon.__init__(self, min_damage, max_damage, chance, name, description)
 
 
     def output_result_first(self, result, damage=0):

@@ -18,7 +18,7 @@ class Armor_Factory:
                 1: self.generate_medium_quality(),
                 2: self.generate_high_quality(),
               }
-        return gen[self.select_armor_type()]
+        return gen[quality]
 
     def generate(self):
         #generate a random piece of armor
@@ -75,7 +75,7 @@ class Armor_Factory:
         #generate a random high quality piece of armor
         dist = Distributed_Random()
         defense = dist.randint(12,17)
-        dr = dist.randint(5,9)
+        dr = dist.randint(12,19)
         return Armor(defense, dr, self.generate_heavy_name(), 'desc')
 
     def generate_medium_quality(self):
@@ -86,14 +86,14 @@ class Armor_Factory:
         #generate low quality piece of armor
         dist = Distributed_Random()
         defense = dist.randint(10,17)
-        dr = dist.randint(0,1)
+        dr = dist.randint(0,3)
         return Armor(defense, dr, self.generate_light_name(), 'desc')
 
     #Generate a random light armor
     def generate_light_armor(self):
         dist = Distributed_Random()
         defense = dist.randint(10,21)
-        dr = dist.randint(0,3)
+        dr = dist.randint(0,5)
 
         return Armor(defense, dr, self.generate_light_name(), 'desc')
 
@@ -101,13 +101,13 @@ class Armor_Factory:
     def generate_medium_armor(self):
         dist = Distributed_Random()
         defense = dist.randint(10,19)
-        dr = dist.randint(2,5)
+        dr = dist.randint(8,13)
         return Armor(defense, dr, self.generate_medium_name(), 'desc')
 
     #Generate a random heavy armor
     def generate_heavy_armor(self):
         dist = Distributed_Random()
         defense = dist.randint(10,17)
-        dr = dist.randint(4,9)
+        dr = dist.randint(12,19)
         return Armor(defense, dr, self.generate_heavy_name(), 'desc')
         

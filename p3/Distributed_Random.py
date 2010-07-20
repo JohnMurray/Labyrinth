@@ -13,7 +13,9 @@ class Distributed_Random:
 
     def randint(self, low, high):
         diff = math.floor(high - low)
-        mid = low + (diff // 2) 
+        mid = low + (diff // 2)
+        mid *= 1000
+        diff *= 1000
         sd1 = math.floor(.33 * diff)
         sd2 = math.floor(.44 * diff) 
         sd3 = diff // 2
@@ -22,16 +24,16 @@ class Distributed_Random:
         roll = random.randint(1,100)
         if roll <= 66:
             if positive >= 75:
-                return random.randint(mid,mid+sd1)
+                return random.randint(round(mid / 1000),round((mid+sd1) / 1000))
             else:
-                return random.randint(mid-sd1,mid)
+                return random.randint(round((mid-sd1) / 1000),round(mid / 1000))
         elif roll <= 88:
             if positive >= 75:
-                return random.randint(mid,mid+sd2)
+                return random.randint(round(mid / 1000),round((mid+sd2) / 1000))
             else:
-                return random.randint(mid-sd2,mid)
+                return random.randint(round((mid-sd2) / 1000),round(mid / 1000))
         else:
             if positive >= 75:
-                return random.randint(mid,mid+sd3)
+                return random.randint(round(mid / 1000),round((mid+sd3) / 1000))
             else:
-                return random.randint(mid-3,mid)
+                return random.randint(round((mid-sd3) / 1000),round(mid / 1000))
