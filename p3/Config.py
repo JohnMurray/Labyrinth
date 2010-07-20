@@ -43,9 +43,9 @@ item = {
             'rare': (),
         },
         'defense': {
-            'common': (),
-            'normal': (),
-            'rare': (),
+            'common': (1, 3, 1, 3, 1, 3),
+            'normal': (2, 4, 2, 4, 2, 4),
+            'rare': (4, 6, 4, 6, 4, 6),
         },
         'stun': {
             'common': (1, 3, 1, 3),
@@ -54,30 +54,30 @@ item = {
         },
     },
     'potion': {
-        'healing': {
-            'common': (),
-            'normal': (),
-            'rare': (),
-        },
-        'defense': {
-            'common': (),
-            'normal': (),
-            'rare': (),
-        },
-        'offense': {
-            'common': (),
-            'normal': (),
-            'rare': (),
+        'magic_ofense': {
+            'common': (1, 3, 1, 3),
+            'normal': (1, 5, 3, 6),
+            'rare': (3, 7, 4, 8),
         },
         'magic_defense': {
-            'common': (),
-            'normal': (),
-            'rare': (),
+            'common': (1, 3, 1, 3),
+            'normal': (3, 5, 2, 5),
+            'rare': (4, 6, 3, 7),
         },
-        'magic_offense': {
-            'common': (),
-            'normal': (),
-            'rare': (),
+        'healing': {
+            'common': (, 20, 30),
+            'normal': (80, 100),
+            'rare': (160, 200),
+        },
+        'defense': {
+            'common': (1, 3, 1, 3),
+            'normal': (1, 5, 3, 5),
+            'rare': (3, 7, 4, 6),
+        },
+        'offense': {
+            'common': (1, 3, 2, 5),
+            'normal': (1, 6, 3, 6),
+            'rare': (3, 7, 5, 11),
         },
     },
 }
