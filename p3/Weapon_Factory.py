@@ -7,6 +7,7 @@ import random
 from Distributed_Random import Distributed_Random
 from Weapon_Module import *
 import Config
+from Proc_Factory import Proc_Factory
 
 #Generates Weapons
 class Weapon_Factory:
@@ -28,7 +29,27 @@ class Weapon_Factory:
                 2: self.generate_spear(quality),
                 3: self.generate_hammer(quality),
               }
-        return gen[self.select_weapon_type()]
+        wpn = gen[self.select_weapon_type()]
+        if quality == 1 and random.randint(1,100) < 20:
+            pf = Proc_Factory()
+            proc = pf.generate_weapon_proc(random.randint(1,2))
+            wpn.name = proc.prefix + " " + wpn.name
+            wpn.add_proc(proc)
+        
+        if quality == 2 and random.randint(1,100) < 40:
+            pf = Proc_Factory()
+            proc2 = None
+            proc = pf.generate_weapon_proc(random.randint(1,3))
+            if random.randint(1,100) < 20:
+                proc2 = pf.generate_weapon_proc(random.randint(1,3))
+
+            wpn.name = proc.prefix + " " + wpn.name
+            wpn.add_proc(proc)
+            if proc2 != None:
+                wpn.name = wpn.name + " " + proc2.suffix
+                wpn.add_proc(proc2)
+        
+        return wpn
 
     #Generates a weapon of the requested type and quality
     #Type is 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer

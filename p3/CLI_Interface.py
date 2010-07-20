@@ -439,7 +439,7 @@ class CLI:
     
     
     
-    def execut_help(self):
+    def execute_help(self):
         for tag, (turn_based, params, description, junk) in self.commands.items():
             print tag
         print ""
@@ -447,7 +447,7 @@ class CLI:
     
     def execute_vhelp(self):
         for tag, (turn_based, params, description, junk) in self.commands.items():
-            if( self.params == '*' || self.params == tag ):
+            if( self.params == '*' or self.params == tag ):
                 if( params == '' ):
                     tag_param = ''
                 else:

@@ -6,11 +6,12 @@
 from Distributed_Random import Distributed_Random
 import random
 from Armor import Armor
+from Proc_Factory import Proc_Factory
 
 #Armor_Factory generates random and selected pieces of armor
 class Armor_Factory:
     def __init__(self):
-        self
+       self
 
     def generate_by_quality(self, quality):
         gen = {
@@ -18,7 +19,19 @@ class Armor_Factory:
                 1: self.generate_medium_quality(),
                 2: self.generate_high_quality(),
               }
-        return gen[quality]
+        armor = gen[quality]
+        if quality == 1 and random.randint(1,100) < 25:
+            p = Proc_Factory()
+            proc = p.generate_armor_proc(random.randint(1,2))
+            armor.name = proc.prefix + " " + armor.name
+            armor.add_proc(proc)
+        if quality == 2 and random.randint(1,100) < 40:
+            p = Proc_Factory()
+            proc = p.generate_armor_proc(random.randint(1,3))
+            armor.name = proc.prefix + " " + armor.name
+            armor.add_proc(proc)
+
+        return armor
 
     def generate(self):
         #generate a random piece of armor

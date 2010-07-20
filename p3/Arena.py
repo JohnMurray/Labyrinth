@@ -117,12 +117,12 @@ class Arena:
         while (p_attacks > 0 or c_attacks > 0) and (self.player.hp > 0 and self.creature.hp >0):
             if self.player.is_stunned():
                 #creature gets a freebie
-                if c_attacks > 0 and c.hp > 0:
+                if c_attacks > 0 and self.creature.hp > 0:
                     self.round(self.creature, self.player)
                     self.update_effects()
             else:
                 #player attacks first
-                if p_attacks > 0 and self.creature.hp > 0:
+                if p_attacks > 0:
                     self.round(self.player, self.creature)
                 if self.creature.hp > 0 and not self.creature.is_stunned() and c_attacks > 0:
                     #it lives! Counter attack!
@@ -137,11 +137,13 @@ class Arena:
         creature_pending = list()
         
         for e in self.player.effect:
+            e.apply(self.player)
             e.duration -= 1
             if(e.duration == 0):
                 player_pending.append(e)
 
         for e in self.creature.effect:
+            e.apply(self.creature)
             e.duration -= 1
             if(e.duration == 0):
                 creature_pending.append(e)

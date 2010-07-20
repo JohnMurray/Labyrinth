@@ -22,7 +22,11 @@ class Armor(Item):
         self.defense = defense
         self.damage_reduction = damage_reduction
         self.required_strength = self.calc_required_strength()
+        self.proc = list()
 
     def calc_required_strength(self):
         return int(self.damage_reduction // 2.6)
+
+    def add_proc(self, proc):
+        self.proc.append(proc)
 
