@@ -6,6 +6,7 @@
 import random
 import Arena
 import sys
+import Treasure
 
 from Arena import Arena
 
@@ -204,7 +205,7 @@ class CLI:
                 print creature.name + "."
                 print "You collected %s gold coins from the corpse." % creature.gold
                 self.player.gold += creature.gold
-                treasure = Treasure_Factory().generate(creature.level)
+                treasure = Treasure().generate(creature.level)
                 for t in treasure:
                     self.level.get_current_room().item.append(t)
                 self.level.get_current_room().creature = None
