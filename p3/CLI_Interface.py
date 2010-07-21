@@ -161,7 +161,7 @@ class CLI:
             self.execute_vhelp()
         elif( self.command == "map" ):
             self.execute_map()
-        elif( self.command == "lookaround" ):
+        elif( self.command == "look-around" ):
             self.execute_lookaround()
         elif( self.command == "study" ):
             self.execute_study()
@@ -357,7 +357,7 @@ class CLI:
                 p.agility < p.weapon[self.params].required_agility):
                 print "You do not have enough strength or agility to equip weapon. Get out of the computer chair once in a while, workout more."
                 return
-            if( isinstance(p.weapon[self.params], Wand_Weapon ):
+            if( isinstance(p.weapon[self.params], Wand_Weapon )):
                 if( p.intel < p.weapon[self.params].required_intel ):
                     print "You do not have enough intelligence to use this weapon. Pick up a book or something."
                     return

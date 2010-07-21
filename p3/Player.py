@@ -224,23 +224,24 @@ class Adventurer(Player):
         self.experience = 0
         self.next_level = 1000
         self.ap = 0
-
-        def calc_next_level(self):
-            return 1000 + (1500 * (self.level-1))
-
-        def grant_xp(self, xp):
-            self.experience += xp 
-            while self.experience > self.next_level:
-                self.gain_level()
-
-
-        def gain_level(self):
-            self.level += 1
-            self.next_level = self.calc_next_level()
-            hp_gain = random.randint(self.stamina*4, self.stamina*10)
-            self.max_hp += hp_gain
-            self.hp = self.max_hp
-            self.ap = self.level * 2 + self.intel
-            print "Congratulations! You are now Level %s!" % self.level
-            print "You gained %s max hp and" % hp_gain, "%s attribute points."
+    
+    def calc_next_level(self):
+        return 1000 + (1500 * (self.level-1))
+    
+    def grant_xp(self, xp):
+        self.experience += xp 
+        while self.experience > self.next_level:
+            self.gain_level()
+    
+     
+    def gain_level(self):
+        self.level += 1
+        self.next_level = self.calc_next_level()
+        hp_gain = random.randint(self.stamina*4, self.stamina*10)
+        self.max_hp += hp_gain
+        self.hp = self.max_hp
+        self.ap = self.level * 2 + self.intel
+        print "Congratulations! You are now Level %s!" % self.level
+        print "You gained %s max hp and" % hp_gain, "%s attribute points."
+>>>>>>> 2dcee059625de002e3920e0fa69f1e566d8d76a9
 
