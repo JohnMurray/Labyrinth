@@ -12,7 +12,7 @@ class Treasure:
     def __init__(self):
         self
 
-    def generate(level):
+    def generate(self, level):
         dist = Distributed_Random
         wf = Weapon_Factory()
         af = Armor_Factory()
@@ -26,7 +26,7 @@ class Treasure:
         return treasure
 
        
-    def gen(level):
+    def gen(self, level):
         wf = Weapon_Factory()
         af = Armor_Factory()
         items = Item_Factory()
