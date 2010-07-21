@@ -333,6 +333,11 @@ class CLI:
         elif( self.params == 0 ):
             print "Already eqquiped"
         else:
+            #make sure they meet the weapon requirements
+            p = self.player
+            if( p.strength < p.armor[self.params].required_strengh ):
+                print "Do not have the required strength to equip armor. It didn't look good on anyways."
+                return
             temp = self.player.armor[self.params]
             self.player.armor[self.params] = self.player.armor[0]
             self.player.armor[0] = temp
@@ -347,6 +352,15 @@ class CLI:
         elif( self.params == 0 ):
             print "Already equipped"
         else:
+            p = self.player
+            if( p.strength < p.weapon[self.params].required_strength or
+                p.agility < p.weapon[self.params].required_agility):
+                print "You do not have enough strength or agility to equip weapon. Get out of the computer chair once in a while, workout more."
+                return
+            if( isinstance(p.weapon[self.params], Wand_Weapon ):
+                if( p.intel < p.weapon[self.params].required_intel ):
+                    print "You do not have enough intelligence to use this weapon. Pick up a book or something."
+                    return
             temp = self.player.weapon[self.params]
             self.player.weapon[self.params] = self.player.weapon[0]
             self.player.weapon[0] = temp
