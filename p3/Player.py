@@ -237,7 +237,7 @@ class Adventurer(Player):
         def gain_level(self):
             self.level += 1
             self.next_level = self.calc_next_level()
-            hp_gain = random.randint(self.stamina*2, self.stamina*8)
+            hp_gain = random.randint(self.stamina*4, self.stamina*10)
             self.max_hp += hp_gain
             self.hp = self.max_hp
             self.ap = self.level * 2 + self.intel
