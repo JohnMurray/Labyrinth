@@ -14,6 +14,7 @@ from Item_Module import *
 from Armor import *
 from Arena import Arena
 from Creature_Factory import *
+from Treasure import Treasure
 
 #class: CLI
 #purpose: A Command Line Interface class that handles the parsing of user
@@ -159,6 +160,7 @@ class CLI:
     #purpose: execute a command that is non-turn based.
     def execute(self):
         #allow these commands regardless
+        creature = self.level.get_current_room().creature
         if( self.command == "help" ):
             self.execute_help()
         elif( self.command == "vhelp" ):
@@ -210,7 +212,6 @@ class CLI:
                 self.execute_potion()
 
         #check if the creature or the player is dead
-        creature = self.level.get_current_room().creature
         if(creature != None):
             if( creature.hp <= 0 ):
                 diff = creature.level - self.player.level
@@ -226,7 +227,8 @@ class CLI:
                 print creature.name + "."
                 print "You collected %s gold coins from the corpse." % creature.gold
                 self.player.gold += creature.gold
-                treasure = Treasure().generate(creature.level)
+                tf = Treasure()
+                treasure = tf.generate(creature.level)
                 for t in treasure:
                     self.level.get_current_room().item.append(t)
                 self.level.get_current_room().creature = None
@@ -339,7 +341,7 @@ class CLI:
         else:
             #make sure they meet the weapon requirements
             p = self.player
-            if( p.strength < p.armor[self.params].required_strengh ):
+            if( p.strength < p.armor[self.params].required_strength ):
                 print "Do not have the required strength to equip armor. It didn't look good on anyways."
                 return
             temp = self.player.armor[self.params]
