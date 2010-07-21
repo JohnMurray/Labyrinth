@@ -232,7 +232,6 @@ class Adventurer(Player):
         self.experience += xp 
         while self.experience > self.next_level:
             self.gain_level()
-    
      
     def gain_level(self):
         self.level += 1
@@ -243,5 +242,4 @@ class Adventurer(Player):
         self.ap = self.level * 2 + self.intel
         print "Congratulations! You are now Level %s!" % self.level
         print "You gained %s max hp and" % hp_gain, "%s attribute points."
->>>>>>> 2dcee059625de002e3920e0fa69f1e566d8d76a9
 
