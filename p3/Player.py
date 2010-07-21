@@ -217,6 +217,7 @@ class Creature(Player):
         xp += self.primary_armor().damage_reduction * 2
         return xp * 3
 
+
 class Adventurer(Player):
     def __init__(self, name, hp):
         Player.__init__(self, name, hp,None,None)

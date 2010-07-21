@@ -30,3 +30,5 @@ class Armor(Item):
     def add_proc(self, proc):
         self.proc.append(proc)
 
+    def __str__(self):
+        return self.name

@@ -56,6 +56,7 @@ class CLI:
             "drop-armor": (True, 'id', 'Drop an armor in the inventory. Must give armor id. (use inventory-armor to get armor id)', int),
             "drop-potion": (True, 'id', 'Drop a potion in the inventory. Must give potion id. (use inventory-potion to get potion id)', int),
             "drop-spell": (True, 'id', 'Drop an spell in the inventory. Must give spell id. (use inventory-spell to get spell id)', int),
+            "buy-attribute": (True, 'attribute', 'Buy a specific attribute point with your current AP.', str),
         }
         
         self.command = ''
@@ -183,12 +184,15 @@ class CLI:
                 self.execute_drop()
             elif( self.command == 'use-potion' ):
                 self.execute_potion()
+            elif( self.command == 'buy-attribute' ):
+                self.execute_buy_attribute()
 
             #possibly generate mob since there is no creature in a room
-            if( creature == None ):
+            if( creature == None and self.level.mob_size > 0):
                 if( random.randrange(100) > 80 ):
                     cf = Creature_Factory()
                     self.level.get_current_room().creature = cf.generate()
+                    self.level.mob_size -= 1
 
         #if there is a creature in the room, then allow these commands
         elif( self.level.get_current_room().creature != None ):
@@ -228,17 +232,88 @@ class CLI:
 
     
 
+    def execute_buy_attribute(self):
+        ap = self.player.ap
+        suck = False
+        if( self.params == "strength" ):
+            s = self.player.strength
+            cost = (s ** 2) / 2
+            if( ap >= cost ):
+                self.player.strength += 1
+                print "Strength increased by one"
+                self.player.ap -= cost
+            else:
+                suck = True
+        if( self.params == "agility" ):
+            a = self.player.agility
+            cost = (a ** 2) / 2
+            if( ap >= cost ):
+                self.player.agility += 1
+                self.player.ap -= cost
+                print "Agility increased by one"
+            else:
+                suck = True
+        if( self.params == "dexterity" ):
+            d = self.params.dexterity
+            cost = (d ** 2) / 2
+            if( ap >= cost ):
+                self.player.dexterity += 1
+                self.player.ap -= cost
+                print "Dexterity increased by one"
+            else:
+                suck = True
+        if( self.params == "intelligence" ):
+            i = self.player.intel
+            cost = (i ** 2) / 2
+            if( ap >= cost):
+                self.player.intel += 1
+                self.player.ap -= cost
+                print "Intelligence increased by one"
+            else:
+                suck = True
+        if( self.params == "stamina" ):
+            s = self.player.stamina
+            cost = (s ** 2) / 2
+            if( ap >= cost ):
+                self.player.stamina += 1
+                self.player.ap -= cost
+                print "Stamina increased by one"
+            else:
+                suck = True
+        else:
+            print "You cannot buy an attribute that does not exist."
+
+        if suck:
+            print "You don't have enough AP, try again later."
+
+
+
+
 
     def execute_status(self):
         print "Status: %(n)s" % {'n': self.player.name}
-        print "%HP: %(h)d/%(hm)d\nStrength: %(s)d\nAgility: %(s)d\nDexterity: %(d)d\nIntelligence: %(i)d\nStamina: %(st)d\n" % {
-            'h': self.player.hp,
-            'hm': self.player.max_hp,
-            's': self.player.strength,
-            'd': self.player.agility,
-            'i': self.player.dexterity,
-            'st': self.player.stamina,
-        }
+        p = self.player
+        out = 'HP: ' + str(p.hp) + '/' + str(p.max_hp) + "\n"
+        out += 'Strength: ' + str(p.strength) + "\n"
+        out += 'Agility: ' + str(p.agility) + "\n"
+        out += 'Dexterity: ' + str(p.dexterity) + "\n"
+        out += 'Intelligence: ' + str(p.intel) + "\n"
+        out += 'Stamina: ' + str(p.stamina) + "\n"
+        out += 'AP: ' + str(p.ap) + "\n"
+        print out
+        #assuming 80 console width
+        bar_width = 74
+        out = 'XP: |'
+        completion = float(self.player.experience) / float(self.player.next_level)
+        completion2 = int(round(float(74 * completion)))
+        for i in range(completion2):
+            out += '='
+        for i in range(bar_width - completion2):
+            out += ' '
+        out += '|'
+        print out
+        print str( round(completion*100) ) + '%'
+            
 
 
 
@@ -386,19 +461,19 @@ class CLI:
         i = 0
         if( self.command[10:] == "weapon" ):
             for w in self.player.weapon:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': w.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(w)}
                 i += 1
         if( self.command[10:] == "armor" ):
             for a in self.player.armor:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': a.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(a)}
                 i += 1
         if( self.command[10:] == "potion" ):
             for p in self.player.potion:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': p.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(p)}
                 i += 1
         if( self.command[10:] == "spell" ):
             for s in self.player.armor:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': s.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(s)}
                 i += 1
 
 
