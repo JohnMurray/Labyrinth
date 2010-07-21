@@ -231,14 +231,41 @@ class CLI:
 
     def execute_status(self):
         print "Status: %(n)s" % {'n': self.player.name}
-        print "%HP: %(h)d/%(hm)d\nStrength: %(s)d\nAgility: %(s)d\nDexterity: %(d)d\nIntelligence: %(i)d\nStamina: %(st)d\n" % {
-            'h': self.player.hp,
-            'hm': self.player.max_hp,
-            's': self.player.strength,
-            'd': self.player.agility,
-            'i': self.player.dexterity,
-            'st': self.player.stamina,
-        }
+        #print "%HP: %s/%s\nStrength: %s\nAgility: %s\nDexterity: %s\nIntelligence: " \
+        #        "%s\nStamina: %s\nAP: %s" % (
+        #    str(self.player.hp),
+        #    str(self.player.max_hp),
+        #    str(self.player.strength),
+        #    str(self.player.agility),
+        #    str(self.player.dexterity),
+        #    str(self.player.intel),
+        #    str(self.player.stamina),
+        #    str(self.player.ap),
+        #)
+        p = self.player
+        out = 'HP: ' + str(p.hp) + '/' + str(p.max_hp) + "\n"
+        out += 'Strength: ' + str(p.strength) + "\n"
+        out += 'Agility: ' + str(p.agility) + "\n"
+        out += 'Dexterity: ' + str(p.dexterity) + "\n"
+        out += 'Intelligence: ' + str(p.intel) + "\n"
+        out += 'Stamina: ' + str(p.stamina) + "\n"
+        out += 'AP: ' + str(p.ap) + "\n"
+        print out
+        #assuming 80 console width
+        bar_width = 74
+        out = 'XP: |'
+        completion = float(self.player.experience) / float(self.player.next_level)
+        completion2 = int(round(float(74 * completion)))
+        for i in range(completion2):
+            out += '='
+        for i in range(bar_width - completion2):
+            out += ' '
+        out += '|'
+        print out
+        print str( round(completion*100) ) + '%'
+            
+
+
 
 
 
