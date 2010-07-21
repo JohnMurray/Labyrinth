@@ -99,9 +99,12 @@ class Level:
             for j in i:
                 if j == None:
                     out2 += ' '
+                elif( j == self.get_current_room() ):
+                    out2 += 'I'
                 else:
                     out2 += 'X'
             out += out2 + "\n"
+        out += "Legend:\nX => Room\nI => You\n"
         return out
 
     def move_north(self):

@@ -202,39 +202,7 @@ class CLI:
     def execute_map(self):
         #print header
         print "Level Map"
-        #get level and width
-        l = self.level
-        width = len(l.rooms[0])
-        #print tops of rooms
-        top = " "
-        for i in range(0, width):
-            top += "_ "
-        print top
-        #print all the rows
-        for i in l.rooms:
-            row = "|"
-            for j in i:
-                if( l.get_current_room() == j ):
-                    row += "i"
-                elif( j.creature == None ):
-                    row += " "
-                else:
-                    row += "x"
-                row += "|"
-            print row
-            sep = " "
-            for k in range(0, width):
-                sep += "- "
-            print sep
-        #print the bottom of the last row
-        bottom = " "
-        for i in range(0, width):
-            bottom += "- "
-        #print legend
-        print "Legend:"
-        print "x => creature"
-        print "i => you"
-
+        print self.level
 
 
 
