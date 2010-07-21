@@ -23,15 +23,19 @@ class Level:
 
     def __init__(self, dimension):
         #code here
-        self.rooms = list()
-        for i in range(0, dimension):
-            #create a sub-list
-            self.rooms.append(list())
-            for j in range(0, dimension):
-                #create a room
-                rf = Room_Factory()
-                room = rf.generate()
-                self.rooms[i].append(room)
+        #self.rooms = list()
+        #for i in range(0, dimension):
+        #    #create a sub-list
+        #    self.rooms.append(list())
+        #    for j in range(0, dimension):
+        #        #create a room
+        #        rf = Room_Factory()
+        #        room = rf.generate()
+        #        self.rooms[i].append(room)
+        #self.current = (0, 0)
+
+        #new labyrinth code here
+        self.gen_lab(dimension)
         self.current = (0, 0)
 
     #def: rr
@@ -217,3 +221,10 @@ class Level:
         for i in self.rooms:
             for j in i:
                 yield j
+
+
+    #override for navigation (remove to use old nav style)
+    move_north = move_north_lab
+    move_east = move_east_lab
+    move_south = move_south_lab
+    move_west = move_west_lab
