@@ -110,6 +110,19 @@ class Level:
             i+=1
         self.current = (i, j)
 
+    def move_north_lab(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( i == 0 ):
+            print "You cannot travel north form here."
+        else:
+            if( self.rooms[i-1][j] == None ):
+                print "You cannot travel north from here."
+            else:
+                i -= 1
+        self.current = (i, j)
+
+
     def move_east(self):
         i = self.current[0]
         j = self.current[1]
@@ -118,6 +131,19 @@ class Level:
             j = 0
         else:
             j+=1
+        self.current = (i, j)
+
+    def move_east_lab(self):
+        i = self.current[0]
+        j = self.current[1]
+
+        if( j == len(self.rooms[i]) - 1):
+            print "You cannot travel east from here."
+        else:
+            if( self.rooms[i][j+1] == None ):
+                print "You cannot travel east from here."
+            else:
+                j += 1
         self.current = (i, j)
 
     def move_south(self):
@@ -130,6 +156,19 @@ class Level:
             i-=1
         self.current = (i, j)
     
+    def move_south_lab(self):
+        i = self.current[0]
+        j = self.current[1]
+
+        if( i == len(self.rooms) - 1 ):
+            print "You cannot move south from here."
+        else:
+            if( self.rooms[i + 1][j] == None ):
+                print "You cannot move south from here."
+            else:
+                i += 1
+        self.current = (i, j)
+
     def move_west(self):
         i = self.current[0]
         j = self.current[1]
@@ -138,6 +177,19 @@ class Level:
             j = len(self.rooms[i]) - 1
         else:
             j-=1
+        self.current = (i, j)
+
+    def move_west_lab(self):
+        i = self.current[0]
+        j = self.current[1]
+
+        if( j == 0 ):
+            print "You cannot travel west from here."
+        else:
+            if( self.rooms[i][j - 1] == None ):
+                print "You cannot travel west from here."
+            else:
+                j -= 1
         self.current = (i, j)
 
     def get_current_room(self):
