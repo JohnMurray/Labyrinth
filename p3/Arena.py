@@ -64,9 +64,10 @@ class Arena:
             if not isinstance(attacker.current_attack(), Arrow_Weapon):
                 damage += attacker.strength * 2 
             return damage
-        elif isinstance(attacker.current_attack(), Attack_Spell):
+        elif isinstance(attacker.current_attack(), Attack_Spell) or isinstance(attacker.current_attack(), Wand_Weapon):
             damage = random.randint(attacker.current_attack().min_damage, attacker.current_attack().max_damage)
             damage += attacker.intel
+            damage -= victim.intel // 2
             #Possible location for elemental resistances
             return damage
         else:

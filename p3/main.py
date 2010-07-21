@@ -164,6 +164,10 @@ def equip_mage(player):
     player.add_spell(items.generate_spell(1))
     player.add_spell(items.generate_spell(1))
     player.add_spell(items.generate_spell(1))
+    wpn = wf.generate_by_type(4)
+    while wpn.required_intel > player.intel:
+        wpn = wf.generate_by_type(4, random.randint(0,1))
+    player.add_weapon(wpn)
     return player
 
 def equip_rogue(player):
@@ -171,6 +175,7 @@ def equip_rogue(player):
     wpn = wf.generate_by_type(1)
     while wpn.required_agility > player.agility or wpn.required_strength > player.strength:
         wpn = wf.generate_by_type(1,random.randint(0,1))
+    player.add_weapon(wpn)
     player.add_spell(items.generate_spell(1))
     player.add_spell(items.generate_spell(1))
     player.add_potion(items.generate_potion(1))
@@ -193,7 +198,7 @@ def equip_warrior(player):
 def create_character():
     valid_input = False
     while( not valid_input ):
-        print "" 
+        print " " 
         print "Select a class:"
         print "[1] Warrior"
         print "[2] Rogue"
@@ -220,10 +225,11 @@ def create_character():
     player = Adventurer(character_name,0)
     roll = True 
     while not valid_input:
-        print "" 
+        print " " 
         print character_name
         if roll:
             player = cf.generate_player_stats(player)
+            player.max_hp = calc_starting_hp(player.stamina)
             if char == 1:
                 player.strength += 1
                 player.stamina += 1
@@ -250,7 +256,6 @@ def create_character():
         print "Agility: %s" % player.agility
         print "Dexterity: %s" % player.dexterity
         print "Intelligence: %s" % player.intel
-        player.max_hp = calc_starting_hp(player.stamina)
         player.hp = player.max_hp
         print "Starting HP: %s" % player.max_hp
         print "Would you like to keep this character?"

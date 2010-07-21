@@ -4,7 +4,7 @@
 #File: Player.py
 
 import Static
-from Weapon_Module import Weapon
+from Weapon_Module import Wand_Weapon
 from Item_Module import Spell
 from Item_Module import Potion 
 from Armor import Armor
@@ -162,7 +162,10 @@ class Player:
     def calc_OS_Physical(self):
         x = self.primary_weapon().chance
         x += self.offense_bonus()
-        off = self.dexterity - self.encum() 
+        if isinstance(self.primary_weapon(), Wand_Weapon):
+            off = self.intel - self.encum()
+        else:
+            off = self.dexterity - self.encum() 
         if off > 0:
             x += off
         
