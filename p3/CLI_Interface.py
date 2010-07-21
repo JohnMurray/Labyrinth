@@ -191,6 +191,22 @@ class CLI:
         creature = self.level.get_current_room().creature
         if(creature != None):
             if( creature.hp <= 0 ):
+                diff = creature.level - self.player.level
+                xp = 0
+                if diff >= 0:
+                    xp = creature.calc_experience() * (diff+1)
+                else:
+                    tmp = (diff * -20) // 100
+                    xp = int(creature.calc_experience() * tmp)
+
+                self.player.grant_xp(xp)
+                print "You gained %s XP for slaying the" % xp,
+                print creature.name + "."
+                print "You collected %s gold coins from the corpse." % creature.gold
+                self.player.gold += creature.gold
+                treasure = Treasure_Factory().generate(creature.level)
+                for t in treasure:
+                    self.level.get_current_room().item.append(t)
                 self.level.get_current_room().creature = None
         if(self.player.hp <= 0):
             print "Game Over! You died sucka!"

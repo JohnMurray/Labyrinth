@@ -33,7 +33,9 @@ class Creature_Factory:
         else:
             genesis.add_armor(af.generate_by_quality(2))
             genesis.add_weapon(wf.generate_by_quality(2))
-        
+
+        genesis.level = diff
+        genesis.gold = random.randint(0,diff*100)
         return genesis
 
     def stat_max(self, max, gen):

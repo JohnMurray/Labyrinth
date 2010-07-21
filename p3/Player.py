@@ -40,6 +40,8 @@ class Player:
         self.dexterity = 0
         self.intel = 0
         self.stamina = 0
+        self.level = 1
+        self.gold = 0
     
     def to_string(self):
         return ''
@@ -201,6 +203,40 @@ class Creature(Player):
         self.primary = self.primary_weapon()
         return self.primary
 
+    def calc_experience(self):
+        xp = self.strength * 2
+        xp += self.stamina * 2
+        xp += self.dexterity * 2
+        xp += self.agility * 2
+        xp += self.intel * 2
+        xp += self.max_hp // 5 
+        xp += self.primary_weapon().score // 5
+        xp += self.primary_armor().damage_reduction * 2
+        return xp * 3
+
 class Adventurer(Player):
     def __init__(self, name, hp):
         Player.__init__(self, name, hp,None,None)
+        self.experience = 0
+        self.next_level = 1000
+        self.ap = 0
+
+        def calc_next_level(self):
+            return 1000 + (1500 * (self.level-1))
+
+        def grant_xp(self, xp):
+            self.experience += xp 
+            while self.experience > self.next_level:
+                self.gain_level()
+
+
+        def gain_level(self):
+            self.level += 1
+            self.next_level = self.calc_next_level()
+            hp_gain = random.randint(self.stamina*2, self.stamina*8)
+            self.max_hp += hp_gain
+            self.hp = self.max_hp
+            self.ap = self.level * 2 + self.intel
+            print "Congratulations! You are now Level %s!" % self.level
+            print "You gained %s max hp and" % hp_gain, "%s attribute points."
+
