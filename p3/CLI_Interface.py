@@ -517,7 +517,6 @@ class CLI:
     def execute_pickup(self):
         room = self.level.get_current_room()
         try:
-            item = room.item[self.params]
             #get item type
             if( isinstance(item, Potion) ):
                 self.player.potion.append(item)
@@ -532,7 +531,7 @@ class CLI:
                 self.player.weapon.append(item)
             room.item.pop(self.params)
         except:
-            print 'Item with id of ' + self.params + 'does not exist in the room'
+            print 'Item with id of ' + self.params + ' does not exist in the room'
 
 
 
@@ -554,6 +553,7 @@ class CLI:
         i = 0
         for item in items:
             print "[%(id)i] - %(descrip)s" % {'id':i, 'descrip':item.name}
+            i += 1
         if( room.creature != None ):
             print "[%(id)i] - %(descrip)s" % {'id':-1, 'descrip':room.creature.name}
 
