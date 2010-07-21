@@ -234,6 +234,33 @@ class Level:
                 yield j
 
 
+    def has_north(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( i == 0 or self.rooms[i-1[j] == None ):
+            return False
+        return True
+    def has_east(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( j == len(self.rooms[i]) or self.rooms[i][j+1] == None ):
+            return False
+        return True
+    def has_south(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( i == len(self.rooms) or self.rooms[i + 1][j] == None ):
+            return False
+        return True
+        
+    def has_west(self): 
+        i = self.current[0]
+        j = self.current[1]
+        if( j == 0 or self.rooms[i][j-1] == None ):
+            return False
+        return True
+
+
     #override for navigation (remove to use old nav style)
     move_north = move_north_lab
     move_east = move_east_lab

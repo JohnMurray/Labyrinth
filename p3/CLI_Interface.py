@@ -410,7 +410,21 @@ class CLI:
     
     def execute_flee(self):
         #get random direction
-        direction = random.randrange(1, 5)
+        valid = False
+        while( not valid ):
+            direction = random.randrange(1, 5)
+            if( direction == 1 ):
+                if( self.level.has_north() ):
+                    valid = True
+            if( direction == 2 ):
+                if( self.level.has_east() ):
+                    valid = True
+            if( direction == 3 ):
+                if( self.level.has_south() ):
+                    valid = True
+            if( direction == 4 ):
+                if( self.level.has_west() ):
+                    valid = True
         #get randome type {1:weapon, 2:armor, 3:potion, 4:spell}
         drop_type = random.randrange(1, 5)
         if( drop_type == 1 ):
