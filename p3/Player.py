@@ -47,7 +47,7 @@ class Player:
         return ''
 
     def __str__(self):
-        return self.name
+        return self.name + "   (HP: " + str(self.hp) + ")"
 
     def add_spell(self, spell):
         #adds a new spell to the spell inventory
