@@ -255,7 +255,7 @@ class Item_Factory:
         po = (
             ('Light Offense Potion.', 'A light offensive potion. Increases offense 2/4 for 1/2 turns.'),
             ('Medium Offense Potion', 'A medium offensive potion. Increases offense 3/6 for 1/4 turns.'),
-            ('Heavy Offense Potion', 'A heavy offensive potion. Increases offense 5/10 for 3/6 turns.'),
+            ('Potion of Beast Mode', 'A heavy offensive potion. Increases offense 5/10 for 3/6 turns.'),
         )
         return po[rarity - 1]
 

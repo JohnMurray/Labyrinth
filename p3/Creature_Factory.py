@@ -36,7 +36,7 @@ class Creature_Factory:
 
         genesis.level = diff
         genesis.gold = random.randint(0,diff*100)
-        genesis.name = self.generate_name(self, diff)
+        genesis.name = self.generate_name(diff)
         return genesis
 
     def stat_max(self, max, gen):
@@ -62,7 +62,13 @@ class Creature_Factory:
     def generate_player_stats(self, player):
         return self.generate_stats(5, player)
 
-    def generate_name(self, diff=1)
+    def generate_name(self, diff=1):
+        diff -= 1
+        if diff < 0:
+            diff = 0
+        if diff > 9:
+            diff = 9 
+
         names = [ "Kobold", "Goblin", "Orc", "Centaur", "Dark Elf", "Orc Chieftan", "Ogre", "Troll", "Cyclops", "Minotaur" ]
         return names[diff]
 

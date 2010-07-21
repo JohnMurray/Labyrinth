@@ -13,7 +13,7 @@ class Treasure:
         self
 
     def generate(self, level):
-        dist = Distributed_Random
+        dist = Distributed_Random()
         wf = Weapon_Factory()
         af = Armor_Factory()
         items = Item_Factory()
