@@ -5,8 +5,7 @@
 
 import random
 import math
-from Weapon_Module import Weapon
-from Weapon_Module import Arrow_Weapon
+from Weapon_Module import * 
 from Armor import Armor
 from Item_Module import *
 
