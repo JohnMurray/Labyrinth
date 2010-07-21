@@ -40,7 +40,9 @@ class Level:
 
         #determine mob size here
         if( mob_size == -1 ):
-            mob_size = round(dimension / 2)
+            self.mob_size = round(dimension / 2)
+        else:
+            self.mob_size = mob_size
 
     #def: rr
     #purpose: random room (rr) return

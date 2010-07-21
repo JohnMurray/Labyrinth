@@ -1,5 +1,5 @@
 #Authors: Brad Stephens, John Murray 
-#Project: CSC 407 - Program 3 
+#sProject: CSC 407 - Program 3 
 #Due: July 19th, 2010
 #File: CLI_Interface.py
 
@@ -42,7 +42,7 @@ class CLI:
             "magic-attack": (True, 'id', 'Attack an opponent with a spell. Must give id.(Use the inventory-spell to get spell id).', int),
             "look-around": (True, '', 'Look at all the items currently in the room. Shows item name and id.', None),
             "study": (True, 'id', 'View an item in the room in great detail. A.K.A - View the item\'s stats and/or description, etc. Must give item id. (use look-around to get item id)', int),
-            "pickup": (True, '', 'Pick up and item in the room. Must give item id. (use look-around to get item id)', None),
+            "pickup": (True, 'id', 'Pick up and item in the room. Must give item id. (use look-around to get item id)', int),
             "switch-weapon": (True, 'id', 'Change your primary weapon. Must give id. (use weapon-inventory to get id)', int),
             "switch-armor":(True, 'id', 'Change your primary armor. Must give id. (use inventory-armor to get id)', int),
             "inventory-weapon": (True, '', 'List your current weapon inventory. View each weapon\'s name and id.', None),
@@ -62,6 +62,7 @@ class CLI:
             "drop-potion": (True, 'id', 'Drop a potion in the inventory. Must give potion id. (use inventory-potion to get potion id)', int),
             "drop-spell": (True, 'id', 'Drop an spell in the inventory. Must give spell id. (use inventory-spell to get spell id)', int),
             "buy-attribute": (True, 'attribute', 'Buy a specific attribute point with your current AP.', str),
+            "use-potion": (True, 'id', 'Use a potion.', int),
         }
         
         self.command = ''
@@ -189,7 +190,7 @@ class CLI:
             elif( self.command[0:4] == "drop" ):
                 self.execute_drop()
             elif( self.command == 'use-potion' ):
-                self.execute_potion()
+                self.execute_use_potion()
             elif( self.command == 'buy-attribute' ):
                 self.execute_buy_attribute()
 
@@ -197,8 +198,10 @@ class CLI:
             if( creature == None and self.level.mob_size > 0):
                 if( random.randrange(100) > 80 ):
                     cf = Creature_Factory()
-                    self.level.get_current_room().creature = cf.generate()
+                    c = cf.generate()
+                    self.level.get_current_room().creature = c
                     self.level.mob_size -= 1
+                    print c.name + " entered the room!"
 
         #if there is a creature in the room, then allow these commands
         elif( self.level.get_current_room().creature != None ):
@@ -209,7 +212,7 @@ class CLI:
             elif( self.command == "magic-attack" ):
                 self.execute_magic_attack()
             elif(self.command == 'use-potion' ):
-                self.execute_potion()
+                self.execute_use_potion()
 
         #check if the creature or the player is dead
         if(creature != None):
@@ -519,21 +522,23 @@ class CLI:
     def execute_pickup(self):
         room = self.level.get_current_room()
         try:
+            item = room.item[self.params]
             #get item type
             if( isinstance(item, Potion) ):
                 self.player.potion.append(item)
                 print "Potion added to inventory"
-            if( isinstance(item, Spell) ):
-                self.player.spell.append(item)
+            elif( isinstance(item, Spell) ):
+                self.player.spells.append(item)
                 print "Spell added to inventory"
-            if( isinstance(item, Armor) ):
+            elif( isinstance(item, Armor) ):
                 self.player.armor.append(item)
                 print "Armor added to inventory"
-            if( isinstance(item, Weapon) ):
+            elif( isinstance(item, Weapon) ):
                 self.player.weapon.append(item)
+                print "Weapon added to inventory"
             room.item.pop(self.params)
         except:
-            print 'Item with id of ' + self.params + ' does not exist in the room'
+            print 'Item with id of ' + str(self.params) + ' does not exist in the room'
 
 
 
