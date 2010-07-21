@@ -461,19 +461,19 @@ class CLI:
         i = 0
         if( self.command[10:] == "weapon" ):
             for w in self.player.weapon:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': w.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(w)}
                 i += 1
         if( self.command[10:] == "armor" ):
             for a in self.player.armor:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': a.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(a)}
                 i += 1
         if( self.command[10:] == "potion" ):
             for p in self.player.potion:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': p.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(p)}
                 i += 1
         if( self.command[10:] == "spell" ):
             for s in self.player.armor:
-                print "[%(id)i] %(d)s" % {'id': i, 'd': s.short_name()}
+                print "[%(id)i] %(d)s" % {'id': i, 'd': str(s)}
                 i += 1
 
 
