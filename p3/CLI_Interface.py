@@ -8,6 +8,10 @@ import Arena
 import sys
 import Treasure
 
+from Weapon_Module import *
+from Player import *
+from Item_Module import *
+from Armor import *
 from Arena import Arena
 from Creature_Factory import *
 
