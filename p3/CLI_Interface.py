@@ -390,7 +390,14 @@ class CLI:
         except:
             print 'Item with id of ' + self.params + 'does not exist in the room'
 
+
+
     def execute_study(self):
+        if( self.params == -1 ):
+            try:
+                print self.level.get_current_room().creature
+            except:
+                print "Sorry, no information"
         try:
             print self.level.get_current_room().item[self.params]
         except:
@@ -402,7 +409,10 @@ class CLI:
         items = room.item
         i = 0
         for item in items:
-            print "[%(id)i] - %(descrip)s" % {'id':i, 'descrip':item.short_name()}
+            print "[%(id)i] - %(descrip)s" % {'id':i, 'descrip':item.name}
+        if( room.creature != None ):
+            print "[%(id)i] - %(descrip)s" % {'id':-1, 'descrip':room.creature.name}
+
        
     
     
