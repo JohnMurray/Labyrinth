@@ -8,6 +8,7 @@ import Arena
 import sys
 
 from Arena import Arena
+from Creature_Factory import *
 
 #class: CLI
 #purpose: A Command Line Interface class that handles the parsing of user
@@ -25,6 +26,7 @@ class CLI:
             "help" : (True, '', 'Shows the help dialog all available commands (not much un-similar to this page)turn/move.', None),
             "vhelp" : (True, 'command', 'Verbose help command. Show description for individual commands. (type `vhelp *` to see all commands)', str),
             "map" : (True, '', 'Shows the map of the Level and where all the creatures on on the map', None),
+            "status" : (True, '', 'Shows current player stats.', None),
             "move-north": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
             "move-east": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
             "move-south": (False, '', 'Moves through the level. Not allowed when you enter a room with a creature (an alive one).', None),
@@ -169,22 +171,33 @@ class CLI:
             self.execute_switch_weapon()
         elif( self.command == "switch-armor" ):
             self.execute_switch_armor()
+        elif( self.command == "status" ):
+            self.execute_status()
         #if there are NO creatures in the room, then allow these
         #command    
-        if( self.level.get_current_room().creature == None ):
+        elif( self.level.get_current_room().creature == None ):
             if( self.command == "pickup" ):
                 self.execute_pickup()
-            if( self.command[0:4] == "drop" ):
+            elif( self.command[0:4] == "drop" ):
                 self.execute_drop()
+            elif( self.command == 'use-potion' ):
+                self.execute_potion()
+
+            #possibly generate mob since there is no creature in a room
+            if( creature == None ):
+                if( random.randrange(100) > 80 ):
+                    cf = Creature_Factory()
+                    self.level.get_current_room().creature = cf.generate()
+
         #if there is a creature in the room, then allow these commands
-        if( self.level.get_current_room().creature != None ):
+        elif( self.level.get_current_room().creature != None ):
             if( self.command == "flee" ):
                 self.execute_flee()
-            if( self.command == "attack" ):
+            elif( self.command == "attack" ):
                 self.execute_attack()
-            if( self.command == "magic-attack" ):
+            elif( self.command == "magic-attack" ):
                 self.execute_magic_attack()
-            if( self.command == "use-potion" ):
+            elif(self.command == 'use-potion' ):
                 self.execute_potion()
 
         #check if the creature or the player is dead
@@ -195,7 +208,22 @@ class CLI:
         if(self.player.hp <= 0):
             print "Game Over! You died sucka!"
             sys.exit()
+
     
+
+
+    def execute_status(self):
+        print "Status: %(n)s" % {'n': self.player.name}
+        print "%HP: %(h)i/%(hm)i\nStrength: %(s)i\nAgility: %(s)i\nDexterity: %(d)i\nIntelligence: %(i)i\nStamina: %(st)i\n" % {
+            'h': self.player.hp,
+            'hm': self.player.max_hp,
+            's': self.player.strength,
+            'd': self.player.agility,
+            'i': self.player.dexterity,
+            'st': self.player.stamina,
+        }
+
+
 
     
     
@@ -236,10 +264,16 @@ class CLI:
 
     
     def execute_use_potion(self):
-        arena = Arena(self.player, self.level.get_current_room().creature)
-        if( len(self.player.potion) - 1 >= self.params and self.params >= 0 ):
-            arena.potion(self.params)
-            self.player.potion.pop(self.params)
+        if( self.level.get_current_room().creature != None ):
+            arena = Arena(self.player, self.level.get_current_room().creature)
+            if( len(self.player.potion) - 1 >= self.params and self.params >= 0 ):
+                arena.potion(self.params)
+                self.player.potion.pop(self.params)
+
+        else:
+            #use the potion
+            if( len(self.player.potion) - 1 >= self.params and self.params >= 0 ):
+                self.player.potion.attack_post(self.player, None)
 
 
 
