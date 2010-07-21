@@ -224,16 +224,16 @@ class Adventurer(Player):
         self.experience = 0
         self.next_level = 1000
         self.ap = 0
-
+    
     def calc_next_level(self):
         return 1000 + (1500 * (self.level-1))
     
     def grant_xp(self, xp):
         self.experience += xp 
         while self.experience > self.next_level:
-        self.gain_level()
+            self.gain_level()
     
-            
+     
     def gain_level(self):
         self.level += 1
         self.next_level = self.calc_next_level()
