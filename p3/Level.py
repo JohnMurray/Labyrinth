@@ -40,7 +40,9 @@ class Level:
 
         #determine mob size here
         if( mob_size == -1 ):
-            mob_size = round(dimension / 2)
+            self.mob_size = round(dimension / 2)
+        else:
+            self.mob_size = mob_size
 
     #def: rr
     #purpose: random room (rr) return
@@ -230,6 +232,33 @@ class Level:
         for i in self.rooms:
             for j in i:
                 yield j
+
+
+    def has_north(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( i == 0 or self.rooms[i-1[j] == None ):
+            return False
+        return True
+    def has_east(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( j == len(self.rooms[i]) or self.rooms[i][j+1] == None ):
+            return False
+        return True
+    def has_south(self):
+        i = self.current[0]
+        j = self.current[1]
+        if( i == len(self.rooms) or self.rooms[i + 1][j] == None ):
+            return False
+        return True
+        
+    def has_west(self): 
+        i = self.current[0]
+        j = self.current[1]
+        if( j == 0 or self.rooms[i][j-1] == None ):
+            return False
+        return True
 
 
     #override for navigation (remove to use old nav style)
