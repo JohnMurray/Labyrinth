@@ -231,6 +231,9 @@ class CLI:
                 treasure = tf.generate(creature.level)
                 for t in treasure:
                     self.level.get_current_room().item.append(t)
+                for p in creature.all_equipment():
+                    self.level.get_current_room().item.append(p)
+
                 self.level.get_current_room().creature = None
         if(self.player.hp <= 0):
             print "Game Over! You died sucka!"

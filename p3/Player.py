@@ -195,6 +195,18 @@ class Player:
             self.primary = self.primary_weapon()
         return self.primary
 
+    def all_equipment(self):
+        temp = list()
+        for w in self.weapon:
+            temp.append(w)
+        for a in self.armor:
+            temp.append(a)
+        for p in self.potion:
+            temp.append(p)
+        for s in self.spells:
+            temp.append(s)
+        return temp
+
 class Creature(Player):
     def __init__(self, name, hp, armor=list(), weapon=list(), element=None):
         Player.__init__(self, name, hp, armor, weapon)
