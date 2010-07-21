@@ -231,17 +231,6 @@ class CLI:
 
     def execute_status(self):
         print "Status: %(n)s" % {'n': self.player.name}
-        #print "%HP: %s/%s\nStrength: %s\nAgility: %s\nDexterity: %s\nIntelligence: " \
-        #        "%s\nStamina: %s\nAP: %s" % (
-        #    str(self.player.hp),
-        #    str(self.player.max_hp),
-        #    str(self.player.strength),
-        #    str(self.player.agility),
-        #    str(self.player.dexterity),
-        #    str(self.player.intel),
-        #    str(self.player.stamina),
-        #    str(self.player.ap),
-        #)
         p = self.player
         out = 'HP: ' + str(p.hp) + '/' + str(p.max_hp) + "\n"
         out += 'Strength: ' + str(p.strength) + "\n"
