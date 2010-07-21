@@ -19,7 +19,7 @@ from Item_Factory import *
 
 #define main's global variables
 level = None
-game_name = "adventure game"
+game_name = "Labyrinth"
 character_name = ""
 items = Item_Factory()
 wf = Weapon_Factory()
@@ -38,8 +38,8 @@ def print_initial_instructions():
     game_instructions += "\n\tarmor. If you die (loose all of your hp) you must"
     game_instructions += "\n\tstart over from the beginning. You may type 'help'"
     game_instructions += "\n\tat any point in the game to get a list of game "
-    game_instructions += "\n\tcommands. Type 'options' to get a list of commands"
-    game_instructions += "\n\tthat pertain to your current move's options."
+    game_instructions += "\n\tcommands. Type `vhelp *` for a verbose list."
+
     
     print "Welcome to", game_name, "!"
     print "Instructions"
@@ -126,7 +126,7 @@ def print_class_information():
     print "     Mages receive a - 1 to Strength and Dexterity"
 
 def calc_starting_hp(stamina):
-    return 100 + random.randint(stamina^2, stamina*10)   
+    return 150 + random.randint(stamina^2, stamina*10)   
 
 def equip_potion(player):
     player.potion = list()

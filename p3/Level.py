@@ -237,26 +237,35 @@ class Level:
     def has_north(self):
         i = self.current[0]
         j = self.current[1]
-        if( i == 0 or self.rooms[i-1][j] == None ):
+        if( i == 0 ):
+            return False
+        elif(self.rooms[i-1][j] == None ):
             return False
         return True
     def has_east(self):
         i = self.current[0]
         j = self.current[1]
-        if( j == len(self.rooms[i]) or self.rooms[i][j+1] == None ):
+        if( j == len(self.rooms[i])-1 ):
+            return False
+        elif( self.rooms[i][j+1] == None ):
             return False
         return True
     def has_south(self):
         i = self.current[0]
         j = self.current[1]
-        if( i == len(self.rooms) or self.rooms[i + 1][j] == None ):
+        if( i == len(self.rooms)-1 ):
             return False
+        elif( self.rooms[i + 1][j] == None ):
+            return False
+
         return True
         
     def has_west(self): 
         i = self.current[0]
         j = self.current[1]
-        if( j == 0 or self.rooms[i][j-1] == None ):
+        if( j == 0 ):
+            return False
+        elif( self.rooms[i][j-1] == None ):
             return False
         return True
 

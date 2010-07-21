@@ -256,7 +256,7 @@ class CLI:
                 self.player.ap -= cost
             else:
                 suck = True
-        if( self.params == "agility" ):
+        elif( self.params == "agility" ):
             a = self.player.agility
             cost = (a ** 2) / 2
             if( ap >= cost ):
@@ -265,7 +265,7 @@ class CLI:
                 print "Agility increased by one"
             else:
                 suck = True
-        if( self.params == "dexterity" ):
+        elif( self.params == "dexterity" ):
             d = self.params.dexterity
             cost = (d ** 2) / 2
             if( ap >= cost ):
@@ -274,7 +274,7 @@ class CLI:
                 print "Dexterity increased by one"
             else:
                 suck = True
-        if( self.params == "intelligence" ):
+        elif( self.params == "intelligence" ):
             i = self.player.intel
             cost = (i ** 2) / 2
             if( ap >= cost):
@@ -283,7 +283,7 @@ class CLI:
                 print "Intelligence increased by one"
             else:
                 suck = True
-        if( self.params == "stamina" ):
+        elif( self.params == "stamina" ):
             s = self.player.stamina
             cost = (s ** 2) / 2
             if( ap >= cost ):
@@ -391,7 +391,8 @@ class CLI:
         else:
             #use the potion
             if( len(self.player.potion) - 1 >= self.params and self.params >= 0 ):
-                self.player.potion.attack_post(self.player, None)
+                self.player.potion[self.params].attack_post(self.player, None)
+                self.player.potion.pop(self.params)
 
 
 
@@ -437,7 +438,7 @@ class CLI:
             else:
                 drop_id = -1
         if( drop_type == 2 ):
-            if( len(self.player.armor) > 0 ):
+            if( len(self.player.armor) > 1 ):
                 drop_id = random.randrange(len(self.player.armor))
                 print "you dropped your armor"
             else:
