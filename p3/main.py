@@ -321,7 +321,7 @@ while( not victorious(level) ):
             'east': level.move_east,
             'south': level.move_south,
             'west': level.move_west
-        }[cur_cmd[5:]]()
+        }[cur_cmd[0][5:]]()
 else:
     print "You've won the game!"
     print ""

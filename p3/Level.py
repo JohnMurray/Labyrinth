@@ -237,7 +237,7 @@ class Level:
     def has_north(self):
         i = self.current[0]
         j = self.current[1]
-        if( i == 0 or self.rooms[i-1[j] == None ):
+        if( i == 0 or self.rooms[i-1][j] == None ):
             return False
         return True
     def has_east(self):
