@@ -28,7 +28,9 @@ af = Armor_Factory()
 def print_initial_instructions():
     
     global game_name
-    
+    f = open('labyrinth.txt')
+    for line in f:
+        print line
     game_instructions = "\n\tThe point of " + game_name + " is to defeat all the"
     game_instructions += "\n\tcreatures in the level and collect as much gold as"
     game_instructions += "\n\tpossible. You can move from room to room to defeat"
