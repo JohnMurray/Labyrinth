@@ -21,7 +21,7 @@ import random
 
 class Level:
 
-    def __init__(self, dimension):
+    def __init__(self, dimension, mob_size = -1):
         #code here
         #self.rooms = list()
         #for i in range(0, dimension):
@@ -37,6 +37,10 @@ class Level:
         #new labyrinth code here
         self.gen_lab(dimension)
         self.current = (0, 0)
+
+        #determine mob size here
+        if( mob_size == -1 ):
+            mob_size = round(dimension / 2)
 
     #def: rr
     #purpose: random room (rr) return
@@ -209,16 +213,18 @@ class Level:
         flag = True
         for i in self.rooms:
             for j in i:
-                if j.creature != None:
-                    flag = False
+                if( j != None ):
+                    if j.creature != None:
+                        flag = False
         return flag
 
     def number_of_creatures_left(self):
         count = 0
         for i in self.rooms:
             for j in i:
-                if j.creature != None:
-                    count+=1
+                if j != None:
+                    if j.creature != None:
+                        count+=1
 
     def __iter__(self):
         for i in self.rooms:
