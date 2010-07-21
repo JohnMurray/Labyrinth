@@ -34,6 +34,14 @@ arrow["abs_range"] = ( 26, 36, 36, )
 arrow["min_range"] = ( 25, 35, 35, ) 
 arrow["chance_range"] = ( 3, 6, 6, ) 
 weapon["arrow"] = arrow
+wand = {}
+wand["min_min"] = ( 14, 14, 28, )
+wand["abs_min"] = ( 3, 3, 7, )
+wand["chance_min"] = ( 0, 0, 1, )
+wand["abs_range"] = ( 10, 20, 20 )
+wand["min_range"] = ( 18, 37, 37 )
+wand["chance_range"] = ( 3, 5, 5 )
+weapon["wand"] = wand
 
 item = {
     'spell': {

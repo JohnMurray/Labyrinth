@@ -196,3 +196,39 @@ class Hammer_Weapon(Weapon):
 class Wand_Weapon(Weapon):
     def __init__(self, min_damage, max_damage, chance, name, description):
         Weapon.__init__(self, min_damage, max_damage, chance, name, description)
+        self.required_intel = self.calc_required_intel()
+
+    def output_result_first(self, result, damage=0):
+        self.result = result
+        self.damage = damage
+        tmp = "You wave your " + self.name + " at the enemy,"
+        if result >= 0:
+            print tmp,
+            print "the bolt of magical energy lands for %s damage." % damage
+        else:
+            print tmp,
+            print "but you miss the mark."
+
+    def output_result_third(self, result, damage=0):
+        self.result = result
+        self.damage = damage
+        tmp = "waves a " + self.name + " at you, a blast of magical energy flies toward you,"
+        if result >= 0:
+            print tmp,
+            print "striking you for %s damage." % damage
+        else:
+            print tmp,
+            print "but misses."
+
+    def calc_required_intel(self):
+        return self.abs_damage // 18
+
+    def calc_required_strength(self):
+        return 1
+
+    def calc_required_agility(self):
+        return 1
+
+    def calc_speed(self):
+        speed = 14 - self.abs_damage // 10
+        return speed

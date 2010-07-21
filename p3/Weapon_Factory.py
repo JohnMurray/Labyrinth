@@ -28,6 +28,7 @@ class Weapon_Factory:
                 1: self.generate_arrow(quality),
                 2: self.generate_spear(quality),
                 3: self.generate_hammer(quality),
+                4: self.generate_wand(quality),
               }
         wpn = gen[self.select_weapon_type()]
         if quality == 1 and random.randint(1,100) < 20:
@@ -61,22 +62,25 @@ class Weapon_Factory:
                 1: self.generate_arrow(quality),
                 2: self.generate_spear(quality),
                 3: self.generate_hammer(quality),
+                4: self.generate_wand(quality),
               }
         return gen[type]
 
-    #Returns 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer
+    #Returns 0 for Sword, 1 for Arrow, 2 for Spear, 3 for Hammer, 4 for Wand
     def select_weapon_type(self):
         #Would like to make this configurable
-        #currently 40% sword, 20% arrow, 20% spear, 20% hammer
+        #currently 30% sword, 20% arrow, 20% spear, 20% hammer, 10% wand
         rand = random.randint(1,100)
-        if rand <= 40:
+        if rand <= 30:
             return 0
-        elif rand <= 60:
+        elif rand <= 50:
             return 1
-        elif rand <= 80:
+        elif rand <= 70:
             return 2
-        else:
+        elif rand <= 90:
             return 3
+        else:
+            return 4
 
     #Hard coded material look up, production product would use external data storage
     def get_material(self, quality = 1):
@@ -87,6 +91,33 @@ class Weapon_Factory:
             return materials[random.randint(3,6)]
         else:
             return materials[random.randint(7,9)]
+
+    #Hard coded material look up, wood for wands (spears?)
+    def get_wood_material(self, quality = 1):
+        materials = [ "Fir", "White Oak", "Pine", "Alder", "Maple", "Hickory", "Mahogany", "Black Oak", "Black Walnut", "Yew", "Ironwood" ]
+        if quality == 0:
+            return materials[random.randint(0,2)]
+        elif quality == 1:
+            return materials[random.randint(3,7)]
+        else:
+            return materials[random.randint(8,10)]
+
+    #Generates a wand based on quality
+    def generate_wand(self, quality=1):
+        dist = Distributed_Random()
+        abs_range = Config.weapon["wand"]["abs_range"][quality]
+        min_range = Config.weapon["wand"]["min_range"][quality]
+        chance_range = Config.weapon["wand"]["chance_range"][quality]
+        chance_min = Config.weapon["wand"]["chance_min"][quality]
+        abs_min = Config.weapon["wand"]["abs_min"][quality]
+        min_min = Config.weapon["wand"]["min_min"][quality]
+
+        min_dam = dist.randint(min_min, min_range)
+        abs_dam = dist.randint(abs_min, abs_range)
+        max_dam = min_dam + abs_dam
+        chance = dist.randint(chance_min, chance_range)
+        name = self.get_wood_material(quality) + " Wand"
+        return Wand_Weapon(min_dam, max_dam, chance, name, 'desc')
 
     #Generates a hammer's name based on quality
     #0 for low, 1 for medium, 2 for high
