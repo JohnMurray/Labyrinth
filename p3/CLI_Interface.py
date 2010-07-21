@@ -430,21 +430,25 @@ class CLI:
         if( drop_type == 1 ):
             if( len(self.player.weapon) > 1 ):
                 drop_id = random.randrange(len(self.player.weapon))
+                print "you dropped a weapon"
             else:
                 drop_id = -1
         if( drop_type == 2 ):
             if( len(self.player.armor) > 0 ):
                 drop_id = random.randrange(len(self.player.armor))
+                print "you dropped your armor"
             else:
                 drop_id = -1
         if( drop_type == 3 ):
             if( len(self.player.potion) > 0 ):
                 drop_id = random.randrange(len(self.player.potion))
+                print "you dropped a potion"
             else:
                 drop_id = -1
         if( drop_type == 4 ):
-            if( len(self.player.spell) > 0 ):
-                drop_id = random.randrange(len(self.player.spell))
+            if( len(self.player.spells) > 0 ):
+                drop_id = random.randrange(len(self.player.spells))
+                print "you dropped a spell"
             else:
                 drop_id = -1
 
@@ -468,12 +472,12 @@ class CLI:
         }[direction]()
         #drop something random
         if( drop_id != -1 ):
-            {
+            self.level.get_current_room().item.append( {
                 1: self.player.weapon,
                 2: self.player.armor,
                 3: self.player.potion,
-                4: self.player.spell
-            }[drop_type].pop(drop_id)
+                4: self.player.spells,
+            }[drop_type].pop(drop_id))
         #decrement player's gold
         self.player.gold -= gold_drop
 
@@ -488,7 +492,7 @@ class CLI:
             if( self.command[8:] == "potion" ):
                 print self.player.potion[self.params]
             if( self.command[8:] == "spell" ):
-                print self.player.spell[self.params]
+                print self.player.spells[self.params]
         except:
             print "Can't inspect " + self.command[8:] + " that does not exist"
 
@@ -509,7 +513,7 @@ class CLI:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': str(p)}
                 i += 1
         if( self.command[10:] == "spell" ):
-            for s in self.player.armor:
+            for s in self.player.spells:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': str(s)}
                 i += 1
 
@@ -524,7 +528,7 @@ class CLI:
             if( self.command[5:] == 'potion' ):
                 item = self.player.potion.pop(self.params)
             if( self.command[5:] == 'spell' ):
-                item = self.player.spell.pop(self.params)
+                item = self.player.spells.pop(self.params)
 
             self.level.get_current_room().item.append(item)
 
