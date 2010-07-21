@@ -365,19 +365,19 @@ class CLI:
 
     def execute_inventory(self):
         i = 0
-        if( self.commands[10:] == "weapon" ):
+        if( self.command[10:] == "weapon" ):
             for w in self.player.weapon:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': w.short_name()}
                 i += 1
-        if( self.commands[10:] == "armor" ):
+        if( self.command[10:] == "armor" ):
             for a in self.player.armor:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': a.short_name()}
                 i += 1
-        if( self.commands[10:] == "potion" ):
+        if( self.command[10:] == "potion" ):
             for p in self.player.potion:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': p.short_name()}
                 i += 1
-        if( self.commands[10:] == "spell" ):
+        if( self.command[10:] == "spell" ):
             for s in self.player.armor:
                 print "[%(id)i] %(d)s" % {'id': i, 'd': s.short_name()}
                 i += 1
@@ -386,13 +386,13 @@ class CLI:
 
     def execute_drop(self):
         try:
-            if( self.commands[5:] == 'weapon' ):
+            if( self.command[5:] == 'weapon' ):
                 item = self.player.weapon.pop(self.params)
-            if( self.commands[5:] == 'armor' ):
+            if( self.command[5:] == 'armor' ):
                 item = self.player.armor.pop(self.params)
-            if( self.commands[5:] == 'potion' ):
+            if( self.command[5:] == 'potion' ):
                 item = self.player.potion.pop(self.params)
-            if( self.commands[5:] == 'spell' ):
+            if( self.command[5:] == 'spell' ):
                 item = self.player.spell.pop(self.params)
 
             self.level.get_current_room().item.append(item)
