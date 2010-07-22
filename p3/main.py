@@ -126,7 +126,7 @@ def print_class_information():
     print "     Mages receive a - 1 to Strength and Dexterity"
 
 def calc_starting_hp(stamina):
-    return 150 + random.randint(stamina^2, stamina*10)   
+    return 200 + random.randint(stamina^2, stamina*10)   
 
 def equip_potion(player):
     player.potion = list()

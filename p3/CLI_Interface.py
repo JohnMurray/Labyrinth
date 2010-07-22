@@ -458,7 +458,7 @@ class CLI:
 
         #get amount of gold to drop
         if( self.player.gold > 0 ):
-            gold_ramge = round(self.player.gold * .1)
+            gold_range = round(self.player.gold * .1)
             if( gold_range > 0 ):
                 gold_drop = random.randrange(1, gold_range + 1)
             else:
@@ -570,10 +570,11 @@ class CLI:
                 print self.level.get_current_room().creature
             except:
                 print "Sorry, no information"
-        try:
-            print self.level.get_current_room().item[self.params]
-        except:
-            print ''
+        else:
+            try:
+                print self.level.get_current_room().item[self.params]
+            except:
+                print ''
     
 
     def execute_lookaround(self):
