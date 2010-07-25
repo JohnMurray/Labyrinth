@@ -1,0 +1,31 @@
+Adventurer Class
+    - the class for the main character
+
+Creature Class
+    - people to fight
+
+Treasure Class
+    - self explanatory
+
+Weapons Class
+    - also self explantory at this point
+
+Armor Class
+    -self explanatory
+
+Room Class
+    - contains a monster, and a weapon or armor or treasure
+
+Level Class
+    - contains all the rooms
+    - has commands for "move east", "move north", etc.
+    - made up of a multi-dimensional array of rooms
+
+
+SOME NOTES
+    - since python uses white-space for indenting code-blocks, I've been
+      using 4-spaces to denote indention
+
+    - item ID's. Items are stored in an array (list technicall) and the `Item ID` corresponds to it's position in the list. Item ID doesn't have an "interface" per-say, but is a front-end feature that allows easy translation from front-end to specific item.
+
+    - Inspect - front end command to look at an item in more detail. This means that both ITEMS and WEAPONS need a toString method for inspection.
